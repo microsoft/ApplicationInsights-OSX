@@ -1,10 +1,10 @@
 #import <XCTest/XCTest.h>
 
 #define HC_SHORTHAND
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCHamcrest/OCHamcrest.h>
 
 #define MOCKITO_SHORTHAND
-#import <OCMockitoIOS/OCMockitoIOS.h>
+#import <OCMockito/OCMockito.h>
 
 #import "MSAISession.h"
 #import "MSAISessionHelper.h"
@@ -12,6 +12,9 @@
 #import "MSAIPersistence.h"
 #import "MSAIPersistencePrivate.h"
 #import "MSAITestsDependencyInjection.h"
+
+#import <AppKit/AppKit.h>
+
 
 @interface MSAISessionHelperTests : MSAITestsDependencyInjection
 
@@ -135,7 +138,7 @@
   
   [self.sut registerObservers];
   
-  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:UIApplicationDidEnterBackgroundNotification object:nil]];
+  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:NSApplicationDidResignActiveNotification object:nil]];
   
   // Add partial mock of session helper here
 }

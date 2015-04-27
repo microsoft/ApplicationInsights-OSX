@@ -52,6 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (MSAIEnvelope *)envelopeForTelemetryData:(MSAITelemetryData *)telemetryData;
 
+
+#if MSAI_FEATURE_CRASH_REPORTER
 /**
  *  Creates an envelope object based on the information of a given crash report.
  *
@@ -71,6 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @return an envelope object that contains a handled exception
  */
 - (MSAIEnvelope *)envelopeForCrashReport:(MSAIPLCrashReport *)report exception:(nullable NSException *)exception;
+#endif
 
 @end
 NS_ASSUME_NONNULL_END

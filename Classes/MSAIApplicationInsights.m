@@ -63,10 +63,10 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
 #if MSAI_FEATURE_TELEMETRY
     _telemetryManagerDisabled = NO;
 #endif /* MSAI_FEATURE_TELEMETRY */
-    _appStoreEnvironment = NO;
+//    _appStoreEnvironment = NO;
     _startManagerIsInvoked = NO;
     
-    msai_isAppStoreEnvironment();
+//    msai_isAppStoreEnvironment();
     
     [self performSelector:@selector(validateStartManagerIsInvoked) withObject:nil afterDelay:0.0f];
   }
@@ -133,7 +133,7 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
       MSAILog(@"INFO: Auto page views disabled");
       [MSAITelemetryManager sharedManager].autoPageViewTrackingDisabled = YES;
     }
-    [MSAICategoryContainer activateCategory];
+//    [MSAICategoryContainer activateCategory];
     
     MSAILog(@"INFO: Starting MSAITelemetryManager");
     [[MSAITelemetryManager sharedManager] startManager];
@@ -146,7 +146,7 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
 }
 
 - (void)validateStartManagerIsInvoked {
-  if (_validInstrumentationKey && !_appStoreEnvironment) {
+  if (_validInstrumentationKey) { // && !_appStoreEnvironment) {
     if (!_startManagerIsInvoked) {
       NSLog(@"[ApplicationInsights] ERROR: You did not call [MSAIApplicationInsights setup] to setup ApplicationInsights! Please do so after setting up all properties. The SDK is NOT running.");
     }
@@ -157,12 +157,12 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
   NSString *errorString = @"[ApplicationInsights] ERROR: ApplicationInsights has to be setup on the main thread!";
   
   if (!NSThread.isMainThread) {
-    if (self.isAppStoreEnvironment) {
-      MSAILog(@"%@", errorString);
-    } else {
+//    if (self.isAppStoreEnvironment) {
+//      MSAILog(@"%@", errorString);
+//    } else {
       NSLog(@"%@", errorString);
       NSAssert(NSThread.isMainThread, errorString);
-    }
+//    }
     
     return NO;
   }
@@ -188,17 +188,17 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
     MSAILog(@"INFO: Setup TelemetryManager");
 #endif /* MSAI_FEATURE_TELEMETRY */
     
-    if (![self isAppStoreEnvironment]) {
-      NSString *integrationFlowTime = [self integrationFlowTimeString];
-      if (integrationFlowTime && [self integrationFlowStartedWithTimeString:integrationFlowTime]) {
-        [self pingServerForIntegrationStartWorkflowWithTimeString:integrationFlowTime instrumentationKey:[_appContext instrumentationKey]];
-      }
-    }
+//    if (![self isAppStoreEnvironment]) {
+//      NSString *integrationFlowTime = [self integrationFlowTimeString];
+//      if (integrationFlowTime && [self integrationFlowStartedWithTimeString:integrationFlowTime]) {
+//        [self pingServerForIntegrationStartWorkflowWithTimeString:integrationFlowTime instrumentationKey:[_appContext instrumentationKey]];
+//      }
+//    }
     _managersInitialized = YES;
   } else {
-    if (!_appStoreEnvironment) {
+//    if (!_appStoreEnvironment) {
       NSLog(@"[ApplicationInsights] ERROR: The Instrumentation Key is invalid! Please use the Application Insights instrumentation key you find on the website! The SDK is disabled!");
-    }
+//    }
   }
 }
 
@@ -257,7 +257,7 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
 #pragma mark - Testing integration
 
 - (void)testIdentifier {
-  if (![_appContext instrumentationKey] || msai_isAppStoreEnvironment()) {
+  if (![_appContext instrumentationKey]) { // || msai_isAppStoreEnvironment()) {
     return;
   }
   
@@ -278,7 +278,7 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
 }
 
 - (BOOL)integrationFlowStartedWithTimeString:(NSString *)timeString {
-  if ( (!timeString) || ([self isAppStoreEnvironment]) ) {
+  if ( (!timeString) ) { // || ([self isAppStoreEnvironment]) ) {
     return NO;
   }
   
@@ -296,7 +296,7 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
 }
 
 - (void)pingServerForIntegrationStartWorkflowWithTimeString:(NSString *)timeString instrumentationKey:(NSString *)instrumentationKey {
-  if (!instrumentationKey || [self isAppStoreEnvironment]) {
+  if (!instrumentationKey) { // || [self isAppStoreEnvironment]) {
     return;
   }
   

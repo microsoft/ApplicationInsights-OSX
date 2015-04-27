@@ -151,7 +151,7 @@ NS_ASSUME_NONNULL_BEGIN
  * from the App Store or _NO_ if the app is installed via debug, ad-hoc or enterprise 
  * distribution
  */
-@property (nonatomic, readonly, getter=isAppStoreEnvironment) BOOL appStoreEnvironment;
+//@property (nonatomic, readonly, getter=isAppStoreEnvironment) BOOL appStoreEnvironment;
 
 ///-----------------------------------------------------------------------------
 /// @name Debug Logging

@@ -8,7 +8,7 @@
  * _Default_: Disabled
  */
 #ifndef MSAI_FEATURE_CRASH_REPORTER
-#    define MSAI_FEATURE_CRASH_REPORTER 1
+#    define MSAI_FEATURE_CRASH_REPORTER 0
 #endif /* MSAI_FEATURE_CRASH_REPORTER */
 
 

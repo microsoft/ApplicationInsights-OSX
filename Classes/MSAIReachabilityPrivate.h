@@ -57,12 +57,12 @@ FOUNDATION_EXPORT NSString* const kMSAIReachabilityUserInfoType;
 /// @name Register for network changes
 ///-----------------------------------------------------------------------------
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
-/**
- *  Object to determine current radio type.
- */
-@property (nonatomic, strong) CTTelephonyNetworkInfo *radioInfo;
-#endif
+//#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_7_0
+///**
+// *  Object to determine current radio type.
+// */
+//@property (nonatomic, strong) CTTelephonyNetworkInfo *radioInfo;
+//#endif
 
 /**
  *  A queue for dispatching reachability operations.
@@ -117,7 +117,7 @@ FOUNDATION_EXPORT NSString* const kMSAIReachabilityUserInfoType;
  *
  *  @return reachability Type, which expresses the WWAN connection
  */
-- (MSAIReachabilityType)wwanTypeForRadioAccessTechnology:(NSString *)technology;
+//- (MSAIReachabilityType)wwanTypeForRadioAccessTechnology:(NSString *)technology;
 
 /**
  *  Returns a human readable name for a given MSAIReachabilityType.

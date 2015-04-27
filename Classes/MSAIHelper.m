@@ -8,12 +8,6 @@
 
 static NSString *const kMSAIUtcDateFormatter = @"utcDateFormatter";
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 70000
-@interface NSData (MSAIiOS7)
-- (NSString *)base64Encoding;
-@end
-#endif
-
 typedef struct {
   uint8_t       info_version;
   const char    msai_version[16];
@@ -49,25 +43,6 @@ NSString *msai_URLDecodedString(NSString *inputString) {
 NSString *msai_utcDateString(NSDate *date){
   static NSDateFormatter *dateFormatter;
   
-  // NSDateFormatter is not thread-safe prior to iOS 7
-  if (msai_isPreiOS7Environment()) {
-    NSMutableDictionary *threadDictionary = [NSThread currentThread].threadDictionary;
-    NSDateFormatter *dateFormatter = threadDictionary[kMSAIUtcDateFormatter];
-    
-    if (!dateFormatter) {
-      dateFormatter = [NSDateFormatter new];
-      NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-      dateFormatter.locale = enUSPOSIXLocale;
-      dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-      dateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
-      threadDictionary[kMSAIUtcDateFormatter] = dateFormatter;
-    }
-    
-    NSString *dateString = [dateFormatter stringFromDate:date];
-    
-    return dateString;
-  }
-  
   static dispatch_once_t dateFormatterToken;
   dispatch_once(&dateFormatterToken, ^{
     NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
@@ -83,19 +58,15 @@ NSString *msai_utcDateString(NSDate *date){
 }
 
 NSString *msai_base64String(NSData * data, unsigned long length) {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
   SEL base64EncodingSelector = NSSelectorFromString(@"base64EncodedStringWithOptions:");
   if ([data respondsToSelector:base64EncodingSelector]) {
     return [data base64EncodedStringWithOptions:0];
   } else {
-#endif
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     return [data base64Encoding];
 #pragma clang diagnostic pop
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_6_1
   }
-#endif
 }
 
 NSString *msai_settingsDir(void) {
@@ -178,13 +149,29 @@ NSString *msai_osVersionBuild(void) {
   NSString *osBuild = [NSString stringWithCString:result encoding:NSUTF8StringEncoding];
   free(result);
   
-  NSString *osVersion = [[UIDevice currentDevice] systemVersion];
+  NSString* osVersion = nil;
+
+  if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
+    NSOperatingSystemVersion osSystemVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
+    osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)osSystemVersion.majorVersion, (long)osSystemVersion.minorVersion, (long)osSystemVersion.patchVersion];
+  } else {
+    SInt32 major, minor, bugfix;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
+    OSErr err1 = Gestalt(gestaltSystemVersionMajor, &major);
+    OSErr err2 = Gestalt(gestaltSystemVersionMinor, &minor);
+    OSErr err3 = Gestalt(gestaltSystemVersionBugFix, &bugfix);
+    if ((!err1) && (!err2) && (!err3)) {
+      osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)major, (long)minor, (long)bugfix];
+    }
+  }
   
   return [NSString stringWithFormat:@"%@(%@)", osVersion, osBuild];
 }
 
 NSString *msai_osName(void){
-  return [[UIDevice currentDevice] systemName];
+  // TODO: get os Name
+  return @"OS X";
 }
 
 NSString *msai_appVersion(void){
@@ -199,27 +186,21 @@ NSString *msai_appVersion(void){
 }
 
 NSString *msai_deviceType(void){
-  
-  UIUserInterfaceIdiom idiom = [UIDevice currentDevice].userInterfaceIdiom;
-  
-  switch (idiom) {
-    case UIUserInterfaceIdiomPad:
-      return @"Tablet";
-    case UIUserInterfaceIdiomPhone:
-      return @"Phone";
-    default:
-      return @"Unknown";
-  }
+  // TODO: get device type, like "Tablet", "Phone", ...
+
+  return @"Unknown";
 }
 
 NSString *msai_screenSize(void){
-  CGFloat scale = [UIScreen mainScreen].scale;
-  CGSize screenSize = [UIScreen mainScreen].bounds.size;
-  return [NSString stringWithFormat:@"%dx%d",(int)(screenSize.height * scale), (int)(screenSize.width * scale)];
+  // TODO: get screen size
+  return @"";
+//  CGFloat scale = [UIScreen mainScreen].scale;
+//  CGSize screenSize = [UIScreen mainScreen].bounds.size;
+//  return [NSString stringWithFormat:@"%dx%d",(int)(screenSize.height * scale), (int)(screenSize.width * scale)];
 }
 
 NSString *msai_sdkVersion(void){
-  return [NSString stringWithFormat:@"ios:%@", [NSString stringWithUTF8String:applicationinsights_library_info.msai_version]];
+  return [NSString stringWithFormat:@"mac:%@", [NSString stringWithUTF8String:applicationinsights_library_info.msai_version]];
 }
 
 NSString *msai_sdkBuild(void) {
@@ -286,45 +267,6 @@ NSString *msai_appAnonID(void) {
   return appAnonID;
 }
 
-BOOL msai_isPreiOS7Environment(void) {
-  static BOOL isPreiOS7Environment = YES;
-  static dispatch_once_t checkOS;
-  
-  dispatch_once(&checkOS, ^{
-    // NSFoundationVersionNumber_iOS_6_1 = 993.00
-    // We hardcode this, so compiling with iOS 6 is possible while still being able to detect the correct environment
-    
-    // runtime check according to
-    // https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/TransitionGuide/SupportingEarlieriOS.html
-    if (floor(NSFoundationVersionNumber) <= 993.00) {
-      isPreiOS7Environment = YES;
-    } else {
-      isPreiOS7Environment = NO;
-    }
-  });
-  
-  return isPreiOS7Environment;
-}
-
-BOOL msai_isPreiOS8Environment(void) {
-  static BOOL isPreiOS8Environment = YES;
-  static dispatch_once_t checkOS8;
-  
-  dispatch_once(&checkOS8, ^{
-    // NSFoundationVersionNumber_iOS_7_1 = 1047.25
-    // We hardcode this, so compiling with iOS 7 is possible while still being able to detect the correct environment
-    
-    // runtime check according to
-    // https://developer.apple.com/library/prerelease/ios/documentation/UserExperience/Conceptual/TransitionGuide/SupportingEarlieriOS.html
-    if (floor(NSFoundationVersionNumber) <= 1047.25) {
-      isPreiOS8Environment = YES;
-    } else {
-      isPreiOS8Environment = NO;
-    }
-  });
-  
-  return isPreiOS8Environment;
-}
 
 BOOL msai_isRunningInAppExtension(void) {
   static BOOL isRunningInAppExtension = NO;
@@ -335,18 +277,6 @@ BOOL msai_isRunningInAppExtension(void) {
   });
   
   return isRunningInAppExtension;
-}
-
-BOOL msai_isAppStoreEnvironment(void){
-  
-  #if !TARGET_IPHONE_SIMULATOR
-  // check if we are really in an app store environment
-  if (![[NSBundle mainBundle] pathForResource:@"embedded" ofType:@"mobileprovision"]) {
-    return YES;
-  }
-  #endif
-  
-  return NO;
 }
 
 /**

@@ -2,10 +2,10 @@
 
 
 #define HC_SHORTHAND
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCHamcrest/OCHamcrest.h>
 
 #define MOCKITO_SHORTHAND
-#import <OCMockitoIOS/OCMockitoIOS.h>
+#import <OCMockito/OCMockito.h>
 
 #import "ApplicationInsights.h"
 #import "ApplicationInsightsPrivate.h"

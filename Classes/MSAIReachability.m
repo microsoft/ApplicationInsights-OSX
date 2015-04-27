@@ -39,28 +39,9 @@ static void MSAIReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkR
     sharedInstance.singletonQueue = dispatch_queue_create(MSAIReachabilitySingletonQueue, DISPATCH_QUEUE_SERIAL);
     sharedInstance.networkQueue = dispatch_queue_create(MSAIReacabilityNetworkQueue, DISPATCH_QUEUE_SERIAL);
     
-    if ([CTTelephonyNetworkInfo class]) {
-      sharedInstance.radioInfo = [CTTelephonyNetworkInfo new];
-    }
     [sharedInstance configureReachability];
   });
   return sharedInstance;
-}
-
-- (void)registerRadioObserver{
-  __weak typeof(self) weakSelf = self;
-  [NSNotificationCenter.defaultCenter addObserverForName:CTRadioAccessTechnologyDidChangeNotification
-                                                  object:nil
-                                                   queue:nil
-                                              usingBlock:^(NSNotification *note)
-   {
-     typeof(self) strongSelf = weakSelf;
-     [strongSelf notify];
-   }];
-}
-
-- (void)unregisterRadioObserver{
-  [NSNotificationCenter.defaultCenter removeObserver:self name:CTRadioAccessTechnologyDidChangeNotification object:nil];
 }
 
 - (void)configureReachability{
@@ -94,9 +75,6 @@ static void MSAIReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkR
     context.info = (__bridge void *)self;
     if(SCNetworkReachabilitySetCallback(strongSelf->_reachability, MSAIReachabilityCallback, &context)){
       if(SCNetworkReachabilitySetDispatchQueue(strongSelf->_reachability, strongSelf.networkQueue)){
-        if ([CTTelephonyNetworkInfo class]) {
-          [strongSelf registerRadioObserver];
-        }
         strongSelf->_running = YES;
       }else{
         SCNetworkReachabilitySetCallback(strongSelf->_reachability, NULL, NULL);
@@ -109,10 +87,6 @@ static void MSAIReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkR
   __weak typeof(self) weakSelf = self;
   dispatch_async(self.singletonQueue, ^{
     typeof(self) strongSelf = weakSelf;
-    
-    if ([CTTelephonyNetworkInfo class]) {
-      [strongSelf unregisterRadioObserver];
-    }
     
     if (strongSelf->_reachability != NULL){
       SCNetworkReachabilitySetCallback(strongSelf->_reachability, NULL, NULL);
@@ -161,15 +135,6 @@ static void MSAIReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkR
         reachabilityType = MSAIReachabilityTypeWIFI;
       }
     }
-    
-    if ((flags & kSCNetworkReachabilityFlagsIsWWAN) == kSCNetworkReachabilityFlagsIsWWAN){
-      reachabilityType = MSAIReachabilityTypeWWAN;
-      
-      // TODO: Radio info is nil after app returns to foreground, so set reachability type to wwan for now
-      if ([CTTelephonyNetworkInfo class] && self.radioInfo && self.radioInfo.currentRadioAccessTechnology) {
-        reachabilityType = [self wwanTypeForRadioAccessTechnology:self.radioInfo.currentRadioAccessTechnology];
-      }
-    }
   }
   
   return reachabilityType;
@@ -183,28 +148,28 @@ static void MSAIReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkR
 
 #pragma mark - Helper
 
-- (MSAIReachabilityType)wwanTypeForRadioAccessTechnology:(NSString *)technology{
-  MSAIReachabilityType radioType = MSAIReachabilityTypeNone;
-  
-  // TODO: Check mapping
-  if([technology isEqualToString:CTRadioAccessTechnologyGPRS]||
-     [technology isEqualToString:CTRadioAccessTechnologyCDMA1x]){
-    radioType = MSAIReachabilityTypeGPRS;
-  }else if([technology isEqualToString:CTRadioAccessTechnologyEdge]){
-    radioType = MSAIReachabilityTypeEDGE;
-  }else if([technology isEqualToString:CTRadioAccessTechnologyWCDMA]||
-           [technology isEqualToString:CTRadioAccessTechnologyHSDPA]||
-           [technology isEqualToString:CTRadioAccessTechnologyHSUPA]||
-           [technology isEqualToString:CTRadioAccessTechnologyCDMAEVDORev0]||
-           [technology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevA]||
-           [technology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevB]||
-           [technology isEqualToString:CTRadioAccessTechnologyeHRPD]){
-    radioType = MSAIReachabilityType3G;
-  }else if([technology isEqualToString:CTRadioAccessTechnologyLTE]){
-    radioType = MSAIReachabilityTypeLTE;
-  }
-  return radioType;
-}
+//- (MSAIReachabilityType)wwanTypeForRadioAccessTechnology:(NSString *)technology{
+//  MSAIReachabilityType radioType = MSAIReachabilityTypeNone;
+//  
+//  // TODO: Check mapping
+//  if([technology isEqualToString:CTRadioAccessTechnologyGPRS]||
+//     [technology isEqualToString:CTRadioAccessTechnologyCDMA1x]){
+//    radioType = MSAIReachabilityTypeGPRS;
+//  }else if([technology isEqualToString:CTRadioAccessTechnologyEdge]){
+//    radioType = MSAIReachabilityTypeEDGE;
+//  }else if([technology isEqualToString:CTRadioAccessTechnologyWCDMA]||
+//           [technology isEqualToString:CTRadioAccessTechnologyHSDPA]||
+//           [technology isEqualToString:CTRadioAccessTechnologyHSUPA]||
+//           [technology isEqualToString:CTRadioAccessTechnologyCDMAEVDORev0]||
+//           [technology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevA]||
+//           [technology isEqualToString:CTRadioAccessTechnologyCDMAEVDORevB]||
+//           [technology isEqualToString:CTRadioAccessTechnologyeHRPD]){
+//    radioType = MSAIReachabilityType3G;
+//  }else if([technology isEqualToString:CTRadioAccessTechnologyLTE]){
+//    radioType = MSAIReachabilityTypeLTE;
+//  }
+//  return radioType;
+//}
 
 - (NSString *)descriptionForReachabilityType:(MSAIReachabilityType)reachabilityType{
   switch(reachabilityType){

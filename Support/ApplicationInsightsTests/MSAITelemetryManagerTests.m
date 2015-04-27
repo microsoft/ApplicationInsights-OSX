@@ -3,7 +3,7 @@
 #import <OCMock/OCMock.h>
 
 #define HC_SHORTHAND
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCHamcrest/OCHamcrest.h>
 
 #import "ApplicationInsights.h"
 #import "ApplicationInsightsPrivate.h"

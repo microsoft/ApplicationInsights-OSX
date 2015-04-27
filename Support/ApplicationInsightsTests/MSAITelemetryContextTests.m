@@ -2,10 +2,10 @@
 #import "MSAITestsDependencyInjection.h"
 
 #define HC_SHORTHAND
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCHamcrest/OCHamcrest.h>
 
 #define MOCKITO_SHORTHAND
-#import <OCMockitoIOS/OCMockitoIOS.h>
+#import <OCMockito/OCMockito.h>
 
 #import "MSAITelemetryContext.h"
 #import "MSAITelemetryContextPrivate.h"

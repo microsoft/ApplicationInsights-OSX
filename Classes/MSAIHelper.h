@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 #import "ApplicationInsights.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -28,9 +27,6 @@ NSString *msai_mainBundleIdentifier(void);
 NSString *msai_encodeInstrumentationKey(NSString *inputString);
 NSString *msai_UUID(void);
 NSString *msai_appAnonID(void);
-BOOL msai_isPreiOS7Environment(void);
-BOOL msai_isPreiOS8Environment(void);
 BOOL msai_isRunningInAppExtension(void);
-BOOL msai_isAppStoreEnvironment(void);
 BOOL msai_isDebuggerAttached(void);
 NS_ASSUME_NONNULL_END

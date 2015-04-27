@@ -7,6 +7,8 @@
 #import "MSAITelemetryManagerPrivate.h"
 
 #import "MSAIHelper.h"
+#import <AppKit/AppKit.h>
+
 
 static NSString *const kMSAISessionFileName = @"MSAISessions";
 static NSString *const kMSAISessionFileType = @"plist";
@@ -137,7 +139,7 @@ NSString *const kMSAISessionInfoSession = @"MSAISessionInfoSession";
   __weak typeof(self) weakSelf = self;
 
   if (nil == _appDidEnterBackgroundObserver) {
-    _appDidEnterBackgroundObserver = [nc addObserverForName:UIApplicationDidEnterBackgroundNotification
+    _appDidEnterBackgroundObserver = [nc addObserverForName:NSApplicationDidResignActiveNotification
                                                      object:nil
                                                       queue:NSOperationQueue.mainQueue
                                                  usingBlock:^(NSNotification *note) {
@@ -146,7 +148,7 @@ NSString *const kMSAISessionInfoSession = @"MSAISessionInfoSession";
                                                  }];
   }
   if (nil == _appWillEnterForegroundObserver) {
-    _appWillEnterForegroundObserver = [nc addObserverForName:UIApplicationWillEnterForegroundNotification
+    _appWillEnterForegroundObserver = [nc addObserverForName:NSApplicationWillBecomeActiveNotification
                                                       object:nil
                                                        queue:NSOperationQueue.mainQueue
                                                   usingBlock:^(NSNotification *note) {
@@ -155,7 +157,7 @@ NSString *const kMSAISessionInfoSession = @"MSAISessionInfoSession";
                                                   }];
   }
   if (nil == _appWillTerminateObserver) {
-    _appWillTerminateObserver = [nc addObserverForName:UIApplicationWillTerminateNotification
+    _appWillTerminateObserver = [nc addObserverForName:NSApplicationWillTerminateNotification
                                                 object:nil
                                                  queue:NSOperationQueue.mainQueue
                                             usingBlock:^(NSNotification *note) {

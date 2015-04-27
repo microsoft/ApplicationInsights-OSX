@@ -1,10 +1,10 @@
 #import <XCTest/XCTest.h>
 
 #define HC_SHORTHAND
-#import <OCHamcrestIOS/OCHamcrestIOS.h>
+#import <OCHamcrest/OCHamcrest.h>
 
 #define MOCKITO_SHORTHAND
-#import <OCMockitoIOS/OCMockitoIOS.h>
+#import <OCMockito/OCMockito.h>
 
 #import "MSAIAppClient.h"
 #import "MSAIEnvelopeManager.h"
@@ -15,8 +15,12 @@
 #import "MSAIApplication.h"
 #import "MSAIEventData.h"
 #import "MSAIData.h"
+
+#import "ApplicationInsightsFeatureConfig.h"
+#if MSAI_FEATURE_CRASH_REPORTER
 #import <CrashReporter/CrashReporter.h>
 #import <pthread.h>
+#endif
 
 @interface MSAIEnvelopeManagerTests : XCTestCase
 
@@ -72,6 +76,7 @@
   assertThat(data.baseType, equalTo(@"EventData"));
 }
 
+#if MSAI_FEATURE_CRASH_REPORTER
 - (void)testThatItInstantiatesEnvelopeForCrash {
   PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyAll;
@@ -86,6 +91,7 @@
   assertThat(envelope.data, notNilValue());
   assertThat(envelope.name, equalTo(@"Microsoft.ApplicationInsights.Crash"));
 }
+#endif
 
 #pragma mark - Helper
 
