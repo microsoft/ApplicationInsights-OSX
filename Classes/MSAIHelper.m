@@ -188,9 +188,7 @@ NSString *msai_appVersion(void){
 }
 
 NSString *msai_deviceType(void){
-  // TODO: get device type, like "Tablet", "Phone", ...
-
-  return @"Unknown";
+  return @"PC";
 }
 
 NSString *msai_screenSize(void){
