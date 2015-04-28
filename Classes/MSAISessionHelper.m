@@ -26,6 +26,8 @@ NSString *const kMSAISessionInfoSession = @"MSAISessionInfoSession";
   id _appWillEnterForegroundObserver;
   id _appDidEnterBackgroundObserver;
   id _appWillTerminateObserver;
+  
+  BOOL _appDidNotEnterBackground;
 }
 
 #pragma mark - Initialize
@@ -144,6 +146,7 @@ NSString *const kMSAISessionInfoSession = @"MSAISessionInfoSession";
                                                       queue:NSOperationQueue.mainQueue
                                                  usingBlock:^(NSNotification *note) {
                                                    typeof(self) strongSelf = weakSelf;
+                                                   _appDidNotEnterBackground = NO;
                                                    [strongSelf updateDidEnterBackgroundTime];
                                                  }];
   }
@@ -186,8 +189,8 @@ NSString *const kMSAISessionInfoSession = @"MSAISessionInfoSession";
 - (MSAISession *)startNewSessionIfNeeded {
   double appDidEnterBackgroundTime = [[NSUserDefaults standardUserDefaults] doubleForKey:kMSAIApplicationDidEnterBackgroundTime];
   double timeSinceLastBackground = [[NSDate date] timeIntervalSince1970] - appDidEnterBackgroundTime;
-  if (timeSinceLastBackground > defaultSessionExpirationTime) {
-
+  if (timeSinceLastBackground > defaultSessionExpirationTime && !_appDidNotEnterBackground) {
+    _appDidNotEnterBackground = YES;
     return [self startNewSession];
   }
   return nil;
