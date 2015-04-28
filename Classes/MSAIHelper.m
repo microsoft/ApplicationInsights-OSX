@@ -208,16 +208,25 @@ NSString *msai_sdkBuild(void) {
 }
 
 NSString *msai_devicePlatform(void) {
+  NSString *model = nil;
   
-  size_t size;
-  sysctlbyname("hw.machine", NULL, &size, NULL, 0);
-  char *answer = (char*)malloc(size);
-  if (answer == NULL)
-    return @"";
-  sysctlbyname("hw.machine", answer, &size, NULL, 0);
-  NSString *platform = [NSString stringWithCString:answer encoding: NSUTF8StringEncoding];
-  free(answer);
-  return platform;
+  int error = 0;
+  int value = 0;
+  size_t length = sizeof(value);
+  
+  error = sysctlbyname("hw.model", NULL, &length, NULL, 0);
+  if (error == 0) {
+    char *cpuModel = (char *)malloc(sizeof(char) * length);
+    if (cpuModel != NULL) {
+      error = sysctlbyname("hw.model", cpuModel, &length, NULL, 0);
+      if (error == 0) {
+        model = @(cpuModel);
+      }
+      free(cpuModel);
+    }
+  }
+  
+  return model;
 }
 
 NSString *msai_deviceLanguage(void) {
