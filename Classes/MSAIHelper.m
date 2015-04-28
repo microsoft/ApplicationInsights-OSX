@@ -5,6 +5,8 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import <sys/sysctl.h>
+#import <AppKit/AppKit.h>
+
 
 static NSString *const kMSAIUtcDateFormatter = @"utcDateFormatter";
 
@@ -192,11 +194,11 @@ NSString *msai_deviceType(void){
 }
 
 NSString *msai_screenSize(void){
-  // TODO: get screen size
-  return @"";
-//  CGFloat scale = [UIScreen mainScreen].scale;
-//  CGSize screenSize = [UIScreen mainScreen].bounds.size;
-//  return [NSString stringWithFormat:@"%dx%d",(int)(screenSize.height * scale), (int)(screenSize.width * scale)];
+  NSScreen *focusScreen = [NSScreen mainScreen];
+  CGFloat scale = focusScreen.backingScaleFactor;
+  CGSize screenSize = [focusScreen frame].size;
+  
+  return [NSString stringWithFormat:@"%dx%d",(int)(screenSize.width * scale),(int)(screenSize.height * scale)];
 }
 
 NSString *msai_sdkVersion(void){
