@@ -20,15 +20,14 @@
 #import <mach-o/loader.h>
 #import <mach-o/dyld.h>
 
+#import <AppKit/AppKit.h>
+
 #include <sys/sysctl.h>
 // stores the set of crashreports that have been approved but aren't sent yet
 #define kMSAICrashApprovedReports @"MSAICrashApprovedReports" //TODO remove this in next Sprint
 
 // internal keys
 NSString *const kMSAICrashManagerIsDisabled = @"MSAICrashManagerIsDisabled";
-
-NSString *const kMSAIAppWentIntoBackgroundSafely = @"MSAIAppWentIntoBackgroundSafely";
-NSString *const kMSAIAppDidReceiveLowMemoryNotification = @"MSAIAppDidReceiveLowMemoryNotification";
 
 MSAIChannel const *sharedChannelReference;
 static char const *saveEventsFilePath;
@@ -63,10 +62,6 @@ static PLCrashReporterCallbacks defaultCallback = {
 
 @implementation MSAICrashManager {
   id _appDidBecomeActiveObserver;
-  id _appWillTerminateObserver;
-  id _appDidEnterBackgroundObserver;
-  id _appWillEnterForegroundObserver;
-  id _appDidReceiveLowMemoryWarningObserver;
 }
 
 #pragma mark - Start
@@ -111,24 +106,12 @@ static PLCrashReporterCallbacks defaultCallback = {
       // signal handler type is set
       // We only check for this if we are not in the App Store environment
 
-      if(!msai_isAppStoreEnvironment()) {
-        if(self.debuggerIsAttached) {
-          NSLog(@"[ApplicationInsights] WARNING: Detecting crashes is NOT enabled due to running the app with a debugger attached.");
-        }
+      if(self.debuggerIsAttached) {
+        NSLog(@"[ApplicationInsights] WARNING: Detecting crashes is NOT enabled due to running the app with a debugger attached.");
       }
 
       [self setupExceptionHandler];
     });
-
-    [self checkForLowMemoryWarning];
-    [self checkStateOfLastSession];
-    
-    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
-      [self appEnteredForeground];
-    }
-    
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kMSAIAppDidReceiveLowMemoryNotification];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 
     [MSAICrashManager sharedManager].isSetupCorrectly = YES;
   }
@@ -139,36 +122,6 @@ static PLCrashReporterCallbacks defaultCallback = {
 }
 
 #pragma mark - Start Helpers
-
-- (void)checkStateOfLastSession {
-  if(!self.didCrashInLastSession && self.appNotTerminatingCleanlyDetectionEnabled) {
-    BOOL didAppSwitchToBackgroundSafely = YES;
-
-    if([[NSUserDefaults standardUserDefaults] valueForKey:kMSAIAppWentIntoBackgroundSafely])
-      didAppSwitchToBackgroundSafely = [[NSUserDefaults standardUserDefaults] boolForKey:kMSAIAppWentIntoBackgroundSafely];
-
-    if(!didAppSwitchToBackgroundSafely) {
-      BOOL considerReport = YES;
-
-      if(self.delegate &&
-          [self.delegate respondsToSelector:@selector(considerAppNotTerminatedCleanlyReportForCrashManager)]) {
-        considerReport = [self.delegate considerAppNotTerminatedCleanlyReportForCrashManager];
-      }
-
-      if(considerReport) {
-        [self createCrashReportForAppKill];
-
-        _didCrashInLastSession = YES;
-      }
-    }
-  }
-}
-
-- (void)checkForLowMemoryWarning {
-  if([[NSUserDefaults standardUserDefaults] valueForKey:kMSAIAppDidReceiveLowMemoryNotification]) {
-    _didReceiveMemoryWarningInLastSession = [[NSUserDefaults standardUserDefaults] boolForKey:kMSAIAppDidReceiveLowMemoryNotification];
-  }
-}
 
 - (void)setupExceptionHandler {
   if(!self.debuggerIsAttached) {
@@ -218,9 +171,9 @@ static PLCrashReporterCallbacks defaultCallback = {
 }
 
 - (void)configPLCrashReporter {
-  PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
-  if(self.machExceptionHandlerEnabled) {
-    signalHandlerType = PLCrashReporterSignalHandlerTypeMach;
+  PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeMach;
+  if(self.machExceptionHandlerDisabled) {
+    signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
   }
 
   PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyNone;
@@ -298,14 +251,11 @@ void msai_save_events_callback(siginfo_t *info, ucontext_t *uap, void *context) 
 }
 
 - (void)generateTestCrash {
-  if(!msai_isAppStoreEnvironment()) {
-
-    if(self.debuggerIsAttached) {
-      NSLog(@"[ApplicationInsights] WARNING: The debugger is attached. The following crash cannot be detected by the SDK!");
-    }
-
-    __builtin_trap();
+  if(self.debuggerIsAttached) {
+    NSLog(@"[ApplicationInsights] WARNING: The debugger is attached. The following crash cannot be detected by the SDK!");
   }
+
+  __builtin_trap();
 }
 
 #pragma mark - Lifecycle Notifications
@@ -314,7 +264,7 @@ void msai_save_events_callback(siginfo_t *info, ucontext_t *uap, void *context) 
   __weak typeof(self) weakSelf = self;
 
   if(nil == _appDidBecomeActiveObserver) {
-    _appDidBecomeActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification
+    _appDidBecomeActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:NSApplicationDidBecomeActiveNotification
                                                                                     object:nil
                                                                                      queue:NSOperationQueue.mainQueue
                                                                                 usingBlock:^(NSNotification *note) {
@@ -322,85 +272,16 @@ void msai_save_events_callback(siginfo_t *info, ucontext_t *uap, void *context) 
                                                                                   [strongSelf readCrashReportAndStartProcessing];
                                                                                 }];
   }
-
-  if(nil == _appWillTerminateObserver) {
-    _appWillTerminateObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillTerminateNotification
-                                                                                  object:nil
-                                                                                   queue:NSOperationQueue.mainQueue
-                                                                              usingBlock:^(NSNotification *note) {
-                                                                                typeof(self) strongSelf = weakSelf;
-                                                                                [strongSelf leavingAppSafely];
-                                                                              }];
-  }
-
-  if(nil == _appDidEnterBackgroundObserver) {
-    _appDidEnterBackgroundObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification
-                                                                                       object:nil
-                                                                                        queue:NSOperationQueue.mainQueue
-                                                                                   usingBlock:^(NSNotification *note) {
-                                                                                     typeof(self) strongSelf = weakSelf;
-                                                                                     [strongSelf leavingAppSafely];
-                                                                                   }];
-  }
-
-  if(nil == _appWillEnterForegroundObserver) {
-    _appWillEnterForegroundObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification
-                                                                                        object:nil
-                                                                                         queue:NSOperationQueue.mainQueue
-                                                                                    usingBlock:^(NSNotification *note) {
-                                                                                      typeof(self) strongSelf = weakSelf;
-                                                                                      [strongSelf appEnteredForeground];
-                                                                                    }];
-  }
-
-  if(nil == _appDidReceiveLowMemoryWarningObserver) {
-    _appDidReceiveLowMemoryWarningObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification
-                                                                                               object:nil
-                                                                                                queue:NSOperationQueue.mainQueue
-                                                                                           usingBlock:^(NSNotification *note) {
-                                                                                             typeof(self) strongSelf = weakSelf;
-                                                                                             // we only need to log this once
-                                                                                             if(!strongSelf.didLogLowMemoryWarning) {
-                                                                                               [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kMSAIAppDidReceiveLowMemoryNotification];
-                                                                                               [[NSUserDefaults standardUserDefaults] synchronize];
-                                                                                               strongSelf.didLogLowMemoryWarning = YES;
-                                                                                             }
-                                                                                           }];
-  }
 }
 
 - (void)unregisterObservers {
   [self unregisterObserver:_appDidBecomeActiveObserver];
-  [self unregisterObserver:_appWillTerminateObserver];
-  [self unregisterObserver:_appDidEnterBackgroundObserver];
-  [self unregisterObserver:_appWillEnterForegroundObserver];
-
-  [self unregisterObserver:_appDidReceiveLowMemoryWarningObserver];
 }
 
 - (void)unregisterObserver:(id)observer {
   if(observer) {
     [[NSNotificationCenter defaultCenter] removeObserver:observer];
     observer = nil;
-  }
-}
-
-//Safe info about safe termination of the app to NSUserDefaults
-- (void)leavingAppSafely {
-  if(self.appNotTerminatingCleanlyDetectionEnabled)
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kMSAIAppWentIntoBackgroundSafely];
-}
-
-/**
-* Stores info about didEnterBackground in NSUserDefaults.
-*/
-
-- (void)appEnteredForeground {
-  // we disable kill detection while the debugger is running, since we'd get only false positives if the app is terminated by the user using the debugger
-  if(self.debuggerIsAttached) {
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kMSAIAppWentIntoBackgroundSafely];
-  } else if(self.appNotTerminatingCleanlyDetectionEnabled) {
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kMSAIAppWentIntoBackgroundSafely];
   }
 }
 
@@ -473,7 +354,7 @@ void msai_save_events_callback(siginfo_t *info, ucontext_t *uap, void *context) 
   }
 
   if(!msai_isRunningInAppExtension() &&
-      [[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
+      [NSApplication sharedApplication].active == NO) {
       [[MSAIPersistence sharedInstance] deleteCrashReporterLockFile];//TODO only do this when persisting was successful?
     return;
   }
@@ -505,30 +386,6 @@ void msai_save_events_callback(siginfo_t *info, ucontext_t *uap, void *context) 
 }
 
 #pragma mark - Crash Report Processing
-
-/**
-*  Creates a crash template because the app was killed while being in foreground
-*/
-- (void)createCrashReportForAppKill {
-  MSAICrashDataHeaders *crashHeaders = [MSAICrashDataHeaders new];
-  crashHeaders.crashDataHeadersId = msai_UUID();
-  crashHeaders.exceptionType = kMSAICrashKillSignal;
-  crashHeaders.exceptionCode = @"00000020 at 0x8badf00d";
-  crashHeaders.exceptionReason = @"The application did not terminate cleanly but no crash occured. The app received at least one Low Memory Warning.";
-
-  MSAICrashData *crashData = [MSAICrashData new];
-  crashData.headers = crashHeaders;
-
-  MSAIData *data = [MSAIData new];
-  data.baseData = crashData;
-  data.baseType = crashData.dataTypeName;
-
-  MSAIEnvelope *crashTemplate = [[MSAIEnvelopeManager sharedManager] envelope];
-  crashTemplate.data = data;
-  crashTemplate.name = crashData.envelopeTypeName;
-
-  [[MSAIPersistence sharedInstance] persistCrashTemplateBundle:@[crashTemplate]];
-}
 
 /***
 * Gathers all collected data and constructs Crash into an Envelope for processing

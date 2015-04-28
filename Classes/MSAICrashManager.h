@@ -103,25 +103,17 @@ safe crash reporting: [Reliable Crash Reporting](http://goo.gl/WvTBR)
 //TODO move the properties to the private header to make sure developers don't use the MSAICrashmanager but MSAIApplicationInsights
 
 /**
-*  Trap fatal signals via a Mach exception server.
+*  Don't trap fatal signals via a Mach exception server.
 *
-*  By default the SDK is using the safe and proven in-process BSD Signals for catching crashes.
-*  This option provides an option to enable catching fatal signals via a Mach exception server
-*  instead.
-*
-*  We strongly advice _NOT_ to enable Mach exception handler in release versions of your apps!
+*  By default the SDK is using catching fatal signals via a Mach exception server. By disabling this
+*  you can use the in-process BSD Signals for catching crashes instead.
 *
 *  Default: _NO_
 *
-* @warning The Mach exception handler executes in-process, and will interfere with debuggers when
-*  they attempt to suspend all active threads (which will include the Mach exception handler).
-*  Mach-based handling should _NOT_ be used when a debugger is attached. The SDK will not
-*  enabled catching exceptions if the app is started with the debugger running. If you attach
-*  the debugger during runtime, this may cause issues the Mach exception handler is enabled!
 * @see debuggerIsAttached
 */
 
-@property (nonatomic, assign) BOOL machExceptionHandlerEnabled;
+@property (nonatomic, assign) BOOL machExceptionHandlerDisabled;
 
 /**
 *  Enable on device symbolication for system symbols
@@ -136,45 +128,6 @@ safe crash reporting: [Reliable Crash Reporting](http://goo.gl/WvTBR)
 */
 @property (nonatomic, assign) BOOL onDeviceSymbolicationEnabled;
 
-
-/**
-*  EXPERIMENTAL: Enable heuristics to detect the app not terminating cleanly
-*
-*  This allows it to get a crash report if the app got killed while being in the foreground
-*  because of now of the following reasons:
-*  - The main thread was blocked for too long
-*  - The app took too long to start up
-*  - The app tried to allocate too much memory. If iOS did send a memory warning before killing the app because of this reason, `didReceiveMemoryWarningInLastSession` returns `YES`.
-*  - Permitted background duration if main thread is running in an endless loop
-*  - App failed to resume in time if main thread is running in an endless loop
-*  - If `enableMachExceptionHandler` is not activated, crashed due to stackoverflow will also be reported
-*
-*  The following kills can _NOT_ be detected:
-*  - Terminating the app takes too long
-*  - Permitted background duration too long for all other cases
-*  - App failed to resume in time for all other cases
-*  - possibly more cases
-*
-*  Crash reports triggered by this mechanisms do _NOT_ contain any stack traces since the time of the kill
-*  cannot be intercepted and hence no stack trace of the time of the kill event can't be gathered.
-*
-*  The heuristic is implemented as follows:
-*  If the app never gets a `UIApplicationDidEnterBackgroundNotification` or `UIApplicationWillTerminateNotification`
-*  notification, PLCrashReporter doesn't detect a crash itself, and the app starts up again, it is assumed that
-*  the app got either killed by iOS while being in foreground or a crash occured that couldn't be detected.
-*
-*  Default: _NO_
-*
-* @warning This is a heuristic and it _MAY_ report false positives! It has been tested with iOS 6.1 and iOS 7.
-* Depending on Apple changing notification events, new iOS version may cause more false positives!
-*
-* @see lastSessionCrashDetails
-* @see didReceiveMemoryWarningInLastSession
-* @see `MSAICrashManagerDelegate considerAppNotTerminatedCleanlyReportForCrashManager:`
-* @see [Apple Technical Note TN2151](https://developer.apple.com/library/ios/technotes/tn2151/_index.html)
-* @see [Apple Technical Q&A QA1693](https://developer.apple.com/library/ios/qa/qa1693/_index.html)
-*/
-@property (nonatomic, assign) BOOL appNotTerminatingCleanlyDetectionEnabled;
 
 /**
 * Set the callbacks that will be executed prior to program termination after a crash has occurred
@@ -248,27 +201,6 @@ a crash report was finished successfully, ended in error or was cancelled by the
 */
 @property (nonatomic, readonly) NSTimeInterval timeintervalCrashInLastSessionOccured;
 
-
-/**
-Indicates if the app did receive a low memory warning in the last session
-
-It may happen that low memory warning where send but couldn't be logged, since iOS
-killed the app before updating the flag in the filesystem did complete.
-
-This property may be true in case of low memory kills, but it doesn't have to be! Apps
-can also be killed without the app ever receiving a low memory warning.
-
-Also the app could have received a low memory warning, but the reason for being killed was
-actually different.
-
-@warning This property only has a correct value, once `[MSAIApplicationInsights start]` was
-invoked!
-
-@see appNotTerminatingCleanlyDetectionEnabled
-@see lastSessionCrashDetails
-*/
-
-@property (nonatomic, readonly) BOOL didReceiveMemoryWarningInLastSession;
 
 ///-----------------------------------------------------------------------------
 /// @name Debugging Helpers

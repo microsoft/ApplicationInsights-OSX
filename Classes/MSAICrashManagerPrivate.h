@@ -35,12 +35,6 @@ The crashReporter instance.
  */
 @property (nonatomic, strong) MSAIPLCrashReporter *plCrashReporter;
 
-/*
-Value that indicates a low memory warning has been sent to the app. For memory warnings related to the last session,
-@see didReceiveMemoryWarningInLastSession.
- */
-@property (nonatomic, assign) BOOL didLogLowMemoryWarning;
-
 
 /**
 * The exceptionhandler that is used for crash reporting.
@@ -68,25 +62,9 @@ Value that indicates a low memory warning has been sent to the app. For memory w
 - (void)readCrashReportAndStartProcessing;
 
 /**
-* Creates a "fake" crash report for an app kill (a case where we can't provide a regular crash report because it's not
-* technically possible.
-*/
-- (void)createCrashReportForAppKill;
-
-/**
 * Format and create the ApplicationInsights crash report data and forward it to `MSAIChannel´for persistence and sending
 */
 - (void)createCrashReportWithCrashData:(NSData*)crashData;
-
-/**
-* Write info about safely leaving the app to NSUserDefaults.
-*/
-- (void)leavingAppSafely;
-
-/**
-* Write info about the app entering the foreground safely into NSUserDefaults.
-*/
-- (void)appEnteredForeground;
 
 /**
 * by default, just logs the message
