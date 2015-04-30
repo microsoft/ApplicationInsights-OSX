@@ -22,7 +22,7 @@
 #import "MSAICrashDataProvider.h"
 #import "MSAICrashData.h"
 #import <pthread.h>
-#import <CrashReporter/CrashReporter.h>
+#import "CrashReporter.h"
 #endif
 #import "MSAIEnvelope.h"
 #import "MSAIEnvelopeManager.h"
