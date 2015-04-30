@@ -18,7 +18,7 @@
 
 #import "ApplicationInsightsFeatureConfig.h"
 #if MSAI_FEATURE_CRASH_REPORTER
-#import <CrashReporter/CrashReporter.h>
+#import "CrashReporter.h"
 #import <pthread.h>
 #endif
 

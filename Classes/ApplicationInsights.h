@@ -14,6 +14,14 @@
 #define __null_unspecified
 #endif
 
+#import <Cocoa/Cocoa.h>
+
+//! Project version number for ApplicationInsights.
+FOUNDATION_EXPORT double ApplicationInsightsVersionNumber;
+
+//! Project version string for ApplicationInsights.
+FOUNDATION_EXPORT const unsigned char ApplicationInsightsVersionString[];
+
 #import "ApplicationInsightsFeatureConfig.h"
 #import "MSAIApplicationInsights.h"
 
