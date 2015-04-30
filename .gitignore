@@ -24,3 +24,17 @@ DerivedData
 # http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control
 #
 #Pods/
+
+# osx noise
+.DS_Store
+*.ipa
+*.swp
+*~.nib
+profile
+
+# App Code
+**/.idea/
+**/.idea/**
+
+documentation/
+Products/
