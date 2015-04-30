@@ -2,9 +2,8 @@
 
 #import <sys/sysctl.h>
 
-#import "ApplicationInsights.h"
 #import "MSAIHelper.h"
-
+#import "MSAICrashManagerPrivate.h"
 
 @implementation MSAICrashExceptionApplication
 
@@ -18,7 +17,10 @@
   
   // Don't send the exception if we are currently debugging this app!
   if (!msai_isDebuggerAttached() && exception) {
-    [MSAITelemetryManager trackException:exception];
+    NSUncaughtExceptionHandler *exceptionHandler = [[MSAICrashManager sharedManager] exceptionHandler];
+    if (exceptionHandler && exception) {
+      exceptionHandler(exception);
+    }
   }
 }
 
