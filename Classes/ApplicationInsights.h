@@ -22,6 +22,7 @@
 #import "MSAICrashManagerDelegate.h"
 #import "MSAICrashDetails.h"
 #import "MSAICrashMetaData.h"
+#import "MSAICrashExceptionApplication.h"
 #endif /* MSAI_FEATURE_CRASH_REPORTER */
 
 #if MSAI_FEATURE_TELEMETRY
