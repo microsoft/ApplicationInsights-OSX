@@ -251,7 +251,7 @@ MSAITelemetryManager.trackMetricWithName(name:"Test metric", value:42.2);
 
 ## <a name="crashreporting"></a>7. Crash Reporting
 
-The Application Insights SDK enables crash reporting **per default**. Crashes will be immediately sent to the server if a connection is available.
+The Application Insights SDK enables crash reporting **per default**. Crashes will be immediately sent to the server the next time the app is launched.
 To provide you with the best crash reporting, we are using [PLCrashReporter]("https://github.com/plausiblelabs/plcrashreporter") in [Version 1.2 / Commit 273a7e7cd4b77485a584ac82e77b7c857558e2f9]("https://github.com/plausiblelabs/plcrashreporter/commit/273a7e7cd4b77485a584ac82e77b7c857558e2f9").
 
 This feature can be disabled as follows:
