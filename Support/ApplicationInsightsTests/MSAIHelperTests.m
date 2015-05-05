@@ -54,7 +54,7 @@
 - (void)testDeviceType {
   NSString *resultString = msai_deviceType();
   assertThat(resultString, notNilValue());
-  NSArray *typesArray = @[@"Phone", @"Tablet", @"Unknown"];
+  NSArray *typesArray = @[@"Phone", @"Tablet", @"Unknown", @"PC"];
   assertThat(typesArray, hasItem(resultString));
 }
 

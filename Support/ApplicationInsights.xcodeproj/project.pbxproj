@@ -70,6 +70,9 @@
 		1E0AC5921AF216F7007B4796 /* PLCrashReportSystemInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E0AC57A1AF216F7007B4796 /* PLCrashReportSystemInfo.h */; };
 		1E0AC5931AF216F7007B4796 /* PLCrashReportTextFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E0AC57B1AF216F7007B4796 /* PLCrashReportTextFormatter.h */; };
 		1E0AC5941AF216F7007B4796 /* PLCrashReportThreadInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E0AC57C1AF216F7007B4796 /* PLCrashReportThreadInfo.h */; };
+		1E0AC5991AF8D8D6007B4796 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1E1B4C3C1AEE6D25006B7702 /* OCMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1E0AC59A1AF8D8D9007B4796 /* OCMockito.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1E1B4C3A1AEE6B53006B7702 /* OCMockito.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1E0AC59B1AF8D8DB007B4796 /* OCHamcrest.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1E1B4C361AEE6A95006B7702 /* OCHamcrest.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1E1B4C2C1AEE6975006B7702 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1B4C2B1AEE6975006B7702 /* Foundation.framework */; };
 		1E1B4C311AEE699E006B7702 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1B4C301AEE699E006B7702 /* Cocoa.framework */; };
 		1E1B4C331AEE69A4006B7702 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1B4C321AEE69A4006B7702 /* Security.framework */; };
@@ -255,6 +258,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				1E0AC5991AF8D8D6007B4796 /* OCMock.framework in CopyFiles */,
+				1E0AC59A1AF8D8D9007B4796 /* OCMockito.framework in CopyFiles */,
+				1E0AC59B1AF8D8DB007B4796 /* OCHamcrest.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,9 +335,9 @@
 		1E1B4C301AEE699E006B7702 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		1E1B4C321AEE69A4006B7702 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		1E1B4C341AEE69A9006B7702 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
-		1E1B4C361AEE6A95006B7702 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrest.framework; path = ApplicationInsightsTests/OCHamcrest.framework; sourceTree = "<group>"; };
-		1E1B4C3A1AEE6B53006B7702 /* OCMockito.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMockito.framework; path = ApplicationInsightsTests/OCMockito.framework; sourceTree = "<group>"; };
-		1E1B4C3C1AEE6D25006B7702 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = ApplicationInsightsTests/OCMock.framework; sourceTree = "<group>"; };
+		1E1B4C361AEE6A95006B7702 /* OCHamcrest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrest.framework; sourceTree = "<group>"; };
+		1E1B4C3A1AEE6B53006B7702 /* OCMockito.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMockito.framework; sourceTree = "<group>"; };
+		1E1B4C3C1AEE6D25006B7702 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMock.framework; sourceTree = "<group>"; };
 		1E1B4C4C1AEE7570006B7702 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
 		1E3A2B4C19645DC800D5BD66 /* ApplicationInsights-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ApplicationInsights-Prefix.pch"; sourceTree = "<group>"; };
 		1E49A4A5161222B900463151 /* MSAIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIHelper.h; sourceTree = "<group>"; };
@@ -684,7 +690,7 @@
 				1E5A459716F0DFC200B55C04 /* Supporting Files */,
 			);
 			name = "ApplicationInsights Tests";
-			path = "AppInsights-iOSTests";
+			path = ApplicationInsightsTests;
 			sourceTree = "<group>";
 		};
 		1E5A459716F0DFC200B55C04 /* Supporting Files */ = {
@@ -996,6 +1002,7 @@
 				1ED261611AEE576500C89442 /* Frameworks */,
 				1ED261621AEE576500C89442 /* Headers */,
 				1ED261631AEE576500C89442 /* Resources */,
+				1E0AC59C1AF8DD2B007B4796 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1083,6 +1090,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1E0AC59C1AF8DD2B007B4796 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" = \"CodeCoverage\" ]; then\n\"${SRCROOT}/../Vendor/XcodeCoverage/exportenv.sh\"\nfi";
+		};
 		1E4F61ED1621ADE70033EFC5 /* Build distribution */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
