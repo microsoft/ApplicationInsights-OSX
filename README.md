@@ -265,6 +265,58 @@ This feature can be disabled as follows:
 
 ```
 
+**Catch additional exceptions**
+
+On Mac OS X there are three types of crashes that are not reported to a registered `NSUncaughtExceptionHandler`:
+
+1. Custom `NSUncaughtExceptionHandler` don't start working until after `NSApplication` has finished calling all of its delegate methods!
+
+   Example:
+       
+       - (void)applicationDidFinishLaunching:(NSNotification *)note {
+         ...
+         [NSException raise:@"ExceptionAtStartup" format:@"This will not be recognized!"];
+         ...
+       }
+
+
+2. The default `NSUncaughtExceptionHandler` in `NSApplication` only logs exceptions to the console and ends their processing. Resulting in exceptions that occur in the `NSApplication` "scope" not occurring in a registered custom `NSUncaughtExceptionHandler`.
+
+   Example:
+   
+       - (void)applicationDidFinishLaunching:(NSNotification *)note {
+         ...
+         [self performSelector:@selector(delayedException) withObject:nil afterDelay:5];
+        ...
+      }
+
+      - (void)delayedException {
+        NSArray *array = [NSArray array];
+        [array objectAtIndex:23];
+      }
+
+3. Any exceptions occurring in IBAction or other GUI does not even reach the NSApplication default UncaughtExceptionHandler.
+
+   Example:
+       
+       - (IBAction)doExceptionCrash:(id)sender {
+         NSArray *array = [NSArray array];
+         [array objectAtIndex:23];
+       }
+
+In general there are two solutions. The first one is to use an `NSExceptionHandler` class instead of an `NSUncaughtExceptionHandler`. But this has a few drawbacks which are detailed in `MSAICrashExceptionApplication.h`.
+
+Instead we provide the optional `NSApplication` subclass `MSAICrashExceptionApplication` which handles cases 2 and 3.
+
+**Installation:**
+
+* Open the applications `Info.plist`
+* Search for the field `Principal class`
+* Replace `NSApplication` with `MSAICrashExceptionApplication`
+
+Alternatively, if you have your own NSApplication subclass, change it to be a subclass of `MSAICrashExceptionApplication` instead.
+
+
 ## <a name="additionalconfig"></a>8. Set Custom Server Endpoint
 
 You can also configure a different server endpoint for the SDK if needed using a full URL
