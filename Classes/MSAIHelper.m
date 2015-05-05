@@ -168,7 +168,7 @@ NSString *msai_osVersionBuild(void) {
     }
   }
   
-  return [NSString stringWithFormat:@"%@(%@)", osVersion, osBuild];
+  return [NSString stringWithFormat:@"%@ (%@)", osVersion, osBuild];
 }
 
 NSString *msai_osName(void){

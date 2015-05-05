@@ -26,7 +26,7 @@ The SDK runs on devices with OS X 10.8 or higher.
 * It provides support for collecting telemetry and crash reports
 * Based on the iOS SDK Version 1.0-Beta.2
 
-##<a id="requirements"></a> 2.  Requirements
+##<a id="requirements"></a> 2. Requirements
 
 The SDK runs on devices with OS X 10.8 or higher.
 
@@ -197,7 +197,7 @@ This setting is ignored if the app is running in an appstore environment, so the
 
 ## <a id="basicusage"></> 6. Basic Usage
 
-**[NOTE]** The SDK is optimized to defer everything possible to a later time while making sure e.g. crashes on startup can also be caught and each module executes other code with a delay some seconds. This ensures that applicationDidFinishLaunching will process as fast as possible and the SDK will not block the startup sequence resulting in a possible kill by the watchdog process.
+**[NOTE]** The SDK is optimized to defer everything possible to a later time while making sure e.g. crashes on startup can also be caught and each module executes other code with a delay some seconds. This ensures that applicationDidFinishLaunching will process as fast as possible and the SDK will not block the startup sequence.
 
 After you have setup the SDK as [described above](#setup), the ```MSAITelemetryManager```-instance is the central interface to track events, traces, metrics, page views or handled exceptions.
 
@@ -249,7 +249,7 @@ MSAITelemetryManager.trackPageView(pageView:"MyViewController",
 MSAITelemetryManager.trackMetricWithName(name:"Test metric", value:42.2);
 ```
 
-## <a name="crashreporting"></a>7.  Crash Reporting
+## <a name="crashreporting"></a>7. Crash Reporting
 
 The Application Insights SDK enables crash reporting **per default**. Crashes will be immediately sent to the server if a connection is available.
 To provide you with the best crash reporting, we are using [PLCrashReporter]("https://github.com/plausiblelabs/plcrashreporter") in [Version 1.2 / Commit 273a7e7cd4b77485a584ac82e77b7c857558e2f9]("https://github.com/plausiblelabs/plcrashreporter/commit/273a7e7cd4b77485a584ac82e77b7c857558e2f9").
@@ -265,7 +265,7 @@ This feature can be disabled as follows:
 
 ```
 
-## <a name="additionalconfig"></a>8.  Set Custom Server Endpoint
+## <a name="additionalconfig"></a>8. Set Custom Server Endpoint
 
 You can also configure a different server endpoint for the SDK if needed using a full URL
 
