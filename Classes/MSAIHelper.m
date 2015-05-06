@@ -188,7 +188,7 @@ NSString *msai_appVersion(void){
 }
 
 NSString *msai_deviceType(void){
-  return @"PC";
+  return @"Desktop";
 }
 
 NSString *msai_screenSize(void){
