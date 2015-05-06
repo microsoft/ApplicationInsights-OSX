@@ -24,7 +24,7 @@ static NSInteger const schemaVersion = 2;
   }
 }
 
-+ (id)sharedManager {
++ (instancetype)sharedManager {
   static MSAIEnvelopeManager *sharedManager = nil;
   
   static dispatch_once_t onceToken;
