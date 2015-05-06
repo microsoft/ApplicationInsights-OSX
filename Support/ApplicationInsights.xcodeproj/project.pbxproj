@@ -7,27 +7,27 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		1E4F61E91621AD970033EFC5 /* ApplicationInsights Distribution */ = {
+		1E4F61E91621AD970033EFC5 /* ApplicationInsightsOSX Distribution */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 1E4F61EA1621AD970033EFC5 /* Build configuration list for PBXAggregateTarget "ApplicationInsights Distribution" */;
+			buildConfigurationList = 1E4F61EA1621AD970033EFC5 /* Build configuration list for PBXAggregateTarget "ApplicationInsightsOSX Distribution" */;
 			buildPhases = (
 				1E4F61ED1621ADE70033EFC5 /* Build distribution */,
 			);
 			dependencies = (
 				1E754E431621F6290070AB92 /* PBXTargetDependency */,
 			);
-			name = "ApplicationInsights Distribution";
+			name = "ApplicationInsightsOSX Distribution";
 			productName = "AppInsights Framework";
 		};
-		1E8E66AD15BC3D7700632A2E /* ApplicationInsights Documentation */ = {
+		1E8E66AD15BC3D7700632A2E /* ApplicationInsightsOSX Documentation */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 1E8E66B015BC3D7700632A2E /* Build configuration list for PBXAggregateTarget "ApplicationInsights Documentation" */;
+			buildConfigurationList = 1E8E66B015BC3D7700632A2E /* Build configuration list for PBXAggregateTarget "ApplicationInsightsOSX Documentation" */;
 			buildPhases = (
 				1E8E66B215BC3D8200632A2E /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = "ApplicationInsights Documentation";
+			name = "ApplicationInsightsOSX Documentation";
 			productName = "AppInsights Documentation";
 		};
 /* End PBXAggregateTarget section */
@@ -79,7 +79,8 @@
 		1E1B4C3B1AEE6B53006B7702 /* OCMockito.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1B4C3A1AEE6B53006B7702 /* OCMockito.framework */; };
 		1E1B4C3D1AEE6D25006B7702 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1B4C3C1AEE6D25006B7702 /* OCMock.framework */; };
 		1E1B4C4D1AEE7570006B7702 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1B4C4C1AEE7570006B7702 /* libz.dylib */; };
-		1ED261701AEE576600C89442 /* ApplicationInsights.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED261651AEE576500C89442 /* ApplicationInsights.framework */; };
+		1EA6EE2F1AFA5BF9009EE1AC /* ApplicationInsightsOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EA6EE2E1AFA5BF9009EE1AC /* ApplicationInsightsOSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1ED261701AEE576600C89442 /* ApplicationInsightsOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED261651AEE576500C89442 /* ApplicationInsightsOSX.framework */; };
 		1ED261801AEE57F800C89442 /* MSAIApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 807CFD731A712974004EA1B6 /* MSAIApplication.m */; };
 		1ED261811AEE57FC00C89442 /* MSAIBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 807CFD751A712974004EA1B6 /* MSAIBase.m */; };
 		1ED261821AEE581A00C89442 /* MSAICrashData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3C386D1A82213000700081 /* MSAICrashData.m */; };
@@ -354,13 +355,14 @@
 		1E90FD7118EDB86400CF0417 /* MSAICrashDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAICrashDetails.h; sourceTree = "<group>"; };
 		1E90FD7218EDB86400CF0417 /* MSAICrashDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAICrashDetails.m; sourceTree = "<group>"; };
 		1E91D84619B924E600E9616D /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		1EA6EE2E1AFA5BF9009EE1AC /* ApplicationInsightsOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationInsightsOSX.h; sourceTree = "<group>"; };
 		1EB2E4C418FD4CEA008BB1CF /* MSAITelemetryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAITelemetryManager.h; sourceTree = "<group>"; };
 		1EB2E4C518FD4CEA008BB1CF /* MSAITelemetryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAITelemetryManager.m; sourceTree = "<group>"; };
 		1EB2E4C818FD4E90008BB1CF /* MSAITelemetryManagerPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAITelemetryManagerPrivate.h; sourceTree = "<group>"; };
 		1ECA8F4B192B5BD8006B9416 /* MSAICrashDetailsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAICrashDetailsPrivate.h; sourceTree = "<group>"; };
-		1ED261651AEE576500C89442 /* ApplicationInsights.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ApplicationInsights.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED261651AEE576500C89442 /* ApplicationInsightsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ApplicationInsightsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ED261681AEE576500C89442 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1ED2616F1AEE576500C89442 /* ApplicationInsightsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApplicationInsightsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1ED2616F1AEE576500C89442 /* ApplicationInsightsOSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApplicationInsightsOSXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EDA60CF15C2C1450032D10B /* AppInsights-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppInsights-Info.plist"; sourceTree = "<group>"; };
 		1EFF03D717F20F8300A5F13C /* MSAICrashManagerPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAICrashManagerPrivate.h; sourceTree = "<group>"; };
 		594931F0F69C22CBB67A2AD9 /* MSAIPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIPersistence.h; sourceTree = "<group>"; };
@@ -500,7 +502,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E1B4C3D1AEE6D25006B7702 /* OCMock.framework in Frameworks */,
-				1ED261701AEE576600C89442 /* ApplicationInsights.framework in Frameworks */,
+				1ED261701AEE576600C89442 /* ApplicationInsightsOSX.framework in Frameworks */,
 				1E1B4C371AEE6A95006B7702 /* OCHamcrest.framework in Frameworks */,
 				1E1B4C3B1AEE6B53006B7702 /* OCMockito.framework in Frameworks */,
 				1E0AC57F1AF216F7007B4796 /* libCrashReporter-MacOSX-Static.a in Frameworks */,
@@ -794,8 +796,8 @@
 		E400561B148D79B500EB22B9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1ED261651AEE576500C89442 /* ApplicationInsights.framework */,
-				1ED2616F1AEE576500C89442 /* ApplicationInsightsTests.xctest */,
+				1ED261651AEE576500C89442 /* ApplicationInsightsOSX.framework */,
+				1ED2616F1AEE576500C89442 /* ApplicationInsightsOSXTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -840,6 +842,7 @@
 				1E3A2B4C19645DC800D5BD66 /* ApplicationInsights-Prefix.pch */,
 				1E71509A15B5C76F004E88FF /* ApplicationInsights.h */,
 				1E84DB3317E0977C00AC83FD /* ApplicationInsightsFeatureConfig.h */,
+				1EA6EE2E1AFA5BF9009EE1AC /* ApplicationInsightsOSX.h */,
 				E41EB465148D7BF50015DEDC /* MSAIApplicationInsights.h */,
 				80F334B11A9C93290098026F /* MSAIApplicationInsightsPrivate.h */,
 				E41EB466148D7BF50015DEDC /* MSAIApplicationInsights.m */,
@@ -949,6 +952,7 @@
 				1ED2620B1AEE596700C89442 /* MSAIOperation.h in Headers */,
 				1ED261E31AEE58DA00C89442 /* MSAITelemetryContextPrivate.h in Headers */,
 				1ED262051AEE596700C89442 /* MSAIExceptionDetails.h in Headers */,
+				1EA6EE2F1AFA5BF9009EE1AC /* ApplicationInsightsOSX.h in Headers */,
 				1ED261DD1AEE58C000C89442 /* MSAISender.h in Headers */,
 				1ED261F31AEE596700C89442 /* MSAIApplication.h in Headers */,
 				1E0AC5501AEFA4F2007B4796 /* MSAICrashDataProvider.h in Headers */,
@@ -987,9 +991,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		1ED261641AEE576500C89442 /* ApplicationInsights */ = {
+		1ED261641AEE576500C89442 /* ApplicationInsightsOSX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1ED2617E1AEE576600C89442 /* Build configuration list for PBXNativeTarget "ApplicationInsights" */;
+			buildConfigurationList = 1ED2617E1AEE576600C89442 /* Build configuration list for PBXNativeTarget "ApplicationInsightsOSX" */;
 			buildPhases = (
 				1ED261601AEE576500C89442 /* Sources */,
 				1ED261611AEE576500C89442 /* Frameworks */,
@@ -1001,14 +1005,14 @@
 			);
 			dependencies = (
 			);
-			name = ApplicationInsights;
+			name = ApplicationInsightsOSX;
 			productName = "ApplicationInsights-OSX";
-			productReference = 1ED261651AEE576500C89442 /* ApplicationInsights.framework */;
+			productReference = 1ED261651AEE576500C89442 /* ApplicationInsightsOSX.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		1ED2616E1AEE576500C89442 /* ApplicationInsightsTests */ = {
+		1ED2616E1AEE576500C89442 /* ApplicationInsightsOSXTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1ED2617F1AEE576600C89442 /* Build configuration list for PBXNativeTarget "ApplicationInsightsTests" */;
+			buildConfigurationList = 1ED2617F1AEE576600C89442 /* Build configuration list for PBXNativeTarget "ApplicationInsightsOSXTests" */;
 			buildPhases = (
 				1ED2616B1AEE576500C89442 /* Sources */,
 				1ED2616C1AEE576500C89442 /* Frameworks */,
@@ -1020,9 +1024,9 @@
 			dependencies = (
 				1ED261721AEE576600C89442 /* PBXTargetDependency */,
 			);
-			name = ApplicationInsightsTests;
+			name = ApplicationInsightsOSXTests;
 			productName = "ApplicationInsights-OSXTests";
-			productReference = 1ED2616F1AEE576500C89442 /* ApplicationInsightsTests.xctest */;
+			productReference = 1ED2616F1AEE576500C89442 /* ApplicationInsightsOSXTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1054,10 +1058,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1ED261641AEE576500C89442 /* ApplicationInsights */,
-				1ED2616E1AEE576500C89442 /* ApplicationInsightsTests */,
-				1E8E66AD15BC3D7700632A2E /* ApplicationInsights Documentation */,
-				1E4F61E91621AD970033EFC5 /* ApplicationInsights Distribution */,
+				1ED261641AEE576500C89442 /* ApplicationInsightsOSX */,
+				1ED2616E1AEE576500C89442 /* ApplicationInsightsOSXTests */,
+				1E8E66AD15BC3D7700632A2E /* ApplicationInsightsOSX Documentation */,
+				1E4F61E91621AD970033EFC5 /* ApplicationInsightsOSX Distribution */,
 			);
 		};
 /* End PBXProject section */
@@ -1108,7 +1112,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=ApplicationInsights\n\n# Documentation\nAIS_DOCSET_VERSION_NAME=\"com.microsoft.applicationinsights.${MSAI_DOCSET_NAME}-${VERSION_STRING}\"\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\n\n# Building the framework.\nxcodebuild -project \"ApplicationInsights.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\"\n\n# Codesign frameworks\ncodesign --verbose --force --sign \"Developer ID Application: Microsoft Corporation\" \"${WRK_DIR}/Release/${FMK_NAME}.framework\"\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${TEMP_DIR}\"\n\n# Copy build frameworks into product folder\nmv \"${WRK_DIR}/Release/${FMK_NAME}.framework\" \"${TEMP_DIR}\"\nmv \"${WRK_DIR}/Release/${FMK_NAME}.framework.dSYM\" \"${TEMP_DIR}\"\n\nrm -r \"${WRK_DIR}\"\n\n# copy license, changelog, documentation, integration json\ncp -f \\\"${SRCROOT}/../Docs/Readme-template.md\\\" \\\"${TEMP_DIR}/README.md\\\"\ncp -f \\\"${SRCROOT}/../Docs/Readme-template.md\\\" \\\"${SRCROOT}/../README.md\\\"\ncp -f \"${SRCROOT}/../LICENSE.txt\" \"${TEMP_DIR}\"\nmkdir \"${TEMP_DIR}/${AIS_DOCSET_VERSION_NAME}.docset\"\ncp -R \"${SRCROOT}/../documentation/docset/Contents\" \"${TEMP_DIR}/${AIS_DOCSET_VERSION_NAME}.docset\"\n\n# build zip\ncd \"${PRODUCTS_DIR}\"\nrm -f \"${FMK_NAME}-OSX-${VERSION_STRING}.zip\"\nzip -yr \"${FMK_NAME}-OSX-${VERSION_STRING}.zip\" \"${ZIP_FOLDER}\" -x \\*/.*\n";
+			shellScript = "# Sets the target folders and the final framework product.\nFMK_NAME=ApplicationInsightsOSX\n\n# Documentation\nAIS_DOCSET_VERSION_NAME=\"com.microsoft.applicationinsights.${MSAI_DOCSET_NAME}-${VERSION_STRING}\"\n\n# Install dir will be the final output to the framework.\n# The following line create it in the root folder of the current project.\nPRODUCTS_DIR=${SRCROOT}/../Products\nZIP_FOLDER=${FMK_NAME}\nTEMP_DIR=${PRODUCTS_DIR}/${ZIP_FOLDER}\n\n# Working dir will be deleted after the framework creation.\nWRK_DIR=build\n\n# Building the framework.\nxcodebuild -project \"ApplicationInsights.xcodeproj\" -configuration \"Release\" -target \"${FMK_NAME}\"\n\n# Codesign frameworks\ncodesign --verbose --force --sign \"Developer ID Application: Microsoft Corporation\" \"${WRK_DIR}/Release/${FMK_NAME}.framework\"\n\n# Cleaning the oldest.\nif [ -d \"${TEMP_DIR}\" ]\nthen\nrm -rf \"${TEMP_DIR}\"\nfi\n\n# Creates and renews the final product folder.\nmkdir -p \"${TEMP_DIR}\"\n\n# Copy build frameworks into product folder\nmv \"${WRK_DIR}/Release/${FMK_NAME}.framework\" \"${TEMP_DIR}\"\nmv \"${WRK_DIR}/Release/${FMK_NAME}.framework.dSYM\" \"${TEMP_DIR}\"\n\nrm -r \"${WRK_DIR}\"\n\n# copy license, changelog, documentation, integration json\ncp -f \\\"${SRCROOT}/../Docs/Readme-template.md\\\" \\\"${TEMP_DIR}/README.md\\\"\ncp -f \\\"${SRCROOT}/../Docs/Readme-template.md\\\" \\\"${SRCROOT}/../README.md\\\"\ncp -f \"${SRCROOT}/../LICENSE.txt\" \"${TEMP_DIR}\"\nmkdir \"${TEMP_DIR}/${AIS_DOCSET_VERSION_NAME}.docset\"\ncp -R \"${SRCROOT}/../documentation/docset/Contents\" \"${TEMP_DIR}/${AIS_DOCSET_VERSION_NAME}.docset\"\n\n# build zip\ncd \"${PRODUCTS_DIR}\"\nrm -f \"${FMK_NAME}-${VERSION_STRING}.zip\"\nzip -yr \"${FMK_NAME}-${VERSION_STRING}.zip\" \"${ZIP_FOLDER}\" -x \\*/.*\n";
 		};
 		1E8E66B215BC3D8200632A2E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1232,12 +1236,12 @@
 /* Begin PBXTargetDependency section */
 		1E754E431621F6290070AB92 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1E8E66AD15BC3D7700632A2E /* ApplicationInsights Documentation */;
+			target = 1E8E66AD15BC3D7700632A2E /* ApplicationInsightsOSX Documentation */;
 			targetProxy = 1E754E421621F6290070AB92 /* PBXContainerItemProxy */;
 		};
 		1ED261721AEE576600C89442 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1ED261641AEE576500C89442 /* ApplicationInsights */;
+			target = 1ED261641AEE576500C89442 /* ApplicationInsightsOSX */;
 			targetProxy = 1ED261711AEE576600C89442 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1669,7 +1673,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1E4F61EA1621AD970033EFC5 /* Build configuration list for PBXAggregateTarget "ApplicationInsights Distribution" */ = {
+		1E4F61EA1621AD970033EFC5 /* Build configuration list for PBXAggregateTarget "ApplicationInsightsOSX Distribution" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1E4F61EB1621AD970033EFC5 /* Debug */,
@@ -1679,7 +1683,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1E8E66B015BC3D7700632A2E /* Build configuration list for PBXAggregateTarget "ApplicationInsights Documentation" */ = {
+		1E8E66B015BC3D7700632A2E /* Build configuration list for PBXAggregateTarget "ApplicationInsightsOSX Documentation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1E8E66AE15BC3D7700632A2E /* Debug */,
@@ -1689,7 +1693,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1ED2617E1AEE576600C89442 /* Build configuration list for PBXNativeTarget "ApplicationInsights" */ = {
+		1ED2617E1AEE576600C89442 /* Build configuration list for PBXNativeTarget "ApplicationInsightsOSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1ED261781AEE576600C89442 /* Debug */,
@@ -1699,7 +1703,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1ED2617F1AEE576600C89442 /* Build configuration list for PBXNativeTarget "ApplicationInsightsTests" */ = {
+		1ED2617F1AEE576600C89442 /* Build configuration list for PBXNativeTarget "ApplicationInsightsOSXTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1ED2617B1AEE576600C89442 /* Debug */,

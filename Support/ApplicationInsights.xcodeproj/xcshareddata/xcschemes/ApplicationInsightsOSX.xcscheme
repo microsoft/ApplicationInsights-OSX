@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1ED261641AEE576500C89442"
-               BuildableName = "ApplicationInsights.framework"
-               BlueprintName = "ApplicationInsights"
+               BuildableName = "ApplicationInsightsOSX.framework"
+               BlueprintName = "ApplicationInsightsOSX"
                ReferencedContainer = "container:ApplicationInsights.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1ED2616E1AEE576500C89442"
-               BuildableName = "ApplicationInsightsTests.xctest"
-               BlueprintName = "ApplicationInsightsTests"
+               BuildableName = "ApplicationInsightsOSXTests.xctest"
+               BlueprintName = "ApplicationInsightsOSXTests"
                ReferencedContainer = "container:ApplicationInsights.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -51,8 +51,8 @@
                   <BuildableReference
                      BuildableIdentifier = "primary"
                      BlueprintIdentifier = "1ED261641AEE576500C89442"
-                     BuildableName = "ApplicationInsights.framework"
-                     BlueprintName = "ApplicationInsights"
+                     BuildableName = "ApplicationInsightsOSX.framework"
+                     BlueprintName = "ApplicationInsightsOSX"
                      ReferencedContainer = "container:ApplicationInsights.xcodeproj">
                   </BuildableReference>
                </EnvironmentBuildable>
@@ -65,8 +65,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1ED2616E1AEE576500C89442"
-               BuildableName = "ApplicationInsightsTests.xctest"
-               BlueprintName = "ApplicationInsightsTests"
+               BuildableName = "ApplicationInsightsOSXTests.xctest"
+               BlueprintName = "ApplicationInsightsOSXTests"
                ReferencedContainer = "container:ApplicationInsights.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -75,8 +75,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1ED261641AEE576500C89442"
-            BuildableName = "ApplicationInsights.framework"
-            BlueprintName = "ApplicationInsights"
+            BuildableName = "ApplicationInsightsOSX.framework"
+            BlueprintName = "ApplicationInsightsOSX"
             ReferencedContainer = "container:ApplicationInsights.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -94,8 +94,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1ED261641AEE576500C89442"
-            BuildableName = "ApplicationInsights.framework"
-            BlueprintName = "ApplicationInsights"
+            BuildableName = "ApplicationInsightsOSX.framework"
+            BlueprintName = "ApplicationInsightsOSX"
             ReferencedContainer = "container:ApplicationInsights.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -112,8 +112,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1ED261641AEE576500C89442"
-            BuildableName = "ApplicationInsights.framework"
-            BlueprintName = "ApplicationInsights"
+            BuildableName = "ApplicationInsightsOSX.framework"
+            BlueprintName = "ApplicationInsightsOSX"
             ReferencedContainer = "container:ApplicationInsights.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

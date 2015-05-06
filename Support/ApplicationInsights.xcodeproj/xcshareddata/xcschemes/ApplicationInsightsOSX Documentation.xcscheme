@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1E4F61E91621AD970033EFC5"
-               BuildableName = "ApplicationInsights Distribution"
-               BlueprintName = "ApplicationInsights Distribution"
+               BlueprintIdentifier = "1E8E66AD15BC3D7700632A2E"
+               BuildableName = "ApplicationInsightsOSX Documentation"
+               BlueprintName = "ApplicationInsightsOSX Documentation"
                ReferencedContainer = "container:ApplicationInsights.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1E4F61E91621AD970033EFC5"
-            BuildableName = "ApplicationInsights Distribution"
-            BlueprintName = "ApplicationInsights Distribution"
+            BlueprintIdentifier = "1E8E66AD15BC3D7700632A2E"
+            BuildableName = "ApplicationInsightsOSX Documentation"
+            BlueprintName = "ApplicationInsightsOSX Documentation"
             ReferencedContainer = "container:ApplicationInsights.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
