@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Microsoft/ApplicationInsights-iOS.svg?branch=master)](https://travis-ci.org/Microsoft/ApplicationInsights-iOS)
+[![Build Status](https://travis-ci.org/Microsoft/ApplicationInsights-OSX.svg?branch=master)](https://travis-ci.org/Microsoft/ApplicationInsights-OSX)
 
 # Application Insights for Mac (1.0-alpha.1)
 
@@ -70,7 +70,7 @@ From our experience, 3rd-party libraries usually reside inside a subdirectory (l
 2. Add the following line at the top of the file below your own #import statements:
 
 	```objectivec
-	#import <ApplicationInsights/ApplicationInsights.h>
+	#import <ApplicationInsightsOSX/ApplicationInsights.h>
 	```
 3. Search for the method `application:didFinishLaunchingWithOptions:`
 4. Add the following lines to setup and start the Application Insights SDK:
@@ -96,7 +96,7 @@ From our experience, 3rd-party libraries usually reside inside a subdirectory (l
 2. Add the following line at the top of the file below your own #import statements:
 	
 	```swift	
-	#import ApplicationInsights
+	#import ApplicationInsightsOSX
 	```
 3. Search for the method 
 	
