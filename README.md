@@ -127,9 +127,9 @@ From our experience, 3rd-party libraries usually reside inside a subdirectory (l
 It is also possible to set the instrumentation key of your app in code. This will override the one you might have set in your `info.plist`. Do set it in code, MSAIApplicationInsights provides an overloaded constructor:
 
 ```objectivec
-  [MSAIApplicationInsights setupWithInstrumentationKey:@"{YOUR-INSTRUMENTATION-KEY}"];
+[MSAIApplicationInsights setupWithInstrumentationKey:@"{YOUR-INSTRUMENTATION-KEY}"];
  
-  //Do additional configuration
+//Do additional configuration
 
 MSAIApplicationInsights start];
 ```
