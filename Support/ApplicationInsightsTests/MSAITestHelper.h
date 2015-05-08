@@ -1,5 +1,6 @@
-NS_ASSUME_NONNULL_BEGIN
+#import "ApplicationInsights.h"
 
+NS_ASSUME_NONNULL_BEGIN
 extern NSString *const kMSAIDummyInstrumentationKey;
 
 @interface MSAITestHelper : NSObject

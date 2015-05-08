@@ -30,7 +30,10 @@ static id mockCenter;
 
 - (void)setMockNotificationCenter:(id)mockNotificationCenter {
   mockCenter = OCMClassMock([NSNotificationCenter class]);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wstrict-selector-match"
   OCMStub([mockCenter defaultCenter]).andReturn(mockNotificationCenter);
+#pragma clang diagnostic pop
   testNotificationCenter = mockNotificationCenter;
 }
 

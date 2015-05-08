@@ -64,8 +64,10 @@
 - (void)testSetCurrentUserId {
   NSString *testId = @"testId2";
   
-  
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wstrict-selector-match"
   OCMExpect([self.mockNotificationCenter postNotificationName:MSAIUserIdChangedNotification object:self.sut userInfo:@{kMSAIUserInfoUserId: testId}]);
+#pragma clang diagnostic pop
   
   [self.sut setCurrentUserId:testId];
   NSString *userId = [self.sut userForDate:[NSDate date]].userId;
