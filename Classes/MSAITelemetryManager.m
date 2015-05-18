@@ -71,7 +71,7 @@ static char *const MSAITelemetryEventQueue = "com.microsoft.ApplicationInsights.
   __weak typeof(self) weakSelf = self;
   
   if (!_appDidEnterBackgroundObserver) {
-    _appDidEnterBackgroundObserver = [center addObserverForName:UIApplicationDidEnterBackgroundNotification
+    _appDidEnterBackgroundObserver = [center addObserverForName:NSApplicationDidResignActiveNotification
                                                          object:nil
                                                           queue:NSOperationQueue.mainQueue
                                                      usingBlock:^(NSNotification *notification) {
@@ -80,7 +80,7 @@ static char *const MSAITelemetryEventQueue = "com.microsoft.ApplicationInsights.
   }
   
   if (!_appWillResignActiveObserver) {
-    _appWillResignActiveObserver = [center addObserverForName:UIApplicationWillResignActiveNotification
+    _appWillResignActiveObserver = [center addObserverForName:NSApplicationWillResignActiveNotification
                                                          object:nil
                                                           queue:NSOperationQueue.mainQueue
                                                      usingBlock:^(NSNotification *notification) {
