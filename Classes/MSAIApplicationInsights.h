@@ -3,6 +3,9 @@
 #import "ApplicationInsights.h"
 
 NS_ASSUME_NONNULL_BEGIN
+/**
+ This is the main class to setup, configure and start the Application Insights SDK.
+ */
 @interface MSAIApplicationInsights : NSObject
 
 ///-----------------------------------------------------------------------------
@@ -187,17 +190,17 @@ NS_ASSUME_NONNULL_BEGIN
  *  Set the time which the app has to have been in the background for before a new session is started.
  *  This time is only used when automatic session management is not disabled.
  *
- *  @param sessionBackgroundExpirationTime The time in seconds the app has to be in the background before a new session is started.
+ *  @param appBackgroundTimeBeforeSessionExpires The time in seconds the app has to be in the background before a new session is started.
  */
-+ (void)setSessionBackgroundExpirationTime:(NSUInteger)sessionBackgroundExpirationTime;
++ (void)setAppBackgroundTimeBeforeSessionExpires:(NSUInteger)appBackgroundTimeBeforeSessionExpires;
 
 /**
  *  Set the time which the app has to have been in the background for before a new session is started.
  *  This time is only used when automatic session management is not disabled.
  *
- *  @param sessionBackgroundExpirationTime The time in seconds the app has to be in the background before a new session is started.
+ *  @param appBackgroundTimeBeforeSessionExpires The time in seconds the app has to be in the background before a new session is started.
  */
-- (void)setSessionBackgroundExpirationTime:(NSUInteger)sessionBackgroundExpirationTime;
+- (void)setAppBackgroundTimeBeforeSessionExpires:(NSUInteger)appBackgroundTimeBeforeSessionExpires;
 
 /**
  *  This starts a new session with the given session ID. 
@@ -205,7 +208,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param sessionId The session ID which should be attached to all future telemetry and crash events.
  *
  *  @warning Using this method automatically disables automatic session management!
- *  @see autosessionManagementDisabled
+ *  @see autoSessionManagementDisabled
  */
 + (void)renewSessionWithId:(NSString *)sessionId;
 
@@ -215,7 +218,7 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param sessionId The session ID which should be attached to all future telemetry and crash events.
  *
  *  @warning Using this method automatically disables automatic session management!
- *  @see autosessionManagementDisabled
+ *  @see autoSessionManagementDisabled
  */
 - (void)renewSessionWithId:(NSString *)sessionId;
 
@@ -245,30 +248,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @warning This property needs to be set before calling `startManager`
  */
 @property (nonatomic, assign, getter=isDebugLogEnabled) BOOL debugLogEnabled;
-
-///-----------------------------------------------------------------------------
-/// @name Testing integration
-///-----------------------------------------------------------------------------
-
-/**
- * Pings the server with the Application Insights app identifiers used for initialization.
- * Call this method once for debugging purposes to test if your SDK setup code
- * reaches the server successfully.
- * Once invoked, check the apps page on Application Insights for a verification.
- * If you setup the SDK with a beta and live identifier, a call to both app IDs will be done.
- * This call is ignored if the app is running in the App Store!.
- */
-+ (void)testIdentifier;
-
-/**
- * Pings the server with the Application Insights app identifiers used for initialization.
- * Call this method once for debugging purposes to test if your SDK setup code
- * reaches the server successfully.
- * Once invoked, check the apps page on Application Insights for a verification.
- * If you setup the SDK with a beta and live identifier, a call to both app IDs will be done.
- * This call is ignored if the app is running in the App Store!.
- */
-- (void)testIdentifier;
 
 ///-----------------------------------------------------------------------------
 /// @name Getting SDK meta data
