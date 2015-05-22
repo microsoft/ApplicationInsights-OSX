@@ -42,12 +42,17 @@
 }
 
 - (void)testThatMSAIKeychainHelperStoresAndRetrievesPasswordThisDeviceOnly {
+  // kSecAttrAccessibleAlwaysThisDeviceOnly is only available in 10.9 or later
+  CFTypeRef accessibility = 0;
+  if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_9) {
+    accessibility = kSecAttrAccessibleAlwaysThisDeviceOnly;
+  }
   [MSAIKeychainUtils deleteItemForUsername:@"Peter" andServiceName:@"Test" error:nil];
   BOOL success =   [MSAIKeychainUtils storeUsername:@"Peter"
                                         andPassword:@"PanThisDeviceOnly"
                                      forServiceName:@"Test"
                                      updateExisting:YES
-                                      accessibility:kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+                                      accessibility:accessibility
                                               error:nil];
   assertThatBool(success, isTrue());
   NSString *pass = [MSAIKeychainUtils getPasswordForUsername:@"Peter"

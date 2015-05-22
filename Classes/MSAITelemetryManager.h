@@ -1,4 +1,5 @@
 #import "ApplicationInsightsFeatureConfig.h"
+#import "ApplicationInsights.h"
 
 NS_ASSUME_NONNULL_BEGIN
 /**

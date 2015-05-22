@@ -123,7 +123,12 @@ static NSString *MSAIKeychainUtilsErrorDomain = @"MSAIKeychainUtilsErrorDomain";
 }
 
 + (BOOL) storeUsername: (NSString *) username andPassword: (NSString *) password forServiceName: (NSString *) serviceName updateExisting: (BOOL) updateExisting error: (NSError **) error {
-  return [self storeUsername:username andPassword:password forServiceName:serviceName updateExisting:updateExisting accessibility:kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly error:error];
+  // kSecAttrAccessibleAlwaysThisDeviceOnly is only available in 10.9 or later
+  CFTypeRef accessibility = 0;
+  if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_9) {
+    accessibility = kSecAttrAccessibleAlwaysThisDeviceOnly;
+  }
+  return [self storeUsername:username andPassword:password forServiceName:serviceName updateExisting:updateExisting accessibility:accessibility error:error];
 }
 
 + (BOOL) storeUsername: (NSString *) username andPassword: (NSString *) password forServiceName: (NSString *) serviceName updateExisting: (BOOL) updateExisting accessibility:(CFTypeRef) accessiblity error: (NSError **) error
@@ -184,46 +189,80 @@ static NSString *MSAIKeychainUtilsErrorDomain = @"MSAIKeychainUtilsErrorDomain";
     {
 			//Only update if we're allowed to update existing.  If not, simply do nothing.
 			
-			NSArray *keys = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClass,
-                       kSecAttrService,
-                       kSecAttrLabel,
-                       kSecAttrAccount,
-                       kSecAttrAccessible,
-                       nil];
-			
-			NSArray *objects = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClassGenericPassword,
-                          serviceName,
-                          serviceName,
-                          username,
-                          accessiblity,
-                          nil];
-			
+      NSArray *keys = nil;
+      NSArray *objects = nil;
+      // kSecAttrAccessible is only available in 10.9 or later
+      if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_9) {
+        keys = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClass,
+                kSecAttrService,
+                kSecAttrLabel,
+                kSecAttrAccount,
+                kSecAttrAccessible,
+                nil];
+        objects = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClassGenericPassword,
+                   serviceName,
+                   serviceName,
+                   username,
+                   accessiblity,
+                   nil];
+      } else {
+        keys = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClass,
+                kSecAttrService,
+                kSecAttrLabel,
+                kSecAttrAccount,
+                nil];
+        
+        objects = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClassGenericPassword,
+                   serviceName,
+                   serviceName,
+                   username,
+                   nil];
+      }
+      
       NSDictionary *query = @{keys : objects};
 			
       status = SecItemUpdate((__bridge CFDictionaryRef) query, (__bridge CFDictionaryRef) @{(__bridge_transfer NSString *) kSecValueData : [password dataUsingEncoding:NSUTF8StringEncoding]});
 		}
 	}
 	else
-  {
+	{
 		// No existing entry (or an existing, improperly entered, and therefore now
 		// deleted, entry).  Create a new entry.
 		
-		NSArray *keys = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClass,
-                     kSecAttrService,
-                     kSecAttrLabel,
-                     kSecAttrAccount,
-                     kSecValueData,
-                     kSecAttrAccessible,
-                     nil];
+    NSArray *keys = nil;
+    NSArray *objects = nil;
+    // kSecAttrAccessible is only available in 10.9 or later
+    if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_9) {
+      keys = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClass,
+              kSecAttrService,
+              kSecAttrLabel,
+              kSecAttrAccount,
+              kSecValueData,
+              kSecAttrAccessible,
+              nil];
 		
-		NSArray *objects = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClassGenericPassword,
-                        serviceName,
-                        serviceName,
-                        username,
-                        [password dataUsingEncoding: NSUTF8StringEncoding],
-                        accessiblity,
-                        nil];
-		
+      objects = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClassGenericPassword,
+                 serviceName,
+                 serviceName,
+                 username,
+                 [password dataUsingEncoding: NSUTF8StringEncoding],
+                 accessiblity,
+                 nil];
+    } else {
+      keys = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClass,
+              kSecAttrService,
+              kSecAttrLabel,
+              kSecAttrAccount,
+              kSecValueData,
+              nil];
+      
+      objects = [[NSArray alloc] initWithObjects: (__bridge_transfer NSString *) kSecClassGenericPassword,
+                 serviceName,
+                 serviceName,
+                 username,
+                 [password dataUsingEncoding: NSUTF8StringEncoding],
+                 nil];
+    }
     NSDictionary *query = [[NSDictionary alloc] initWithObjects: objects forKeys: keys];
     
 		status = SecItemAdd((__bridge CFDictionaryRef) query, NULL);

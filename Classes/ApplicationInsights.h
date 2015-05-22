@@ -14,6 +14,13 @@
 #define __null_unspecified
 #endif
 
+#ifndef NS_ASSUME_NONNULL_BEGIN
+  #define NS_ASSUME_NONNULL_BEGIN _Pragma("clang assume_nonnull begin")
+#endif
+#ifndef NS_ASSUME_NONNULL_END
+  #define NS_ASSUME_NONNULL_END _Pragma("clang assume_nonnull end")
+#endif
+
 #import <Cocoa/Cocoa.h>
 
 //! Project version number for ApplicationInsights.
@@ -24,6 +31,7 @@ FOUNDATION_EXPORT const unsigned char ApplicationInsightsVersionString[];
 
 #import "ApplicationInsightsFeatureConfig.h"
 #import "MSAIApplicationInsights.h"
+#import "MSAICategoryContainer.h"
 
 #if MSAI_FEATURE_CRASH_REPORTER
 #import "MSAICrashManager.h"
@@ -33,7 +41,6 @@ FOUNDATION_EXPORT const unsigned char ApplicationInsightsVersionString[];
 #endif /* MSAI_FEATURE_CRASH_REPORTER */
 
 #if MSAI_FEATURE_TELEMETRY
-#import "MSAICategoryContainer.h"
 #import "MSAITelemetryManager.h"
 #endif /* MSAI_FEATURE_TELEMETRY */
 
