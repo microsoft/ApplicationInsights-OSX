@@ -266,11 +266,17 @@ NSString *msai_appAnonID(void) {
         // add to keychain in a background thread, since we got reports that storing to the keychain may take several seconds sometimes and cause the app to be killed
         // and we don't care about the result anyway
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+          // kSecAttrAccessibleAlwaysThisDeviceOnly is only available in 10.9 or later
+          CFTypeRef accessibility = 0;
+          if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_9) {
+            accessibility = kSecAttrAccessibleAlwaysThisDeviceOnly;
+          }
+          
           [MSAIKeychainUtils storeUsername:appAnonIDKey
                                andPassword:appAnonID
                             forServiceName:msai_keychainMSAIServiceName()
                             updateExisting:YES
-                             accessibility:kSecAttrAccessibleAlwaysThisDeviceOnly
+                             accessibility:accessibility
                                      error:&error];
         });
       }
