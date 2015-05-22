@@ -5,6 +5,8 @@
 #import "MSAIHelper.h"
 #import "MSAICrashManagerPrivate.h"
 
+#if MSAI_FEATURE_CRASH_REPORTER
+
 @implementation MSAICrashExceptionApplication
 
 /*
@@ -42,3 +44,5 @@
 }
 
 @end
+
+#endif

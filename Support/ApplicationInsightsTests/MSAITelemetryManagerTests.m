@@ -13,6 +13,8 @@
 #import "MSAITestsDependencyInjection.h"
 #import "MSAIContextHelperPrivate.h"
 
+#if MSAI_FEATURE_TELEMETRY
+
 @interface MSAITelemetryManagerTests : MSAITestsDependencyInjection
 
 @property (strong) MSAITelemetryManager *sut;
@@ -77,3 +79,5 @@
 }
 
 @end
+
+#endif
