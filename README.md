@@ -99,11 +99,13 @@ From our experience, 3rd-party libraries usually reside inside a subdirectory (l
 	```swift
 	#import ApplicationInsightsOSX
 	```
+
 3. Search for the method 
     
 	```swift
 	application(application: UIApplication, didFinishLaunchingWithOptions launchOptions:[NSObject: AnyObject]?) -> Bool`
 	```
+
 4. Add the following lines to setup and start the Application Insights SDK:
     
 	```swift
@@ -125,7 +127,7 @@ MSAIApplicationInsights.start();
 
 ### 4.1 Set Instrumentation Key in Code
 
-It is also possible to set the instrumentation key of your app in code. This will override the one you might have set in your `info.plist`. Do set it in code, MSAIApplicationInsights provides an overloaded constructor:
+It is also possible to set the instrumentation key of your app in code. This will override the one you might have set in your `Info.plist`. To set it in code, MSAIApplicationInsights provides an overloaded constructor:
 
 ```objectivec
 [MSAIApplicationInsights setupWithInstrumentationKey:@"{YOUR-INSTRUMENTATIONKEY}"];
@@ -195,7 +197,6 @@ That's why Application Insights keeps log messages to a minimum (like critical e
 
 [MSAIApplicationInsights start]; //start using the SDK
 ```
-
 
 <a id="basicusage"></a>
 ## 6. Basic Usage
@@ -371,7 +372,6 @@ You can also configure a different server endpoint for the SDK if needed using a
 ## 10. Documentation
 
 Our documentation can be found on [CocoaDocs](http://cocoadocs.org/docsets/ApplicationInsights-OSX/1.0-alpha.1/).
-
 
 <a id="contributing"></a>
 ## 11. Contributing
