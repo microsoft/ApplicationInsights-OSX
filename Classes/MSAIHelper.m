@@ -152,11 +152,13 @@ NSString *msai_osVersionBuild(void) {
   free(result);
   
   NSString* osVersion = nil;
-
+  
+#if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
   if ([[NSProcessInfo processInfo] respondsToSelector:@selector(operatingSystemVersion)]) {
     NSOperatingSystemVersion osSystemVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
     osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)osSystemVersion.majorVersion, (long)osSystemVersion.minorVersion, (long)osSystemVersion.patchVersion];
   } else {
+#endif
     SInt32 major, minor, bugfix;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated"
@@ -166,7 +168,9 @@ NSString *msai_osVersionBuild(void) {
     if ((!err1) && (!err2) && (!err3)) {
       osVersion = [NSString stringWithFormat:@"%ld.%ld.%ld", (long)major, (long)minor, (long)bugfix];
     }
+#if __MAC_OS_X_VERSION_MAX_ALLOWED > 1090
   }
+#endif
   
   return [NSString stringWithFormat:@"%@ (%@)", osVersion, osBuild];
 }
@@ -262,11 +266,17 @@ NSString *msai_appAnonID(void) {
         // add to keychain in a background thread, since we got reports that storing to the keychain may take several seconds sometimes and cause the app to be killed
         // and we don't care about the result anyway
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+          // kSecAttrAccessibleAlwaysThisDeviceOnly is only available in 10.9 or later
+          CFTypeRef accessibility = 0;
+          if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_9) {
+            accessibility = kSecAttrAccessibleAlwaysThisDeviceOnly;
+          }
+          
           [MSAIKeychainUtils storeUsername:appAnonIDKey
                                andPassword:appAnonID
                             forServiceName:msai_keychainMSAIServiceName()
                             updateExisting:YES
-                             accessibility:kSecAttrAccessibleAlwaysThisDeviceOnly
+                             accessibility:accessibility
                                      error:&error];
         });
       }

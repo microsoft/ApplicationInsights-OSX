@@ -352,12 +352,13 @@ void msai_save_events_callback(siginfo_t *info, ucontext_t *uap, void *context) 
       }
     }
   }
-
+#if __MAC_OS_X_VERSION_MIN_REQUIRED > 1090
   if(!msai_isRunningInAppExtension() &&
       [NSApplication sharedApplication].active == NO) {
       [[MSAIPersistence sharedInstance] deleteCrashReporterLockFile];//TODO only do this when persisting was successful?
     return;
   }
+#endif
 
   // check again if another exception handler was added with a short delay
   [self performSelector:@selector(checkForOtherExceptionHandlersAfterSetup) withObject:nil afterDelay:0.5f];
