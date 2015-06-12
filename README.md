@@ -14,14 +14,16 @@ The SDK runs on devices with OS X 10.8 or higher.
 4. [Advanced Setup](#advancedsetup)
 5. [Developer Mode](#developermode)
 6. [Basic Usage](#basicusage)
-7. [Automatic collection of lifecycle events](#autolifecycle)
-8. [Crash Reporting](#crashreporting)
-9. [Set Custom Server Endpoint](#additionalconfig)
-10. [Documentation](#documentation)
-11. [Contributing](#contributing)
-12. [Contact](#contact)
+7. [Advanced Usage](#advancedusage)
+8. [Automatic collection of lifecycle events](#autolifecycle)
+9. [Crash Reporting](#crashreporting)
+10. [Set Custom Server Endpoint](#additionalconfig)
+11. [Documentation](#documentation)
+12. [Contributing](#contributing)
+13. [Contact](#contact)
 
-## <a name="releasenotes"></a>1. Release Notes
+<a name="releasenotes"></a>
+## 1. Release Notes
 
 * This is the second pre-release
 * It provides support for collecting telemetry and crash reports
@@ -30,11 +32,13 @@ The SDK runs on devices with OS X 10.8 or higher.
 * Fixes various typos and other minor improvements
 * Based on the iOS SDK Version 1.0-Beta.3
 
-##<a id="requirements"></a> 2. Requirements
+<a id="requirements"></a>
+## 2. Requirements
 
 The SDK runs on devices with OS X 10.8 or higher.
 
-##<a name="setup"></a> 3. Setup
+<a name="setup"></a>
+## 3. Setup
 
 We recommend integration of our binary into your Xcode project to setup Application Insights for your OS X app. For other ways to setup the SDK, see [Advanced Setup](#advancedsetup).
 
@@ -42,7 +46,8 @@ We recommend integration of our binary into your Xcode project to setup Applicat
 
 Please see the "[Getting an Application Insights Instrumentation Key](https://github.com/Microsoft/ApplicationInsights-Home/wiki#getting-an-application-insights-instrumentation-key)" section of the wiki for more information on acquiring a key.
 
-### <a id="downloadsdk"></a> 3.2 Download the SDK
+<a id="downloadsdk"></a>
+### 3.2 Download the SDK
 
 1. Download the latest [Application Insights for iOS](https://github.com/Microsoft/AppInsights-OSX/releases) framework which is provided as a zip-File.
 2. Unzip the file and you will see a folder called `ApplicationInsights` .
@@ -51,7 +56,8 @@ Please see the "[Getting an Application Insights Instrumentation Key](https://gi
 
 From our experience, 3rd-party libraries usually reside inside a subdirectory (let's call our subdirectory `Vendor`), so if you don't have your project organized with a subdirectory for libraries, now would be a great start for it. To continue our example,  create a folder called "Vendor" inside your project directory and move the unzipped `ApplicationInsights`-folder into it. 
 
-### <a id="setupxcode"></a> 3.4 Set up the SDK in Xcode
+<a id="setupxcode"></a>
+### 3.4 Set up the SDK in Xcode
 
 1. We recommend to use Xcode's group-feature to create a group for 3rd-party-libraries similar to the structure of our files on disk. For example,  similar to the file structure in 3.1 above, our projects have a group called `Vendor`.
 2. Make sure the `Project Navigator` is visible (⌘+1)
@@ -126,7 +132,8 @@ You can also use the following shortcuts:
 **Congratulation, now you're all set to use Application Insights! See [Basic Usage](#basicusage) on how to use Application Insights.**
 
 
-##<a id="advancedsetup"></a> 4. Advanced Setup
+<a id="advancedsetup"></a>
+## 4. Advanced Setup
 
 ### 4.1 Set Instrumentation Key in Code
 
@@ -256,12 +263,33 @@ MSAITelemetryManager.trackPageView("MyViewController",
 MSAITelemetryManager.trackMetricWithName("Test metric", value:42.2)
 ```
 
+<a name="advancedusage"></a>
+## 7. Advanced Usage
+
+The SDK also allows for some more advanced usages.
+
+### 7.1 Common Properties	
+
+It is also possible to set so-called "common properties" that will then be automatically attached to all telemetry data items.
+
+#### Objective-C
+
+```objectivec
+[MSAITelemetryManager setCommonProperties:@{@"data origin":}];
+```
+
+#### Swift
+
+```swift
+MSAITelemetryManager.setCommonProperties(["":""])
+```
+
 <a name="autolifecycle"></a>
-## 7. Automatic collection of lifecycle events
+## 8. Automatic collection of lifecycle events
 
 Automatic collection of lifecycle events is **enabled by default**. This means that Application Insights automatically manages sessions for you.
 
-### 7.1. Sessions
+### 8.1. Sessions
 
 By default, the Application Insights for OS X SDK starts a new session when the containing app is restarted (this means a 'cold start', i.e. when the app has not already been in memory prior to being launched) or when it has been in the background for more then 20 seconds.
 
@@ -280,7 +308,7 @@ This then requires you to manage sessions manually:
 [MSAIApplicationInsights renewSessionWithId:@"4815162342"];
 ```
 
-### 7.2. Users
+### 8.2. Users
 
 Normally, a random anonymous ID is automatically generated for every user of your app by the SDK. Alternatively you can set your own user ID which will then be attached to all telemetry events and crashes:
 ```objectivec
@@ -288,7 +316,7 @@ Normally, a random anonymous ID is automatically generated for every user of you
 ```
 
 <a name="crashreporting"></a>
-## 8. Crash Reporting
+## 9. Crash Reporting
 
 The Application Insights SDK enables crash reporting **per default**. Crashes will be immediately sent to the server the next time the app is launched.
 To provide you with the best crash reporting, we are using [PLCrashReporter]("https://github.com/plausiblelabs/plcrashreporter") in [Version 1.2 / Commit 273a7e7cd4b77485a584ac82e77b7c857558e2f9]("https://github.com/plausiblelabs/plcrashreporter/commit/273a7e7cd4b77485a584ac82e77b7c857558e2f9").
@@ -358,7 +386,7 @@ Alternatively, if you have your own NSApplication subclass, change it to be a su
 
 
 <a name="additionalconfig"></a>
-## 9. Set Custom Server Endpoint
+## 10. Set Custom Server Endpoint
 
 You can also configure a different server endpoint for the SDK if needed using a full URL
 
@@ -372,12 +400,12 @@ You can also configure a different server endpoint for the SDK if needed using a
 
 
 <a id="documentation"></a>
-## 10. Documentation
+## 11. Documentation
 
 Our documentation can be found on [CocoaDocs](http://cocoadocs.org/docsets/ApplicationInsights-OSX/1.0-alpha.2/).
 
 <a id="contributing"></a>
-## 11. Contributing
+## 12. Contributing
 
 We're looking forward to your contributions via pull requests.
 
@@ -389,6 +417,6 @@ We're looking forward to your contributions via pull requests.
 * [Cocoapods](https://cocoapods.org/)
 
 <a id="contact"></a>
-## 12. Contact
+## 13. Contact
 
 If you have further questions or are running into trouble that cannot be resolved by any of the steps here, feel free to contact us at [AppInsights-iOS@microsoft.com](mailto:AppInsights-ios@microsoft.com)
