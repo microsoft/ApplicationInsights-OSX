@@ -32,7 +32,6 @@ FOUNDATION_EXPORT const unsigned char ApplicationInsightsVersionString[];
 
 #import "ApplicationInsightsFeatureConfig.h"
 #import "MSAIApplicationInsights.h"
-#import "MSAICategoryContainer.h"
 
 #if MSAI_FEATURE_CRASH_REPORTER
 #import "MSAICrashManager.h"
