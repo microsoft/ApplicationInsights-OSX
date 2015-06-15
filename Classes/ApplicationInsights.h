@@ -1,5 +1,3 @@
-#ifndef MSAI_h
-#define MSAI_h
 
 // Define nullability fallback for backwards compatibility
 #if !__has_feature(nullability)
@@ -88,5 +86,3 @@ extern NSString *const __unused kMSAIErrorDomain;
 NS_ASSUME_NONNULL_END
 
 #endif /* MSAI_FEATURE_CRASH_REPORTER */
-
-#endif /* MSAI_h */

@@ -85,6 +85,9 @@
 		1EB754F71AFA6DB200A7FED4 /* MSAIContextHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB754F41AFA6DB200A7FED4 /* MSAIContextHelper.m */; };
 		1EB754F81AFA6DB200A7FED4 /* MSAIContextHelperPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB754F51AFA6DB200A7FED4 /* MSAIContextHelperPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		1EB754FB1AFA6E1000A7FED4 /* MSAIContextHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB754F91AFA6DD700A7FED4 /* MSAIContextHelperTests.m */; };
+		1EC295611B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EC2955F1B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.h */; };
+		1EC295621B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1EC295601B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.mm */; };
+		1EC295641B304FF300CD53B2 /* MSAINullability.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EC295631B304FF300CD53B2 /* MSAINullability.h */; };
 		1ED261701AEE576600C89442 /* ApplicationInsightsOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED261651AEE576500C89442 /* ApplicationInsightsOSX.framework */; };
 		1ED261801AEE57F800C89442 /* MSAIApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 807CFD731A712974004EA1B6 /* MSAIApplication.m */; };
 		1ED261811AEE57FC00C89442 /* MSAIBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 807CFD751A712974004EA1B6 /* MSAIBase.m */; };
@@ -295,7 +298,6 @@
 		1BBBCF311A6594AE00253031 /* MSAITelemetryContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAITelemetryContext.m; sourceTree = "<group>"; };
 		1BC859691A7ACA820018FB6B /* MSAICategoryContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAICategoryContainer.h; sourceTree = "<group>"; };
 		1BC8596A1A7ACA820018FB6B /* MSAICategoryContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAICategoryContainer.m; sourceTree = "<group>"; };
-		1BC8596D1A7ACC040018FB6B /* MSAIPageViewLogging_UIViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAIPageViewLogging_UIViewController.h; sourceTree = "<group>"; };
 		1BE129921A725797004D2AEE /* MSAITelemetryContextPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MSAITelemetryContextPrivate.h; sourceTree = "<group>"; };
 		1BE29B461A6FB8C20014A10F /* MSAISender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAISender.h; sourceTree = "<group>"; };
 		1BE29B471A6FB8C20014A10F /* MSAISender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAISender.m; sourceTree = "<group>"; };
@@ -362,6 +364,9 @@
 		1EB754F41AFA6DB200A7FED4 /* MSAIContextHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIContextHelper.m; sourceTree = "<group>"; };
 		1EB754F51AFA6DB200A7FED4 /* MSAIContextHelperPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIContextHelperPrivate.h; sourceTree = "<group>"; };
 		1EB754F91AFA6DD700A7FED4 /* MSAIContextHelperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIContextHelperTests.m; sourceTree = "<group>"; };
+		1EC2955F1B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAICrashCXXExceptionHandler.h; sourceTree = "<group>"; };
+		1EC295601B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MSAICrashCXXExceptionHandler.mm; sourceTree = "<group>"; };
+		1EC295631B304FF300CD53B2 /* MSAINullability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAINullability.h; sourceTree = "<group>"; };
 		1ECA8F4B192B5BD8006B9416 /* MSAICrashDetailsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAICrashDetailsPrivate.h; sourceTree = "<group>"; };
 		1ED261651AEE576500C89442 /* ApplicationInsightsOSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ApplicationInsightsOSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ED261681AEE576500C89442 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -730,13 +735,13 @@
 				80B69EEB1ADDC09900C47B0A /* MSAIGZIP.h */,
 				1E49A4A5161222B900463151 /* MSAIHelper.h */,
 				1E49A4A6161222B900463151 /* MSAIHelper.m */,
+				1EC295631B304FF300CD53B2 /* MSAINullability.h */,
 				1E0FEE26173BDB260061331F /* MSAIKeychainUtils.h */,
 				1E0FEE27173BDB260061331F /* MSAIKeychainUtils.m */,
 				807CFD661A71294E004EA1B6 /* MSAIOrderedDictionary.h */,
 				807CFD671A71294E004EA1B6 /* MSAIOrderedDictionary.m */,
 				1BC859691A7ACA820018FB6B /* MSAICategoryContainer.h */,
 				1BC8596A1A7ACA820018FB6B /* MSAICategoryContainer.m */,
-				1BC8596D1A7ACC040018FB6B /* MSAIPageViewLogging_UIViewController.h */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -755,6 +760,8 @@
 				1E754E5B1621FBB70070AB92 /* MSAICrashDataProvider.m */,
 				1E0AC5611AEFD6D2007B4796 /* MSAICrashExceptionApplication.h */,
 				1E0AC5621AEFD6D2007B4796 /* MSAICrashExceptionApplication.m */,
+				1EC2955F1B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.h */,
+				1EC295601B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.mm */,
 			);
 			name = CrashReports;
 			sourceTree = "<group>";
@@ -907,6 +914,7 @@
 				1E0AC5801AF216F7007B4796 /* PLCrashFeatureConfig.h in Headers */,
 				1E0AC5911AF216F7007B4796 /* PLCrashReportSymbolInfo.h in Headers */,
 				1ED261E11AEE58D600C89442 /* MSAITelemetryContext.h in Headers */,
+				1EC295611B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.h in Headers */,
 				1ED261F61AEE596700C89442 /* MSAICrashDataBinary.h in Headers */,
 				1ED261DF1AEE58D600C89442 /* MSAIChannel.h in Headers */,
 				1E0AC5821AF216F7007B4796 /* PLCrashNamespace.h in Headers */,
@@ -926,6 +934,7 @@
 				1ED261F71AEE596700C89442 /* MSAICrashDataHeaders.h in Headers */,
 				1ED261FE1AEE596700C89442 /* MSAIDependencySourceType.h in Headers */,
 				1E0AC58D1AF216F7007B4796 /* PLCrashReportProcessorInfo.h in Headers */,
+				1EC295641B304FF300CD53B2 /* MSAINullability.h in Headers */,
 				1ED261D81AEE58A800C89442 /* MSAIApplicationInsightsPrivate.h in Headers */,
 				1EB754F81AFA6DB200A7FED4 /* MSAIContextHelperPrivate.h in Headers */,
 				1ED262141AEE596700C89442 /* MSAIStackFrame.h in Headers */,
@@ -1142,6 +1151,7 @@
 				1ED2618F1AEE581A00C89442 /* MSAIInternal.m in Sources */,
 				1ED2619E1AEE582700C89442 /* ApplicationInsightsPrivate.m in Sources */,
 				1ED261A01AEE582700C89442 /* MSAIHelper.m in Sources */,
+				1EC295621B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.mm in Sources */,
 				1ED261981AEE581A00C89442 /* MSAIRequestData.m in Sources */,
 				1ED261A51AEE582E00C89442 /* MSAITelemetryManager.m in Sources */,
 				1ED261881AEE581A00C89442 /* MSAIDataPoint.m in Sources */,
@@ -1268,6 +1278,8 @@
 			baseConfigurationReference = 1E66CA9115D4100500F35BED /* buildnumber.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1604,6 +1616,8 @@
 			baseConfigurationReference = 1E66CA9115D4100500F35BED /* buildnumber.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1642,6 +1656,8 @@
 			baseConfigurationReference = 1E66CA9115D4100500F35BED /* buildnumber.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				COPY_PHASE_STRIP = YES;
