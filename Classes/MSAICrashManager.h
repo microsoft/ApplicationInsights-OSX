@@ -2,7 +2,6 @@
 #import "ApplicationInsights.h"
 
 @class MSAICrashDetails;
-@class MSAIContext;
 
 NS_ASSUME_NONNULL_BEGIN
 /**

@@ -197,7 +197,7 @@
 		1ED261ED1AEE591800C89442 /* MSAIHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E49A4A5161222B900463151 /* MSAIHelper.h */; };
 		1ED261EE1AEE591800C89442 /* MSAIKeychainUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E0FEE26173BDB260061331F /* MSAIKeychainUtils.h */; };
 		1ED261EF1AEE591800C89442 /* MSAIOrderedDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 807CFD661A71294E004EA1B6 /* MSAIOrderedDictionary.h */; };
-		1ED261F21AEE592900C89442 /* MSAICategoryContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BC859691A7ACA820018FB6B /* MSAICategoryContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1ED261F21AEE592900C89442 /* MSAICategoryContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BC859691A7ACA820018FB6B /* MSAICategoryContainer.h */; };
 		1ED261F31AEE596700C89442 /* MSAIApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 807CFD721A712974004EA1B6 /* MSAIApplication.h */; };
 		1ED261F41AEE596700C89442 /* MSAIBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 807CFD741A712974004EA1B6 /* MSAIBase.h */; };
 		1ED261F51AEE596700C89442 /* MSAICrashData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B3C386C1A82213000700081 /* MSAICrashData.h */; };
