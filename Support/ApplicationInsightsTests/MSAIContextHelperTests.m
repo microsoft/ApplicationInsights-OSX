@@ -14,6 +14,7 @@
 #import "MSAIPersistence.h"
 #import "MSAIPersistencePrivate.h"
 #import "MSAITestsDependencyInjection.h"
+#import <AppKit/AppKit.h>
 
 @interface MSAIContextHelperTests : MSAITestsDependencyInjection
 
