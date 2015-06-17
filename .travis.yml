@@ -1,8 +1,9 @@
 language: objective-c
+
 before_install:
-- gem install xcpretty -N cocoapods
+  - gem install cocoapods --no-rdoc --no-ri --no-document --quiet
+  - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
+
 script:
 - set -o pipefail
-- cd Support
-- xcodebuild -project ApplicationInsights.xcodeproj -scheme "ApplicationInsightsOSX"
-  -configuration Release -destination "platform=OS X" test | xcpretty -c
+- xcodebuild -project Support/ApplicationInsights.xcodeproj -scheme ApplicationInsightsOSX -configuration Release -destination "platform=OS X" XCODEBUILD_GCC_PREPROCESSOR_DEFINITIONS="CI=1" test | xcpretty -c
