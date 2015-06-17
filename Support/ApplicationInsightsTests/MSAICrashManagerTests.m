@@ -7,8 +7,6 @@
 #define MOCKITO_SHORTHAND
 #import <OCMockito/OCMockito.h>
 
-#import "ApplicationInsights.h"
-#import "ApplicationInsightsPrivate.h"
 #import "MSAICrashManager.h"
 #import "MSAICrashManagerPrivate.h"
 #import "MSAIContextPrivate.h"

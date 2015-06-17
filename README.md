@@ -77,7 +77,7 @@ From our experience, 3rd-party libraries usually reside inside a subdirectory (l
 **Objective-C**
 
 1. Open your `AppDelegate.m` file.
-2. Add the following line at the top of the file below your own #import statements:
+2. Add the following line at the top of the file below your own `import` statements:
 
 	```objectivec
 	#import <ApplicationInsightsOSX/ApplicationInsights.h>
@@ -103,7 +103,7 @@ From our experience, 3rd-party libraries usually reside inside a subdirectory (l
 **Swift**
 
 1. Open your `AppDelegate.swift` file.
-2. Add the following line at the top of the file below your own #import statements:
+2. Add the following line at the top of the file below your own import statements:
 	
 	```swift
 	import ApplicationInsightsOSX
@@ -147,7 +147,6 @@ It is also possible to set the instrumentation key of your app in code. This wil
 
 [MSAIApplicationInsights start];
 ```
-
 
 ### 4.2 Setup with CocoaPods
 
@@ -236,6 +235,14 @@ After you have set up the SDK as [described above](#setup), the ```MSAITelemetry
 
 // Send custom metrics
 [MSAITelemetryManager trackMetricWithName:@"Test metric" value:42.2];
+
+// Track handled exceptions
+NSArray *zeroItemArray = [NSArray new];
+@try {
+	NSString *fooString = zeroItemArray[3];
+} @catch(NSException *exception) {
+	[MSAITelemetryManager trackException:exception];
+}
 ```
 
 
@@ -275,13 +282,13 @@ It is also possible to set so-called "common properties" that will then be autom
 #### Objective-C
 
 ```objectivec
-[MSAITelemetryManager setCommonProperties:@{@"data origin":}];
+[MSAITelemetryManager setCommonProperties:@{@"custom info":@"some value"}];
 ```
 
 #### Swift
 
 ```swift
-MSAITelemetryManager.setCommonProperties(["":""])
+MSAITelemetryManager.setCommonProperties(["custom info":"some value"])
 ```
 
 <a name="autolifecycle"></a>

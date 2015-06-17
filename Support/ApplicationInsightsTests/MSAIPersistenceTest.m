@@ -6,7 +6,6 @@
 #define MOCKITO_SHORTHAND
 #import <OCMockito/OCMockito.h>
 
-#import "ApplicationInsights.h"
 #import "MSAIEnvelope.h"
 #import "MSAIPersistence.h"
 
@@ -146,6 +145,7 @@ typedef void (^MSAIPersistenceTestBlock)(BOOL);
   XCTAssertTrue(_sut.requestedBundlePaths.count == 0);
 }
 
+#ifndef CI
 - (void)testFolderPathForPersistenceTypePerformance {
   [self measureBlock:^{
     for (int i = 0; i < 1000; ++i) {
@@ -159,6 +159,7 @@ typedef void (^MSAIPersistenceTestBlock)(BOOL);
     }
   }];
 }
+#endif
 
 - (void)testOverwriteCrashTemplateWorks {
   

@@ -87,7 +87,7 @@
 		1EB754FB1AFA6E1000A7FED4 /* MSAIContextHelperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB754F91AFA6DD700A7FED4 /* MSAIContextHelperTests.m */; };
 		1EC295611B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EC2955F1B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.h */; };
 		1EC295621B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1EC295601B304F3800CD53B2 /* MSAICrashCXXExceptionHandler.mm */; };
-		1EC295641B304FF300CD53B2 /* MSAINullability.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EC295631B304FF300CD53B2 /* MSAINullability.h */; };
+		1EC295641B304FF300CD53B2 /* MSAINullability.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EC295631B304FF300CD53B2 /* MSAINullability.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1ED261701AEE576600C89442 /* ApplicationInsightsOSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1ED261651AEE576500C89442 /* ApplicationInsightsOSX.framework */; };
 		1ED261801AEE57F800C89442 /* MSAIApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 807CFD731A712974004EA1B6 /* MSAIApplication.m */; };
 		1ED261811AEE57FC00C89442 /* MSAIBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 807CFD751A712974004EA1B6 /* MSAIBase.m */; };
