@@ -30,7 +30,6 @@
 // internal keys
 NSString *const kMSAICrashManagerIsDisabled = @"MSAICrashManagerIsDisabled";
 
-MSAIChannel const *sharedChannelReference;
 static char const *saveEventsFilePath;
 
 static MSAICrashManagerCallbacks msaiCrashCallbacks = {
@@ -275,7 +274,6 @@ static void uncaught_cxx_exception_handler(const MSAICrashUncaughtCXXExceptionIn
 
 - (void)configDefaultCallback {
   saveEventsFilePath = strdup([[[MSAIPersistence sharedInstance] newFileURLForPersitenceType:MSAIPersistenceTypeRegular] UTF8String]);
-  sharedChannelReference = [MSAIChannel sharedChannel];
 }
 
 void msai_save_events_callback(siginfo_t *info, ucontext_t *uap, void *context) {
