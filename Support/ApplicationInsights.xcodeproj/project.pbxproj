@@ -221,7 +221,7 @@
 		1ED262071AEE596700C89442 /* MSAILocation.h in Headers */ = {isa = PBXBuildFile; fileRef = 807CFD8C1A712974004EA1B6 /* MSAILocation.h */; };
 		1ED262081AEE596700C89442 /* MSAIMessageData.h in Headers */ = {isa = PBXBuildFile; fileRef = 807CFD8E1A712974004EA1B6 /* MSAIMessageData.h */; };
 		1ED262091AEE596700C89442 /* MSAIMetricData.h in Headers */ = {isa = PBXBuildFile; fileRef = 807CFD901A712974004EA1B6 /* MSAIMetricData.h */; };
-		1ED2620A1AEE596700C89442 /* MSAIObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 807CFD6A1A712969004EA1B6 /* MSAIObject.h */; };
+		1ED2620A1AEE596700C89442 /* MSAIObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 807CFD6A1A712969004EA1B6 /* MSAIObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1ED2620B1AEE596700C89442 /* MSAIOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 807CFD921A712974004EA1B6 /* MSAIOperation.h */; };
 		1ED2620C1AEE596700C89442 /* MSAIPageViewData.h in Headers */ = {isa = PBXBuildFile; fileRef = 807CFD941A712974004EA1B6 /* MSAIPageViewData.h */; };
 		1ED2620D1AEE596700C89442 /* MSAIPageViewPerfData.h in Headers */ = {isa = PBXBuildFile; fileRef = 807CFD961A712974004EA1B6 /* MSAIPageViewPerfData.h */; };
