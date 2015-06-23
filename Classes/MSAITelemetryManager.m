@@ -30,6 +30,7 @@
 #import "MSAIContextHelper.h"
 #import "MSAIContextHelperPrivate.h"
 #import "MSAISessionStateData.h"
+#import "MSAIOrderedDictionary.h"
 
 static char *const MSAITelemetryEventQueue = "com.microsoft.ApplicationInsights.telemetryEventQueue";
 static char *const MSAICommonPropertiesQueue = "com.microsoft.ApplicationInsights.commonPropertiesQueue";
