@@ -7,7 +7,7 @@
 #import <OCMockito/OCMockito.h>
 
 #import "MSAIEnvelope.h"
-#import "MSAIPersistence.h"
+#import "MSAIPersistencePrivate.h"
 
 typedef void (^MSAIPersistenceTestBlock)(BOOL);
 
