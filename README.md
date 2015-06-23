@@ -317,9 +317,12 @@ This then requires you to manage sessions manually:
 
 ### 8.2. Users
 
-Normally, a random anonymous ID is automatically generated for every user of your app by the SDK. Alternatively you can set your own user ID which will then be attached to all telemetry events and crashes:
+Normally, a random anonymous ID is automatically generated for every user of your app by the SDK. Alternatively you can set your own user ID or other user attributes, which will then be attached to all telemetry events and crashes:
 ```objectivec
-[MSAIApplicationInsights setUserId:@"your_user_id"];
+[[MSAIApplicationInsights sharedInstance] setUserWithConfigurationBlock:^(MSAIUser *user) {
+  user.userId = @"your_user_id";
+  user.accountId = @"user@example.com";
+}];
 ```
 
 <a name="crashreporting"></a>
@@ -336,7 +339,6 @@ This feature can be disabled as follows:
 [[MSAIApplicationInsights sharedInstance] setCrashManagerDisabled:YES]; //disable crash reporting
 
 [MSAIApplicationInsights start]; //start using the SDK
-
 ```
 
 ### 8.1. Catch additional exceptions
@@ -344,40 +346,42 @@ This feature can be disabled as follows:
 1. Custom `NSUncaughtExceptionHandler` don't start working until after `NSApplication` has finished calling all of its delegate methods!
 
    Example:
-       ``` objectivec
-       - (void)applicationDidFinishLaunching:(NSNotification *)note {
-         ...
-         [NSException raise:@"ExceptionAtStartup" format:@"This will not be recognized!"];
-         ...
-       }
-      ```
-
+   
+        ``` objectivec
+        - (void)applicationDidFinishLaunching:(NSNotification *)note {
+          ...
+          [NSException raise:@"ExceptionAtStartup" format:@"This will not be recognized!"];
+          ...
+        }
+       ```
 
 2. The default `NSUncaughtExceptionHandler` in `NSApplication` only logs exceptions to the console and ends their processing. Resulting in exceptions that occur in the `NSApplication` "scope" not occurring in a registered custom `NSUncaughtExceptionHandler`.
 
    Example:
+   
        ``` objectivec
        - (void)applicationDidFinishLaunching:(NSNotification *)note {
          ...
          [self performSelector:@selector(delayedException) withObject:nil afterDelay:5];
-        ...
-      }
+         ...
+       }
       
-      - (void)delayedException {
-        NSArray *array = [NSArray array];
-        [array objectAtIndex:23];
-      }
-      ```
+       - (void)delayedException {
+         NSArray *array = [NSArray array];
+         [array objectAtIndex:23];
+       }
+       ```
 
 3. Any exceptions occurring in IBAction or other GUI does not even reach the NSApplication default UncaughtExceptionHandler.
 
    Example:
+   
        ``` objectivec
        - (IBAction)doExceptionCrash:(id)sender {
          NSArray *array = [NSArray array];
          [array objectAtIndex:23];
        }
-      ```
+       ```
 
 In general there are two solutions. The first one is to use an `NSExceptionHandler` class instead of an `NSUncaughtExceptionHandler`. But this has a few drawbacks which are detailed in `MSAICrashExceptionApplication.h`.
 
