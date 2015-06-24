@@ -1,26 +1,3 @@
-#ifndef MSAI_h
-#define MSAI_h
-
-// Define nullability fallback for backwards compatibility
-#if !__has_feature(nullability)
-#define NS_ASSUME_NONNULL_BEGIN
-#define NS_ASSUME_NONNULL_END
-#define nullable
-#define nonnull
-#define null_unspecified
-#define null_resettable
-#define __nullable
-#define __nonnull
-#define __null_unspecified
-#endif
-
-#ifndef NS_ASSUME_NONNULL_BEGIN
-  #define NS_ASSUME_NONNULL_BEGIN _Pragma("clang assume_nonnull begin")
-#endif
-#ifndef NS_ASSUME_NONNULL_END
-  #define NS_ASSUME_NONNULL_END _Pragma("clang assume_nonnull end")
-#endif
-
 #import <Cocoa/Cocoa.h>
 
 //! Project version number for ApplicationInsights.
@@ -30,8 +7,8 @@ FOUNDATION_EXPORT double ApplicationInsightsVersionNumber;
 FOUNDATION_EXPORT const unsigned char ApplicationInsightsVersionString[];
 
 #import "ApplicationInsightsFeatureConfig.h"
+#import "MSAINullability.h"
 #import "MSAIApplicationInsights.h"
-#import "MSAICategoryContainer.h"
 
 #if MSAI_FEATURE_CRASH_REPORTER
 #import "MSAICrashManager.h"
@@ -88,5 +65,3 @@ extern NSString *const __unused kMSAIErrorDomain;
 NS_ASSUME_NONNULL_END
 
 #endif /* MSAI_FEATURE_CRASH_REPORTER */
-
-#endif /* MSAI_h */

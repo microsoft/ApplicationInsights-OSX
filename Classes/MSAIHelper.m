@@ -59,7 +59,7 @@ NSString *msai_utcDateString(NSDate *date){
   return dateString;
 }
 
-NSString *msai_base64String(NSData * data, unsigned long length) {
+NSString *msai_base64String(NSData * data) {
   SEL base64EncodingSelector = NSSelectorFromString(@"base64EncodedStringWithOptions:");
   if ([data respondsToSelector:base64EncodingSelector]) {
     return [data base64EncodedStringWithOptions:0];
@@ -234,7 +234,7 @@ NSString *msai_devicePlatform(void) {
 }
 
 NSString *msai_deviceLanguage(void) {
-  return [[[NSBundle mainBundle] preferredLocalizations] objectAtIndex:0];
+  return [[NSBundle mainBundle] preferredLocalizations][0];
 }
 
 NSString *msai_deviceLocale(void) {

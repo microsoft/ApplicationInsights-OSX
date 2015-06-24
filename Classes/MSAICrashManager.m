@@ -8,6 +8,8 @@
 #import "MSAICrashDataProvider.h"
 #import "MSAICrashDetailsPrivate.h"
 #import "MSAICrashData.h"
+#import "MSAICrashDataHeaders.h"
+#import "MSAICrashCXXExceptionHandler.h"
 #import "MSAIChannel.h"
 #import "MSAIChannelPrivate.h"
 #import "MSAIPersistencePrivate.h"
@@ -29,7 +31,6 @@
 // internal keys
 NSString *const kMSAICrashManagerIsDisabled = @"MSAICrashManagerIsDisabled";
 
-MSAIChannel const *sharedChannelReference;
 static char const *saveEventsFilePath;
 
 static MSAICrashManagerCallbacks msaiCrashCallbacks = {
@@ -39,10 +40,11 @@ static MSAICrashManagerCallbacks msaiCrashCallbacks = {
 
 // Proxy implementation for PLCrashReporter to keep our interface stable while this can change
 static void plcr_post_crash_callback(siginfo_t *info, ucontext_t *uap, void *context) {
+  msai_save_events_callback(info, uap, context);
+
   if(msaiCrashCallbacks.handleSignal != NULL) {
     msaiCrashCallbacks.handleSignal(context);
   }
-  msai_save_events_callback(info, uap, context);
 }
 
 // Proxy that is set as a callback when the developer defined a custom callback.
@@ -59,6 +61,53 @@ static PLCrashReporterCallbacks defaultCallback = {
   .context = NULL,
   .handleSignal = msai_save_events_callback
 };
+
+
+// Temporary class until PLCR catches up
+// We trick PLCR with an Objective-C exception.
+//
+// This code provides us access to the C++ exception message and stack trace.
+//
+@interface BITCrashCXXExceptionWrapperException : NSException
+- (instancetype)initWithCXXExceptionInfo:(const MSAICrashUncaughtCXXExceptionInfo *)info;
+@end
+
+@implementation BITCrashCXXExceptionWrapperException {
+  const MSAICrashUncaughtCXXExceptionInfo *_info;
+}
+
+- (instancetype)initWithCXXExceptionInfo:(const MSAICrashUncaughtCXXExceptionInfo *)info {
+  extern char* __cxa_demangle(const char* mangled_name, char* output_buffer, size_t* length, int* status);
+  char *demangled_name = __cxa_demangle ? __cxa_demangle(info->exception_type_name ?: "", NULL, NULL, NULL) : NULL;
+  
+  if ((self = [super
+               initWithName:[NSString stringWithUTF8String:demangled_name ?: info->exception_type_name ?: ""]
+               reason:[NSString stringWithUTF8String:info->exception_message ?: ""]
+               userInfo:nil])) {
+    _info = info;
+  }
+  return self;
+}
+
+- (NSArray *)callStackReturnAddresses {
+  NSMutableArray *cxxFrames = [NSMutableArray arrayWithCapacity:_info->exception_frames_count];
+  
+  for (uint32_t i = 0; i < _info->exception_frames_count; ++i) {
+    [cxxFrames addObject:[NSNumber numberWithUnsignedLongLong:_info->exception_frames[i]]];
+  }
+  return cxxFrames;
+}
+
+@end
+
+
+// C++ Exception Handler
+static void uncaught_cxx_exception_handler(const MSAICrashUncaughtCXXExceptionInfo *info) {
+  // This relies on a LOT of sneaky internal knowledge of how PLCR works and should not be considered a long-term solution.
+  NSGetUncaughtExceptionHandler()([[BITCrashCXXExceptionWrapperException alloc] initWithCXXExceptionInfo:info]);
+  abort();
+}
+
 
 @implementation MSAICrashManager {
   id _appDidBecomeActiveObserver;
@@ -167,6 +216,9 @@ static PLCrashReporterCallbacks defaultCallback = {
       // this should never happen, theoretically only if NSSetUncaugtExceptionHandler() has some internal issues
       NSLog(@"[ApplicationInsights] ERROR: Exception handler could not be set. Make sure there is no other exception handler set up!");
     }
+    
+    // Add the C++ uncaught exception handler, which is currently not handled by PLCrashReporter internally
+    [MSAICrashUncaughtCXXExceptionHandlerManager addCXXExceptionHandler:uncaught_cxx_exception_handler];
   }
 }
 
@@ -223,7 +275,6 @@ static PLCrashReporterCallbacks defaultCallback = {
 
 - (void)configDefaultCallback {
   saveEventsFilePath = strdup([[[MSAIPersistence sharedInstance] newFileURLForPersitenceType:MSAIPersistenceTypeRegular] UTF8String]);
-  sharedChannelReference = [MSAIChannel sharedChannel];
 }
 
 void msai_save_events_callback(siginfo_t *info, ucontext_t *uap, void *context) {
@@ -237,7 +288,7 @@ void msai_save_events_callback(siginfo_t *info, ucontext_t *uap, void *context) 
   if (len > 0) {
     // Simply write the whole string to disk and close the JSON array 
     write(fd, MSAISafeJsonEventsString, len);
-    if (len >= 1) {
+    if ((len >= 1) && strncmp(MSAISafeJsonEventsString, "[", 1) == 0) {
       write(fd, "]", 1);
     }
   }
