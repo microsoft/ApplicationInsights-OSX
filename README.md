@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Microsoft/ApplicationInsights-OSX.svg?branch=master)](https://travis-ci.org/Microsoft/ApplicationInsights-OSX)
+[![Build Status](https://travis-ci.org/Microsoft/ApplicationInsights-OSX.svg?branch=develop)](https://travis-ci.org/Microsoft/ApplicationInsights-OSX)
 
 # Application Insights for Mac (1.0-beta.1)
 
