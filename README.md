@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/Microsoft/ApplicationInsights-OSX.svg?branch=develop)](https://travis-ci.org/Microsoft/ApplicationInsights-OSX)
+[![Build Status](https://travis-ci.org/Microsoft/ApplicationInsights-OSX.svg?branch=master)](https://travis-ci.org/Microsoft/ApplicationInsights-OSX)
 
-# Application Insights for Mac (1.0-alpha.2)
+# Application Insights for Mac (1.0-beta.1)
 
 This is the repository of the Mac SDK for Application Insights. [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/) is a service that allows developers to keep their applications available, performing, and succeeding. The SDK enables you to send telemetry of various kinds (events, traces, exceptions, etc.) to the Application Insights service where your data can be visualized in the Azure Portal.
 
@@ -25,12 +25,10 @@ The SDK runs on devices with OS X 10.8 or higher.
 <a name="releasenotes"></a>
 ## 1. Release Notes
 
-* This is the second pre-release
+* This is the third pre-release
 * It provides support for collecting telemetry and crash reports
 * Fixes crashes when running on OS X 10.8
-* Fixes compile issues with apps having base SDK 10.9
-* Fixes various typos and other minor improvements
-* Based on the iOS SDK Version 1.0-Beta.3
+* Based on the [iOS SDK Version 1.0-Beta.4](https://github.com/Microsoft/ApplicationInsights-iOS/releases/tag/v1.0-beta.4)
 
 <a id="requirements"></a>
 ## 2. Requirements
@@ -160,7 +158,7 @@ As soon as Application Insights 1.0 is available, the version doesn't have to be
 
 ```ruby
 platform :osx, '10.8'
-pod "ApplicationInsights-OSX", '1.0-alpha.1'
+pod "ApplicationInsights-OSX", '1.0-beta.1'
 ```
 
 ### 4.3 Mac Extensions
@@ -413,7 +411,7 @@ You can also configure a different server endpoint for the SDK if needed using a
 <a id="documentation"></a>
 ## 11. Documentation
 
-Our documentation can be found on [CocoaDocs](http://cocoadocs.org/docsets/ApplicationInsights-OSX/1.0-alpha.2/).
+Our documentation can be found on [CocoaDocs](http://cocoadocs.org/docsets/ApplicationInsights-OSX/1.0-beta.1/).
 
 <a id="contributing"></a>
 ## 12. Contributing
