@@ -68,11 +68,11 @@ static PLCrashReporterCallbacks defaultCallback = {
 //
 // This code provides us access to the C++ exception message and stack trace.
 //
-@interface BITCrashCXXExceptionWrapperException : NSException
+@interface MSAICrashCXXExceptionWrapperException : NSException
 - (instancetype)initWithCXXExceptionInfo:(const MSAICrashUncaughtCXXExceptionInfo *)info;
 @end
 
-@implementation BITCrashCXXExceptionWrapperException {
+@implementation MSAICrashCXXExceptionWrapperException {
   const MSAICrashUncaughtCXXExceptionInfo *_info;
 }
 
@@ -104,7 +104,7 @@ static PLCrashReporterCallbacks defaultCallback = {
 // C++ Exception Handler
 static void uncaught_cxx_exception_handler(const MSAICrashUncaughtCXXExceptionInfo *info) {
   // This relies on a LOT of sneaky internal knowledge of how PLCR works and should not be considered a long-term solution.
-  NSGetUncaughtExceptionHandler()([[BITCrashCXXExceptionWrapperException alloc] initWithCXXExceptionInfo:info]);
+  NSGetUncaughtExceptionHandler()([[MSAICrashCXXExceptionWrapperException alloc] initWithCXXExceptionInfo:info]);
   abort();
 }
 
