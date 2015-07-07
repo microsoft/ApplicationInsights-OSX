@@ -1,7 +1,3 @@
-/*
- * Author: Gwynne Raskind <gwraskin@microsoft.com>
- */
-
 #import "MSAICrashCXXExceptionHandler.h"
 #import <vector>
 #import <cxxabi.h>

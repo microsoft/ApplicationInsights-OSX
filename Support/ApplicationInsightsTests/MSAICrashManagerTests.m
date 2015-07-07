@@ -100,20 +100,6 @@
   assertThatBool([[MSAICrashManager sharedManager].plCrashReporter hasPendingCrashReport], isFalse());
 }
 
-- (void)testCreateCrashReportForAppKill {
-  //handle app kill (FakeCrashReport will be generated)
-  [[MSAICrashManager sharedManager] createCrashReportForAppKill]; //just creates a fake crash report and hands it over to MSAIPersistence
-  
-  NSArray *bundle = [[MSAIPersistence sharedInstance] crashTemplateBundle];
-  XCTAssertNil(bundle);
-  
-  if(bundle && ([bundle count] > 0)) {
-    id envelope = [bundle firstObject];
-    if(envelope && [envelope isKindOfClass:[MSAIEnvelope class]]) {
-      assertThatBool([((MSAIEnvelope *) envelope).data isKindOfClass:[MSAICrashData class]], isTrue());
-    }
-  }
-}
 
 #pragma mark - StartManager
 
