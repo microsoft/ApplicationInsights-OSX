@@ -75,7 +75,7 @@
   NSString *userId = [self.sut userForDate:[NSDate date]].userId;
   XCTAssertEqualObjects(userId, testId);
   
-  [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+  [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:5]];
   
   OCMVerifyAll(self.mockNotificationCenter);
 }
