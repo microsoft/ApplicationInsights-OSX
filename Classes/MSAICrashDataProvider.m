@@ -208,8 +208,6 @@ static const char *findSEL (const char *imageName, NSString *imageUUID, uint64_t
 
 + (MSAIEnvelope *)crashDataForCrashReport:(MSAIPLCrashReport *)report handledException:(NSException *)exception{
   
-  NSMutableArray *addresses = [NSMutableArray new];
-  
   MSAIEnvelope *envelope = [[MSAIEnvelopeManager sharedManager] envelope];
   
   /* System info */
@@ -426,7 +424,6 @@ static const char *findSEL (const char *imageName, NSString *imageUUID, uint64_t
     NSString *foundSelector = nil;
     
     // search the registers value for the current arch
-#if TARGET_IPHONE_SIMULATOR
     if (lp64) {
       foundSelector = [[self class] selectorForRegisterWithName:@"rsi" ofThread:crashed_thread report:report];
       if (foundSelector == NULL)
@@ -434,15 +431,6 @@ static const char *findSEL (const char *imageName, NSString *imageUUID, uint64_t
     } else {
       foundSelector = [[self class] selectorForRegisterWithName:@"ecx" ofThread:crashed_thread report:report];
     }
-#else
-    if (lp64) {
-      foundSelector = [[self class] selectorForRegisterWithName:@"x1" ofThread:crashed_thread report:report];
-    } else {
-      foundSelector = [[self class] selectorForRegisterWithName:@"r1" ofThread:crashed_thread report:report];
-      if (foundSelector == NULL)
-        foundSelector = [[self class] selectorForRegisterWithName:@"r2" ofThread:crashed_thread report:report];
-    }
-#endif
     
     if (foundSelector) {
       crashHeaders.exceptionReason = [NSString stringWithFormat:@"Selector name found in current argument registers: %@\n", foundSelector];
@@ -450,6 +438,8 @@ static const char *findSEL (const char *imageName, NSString *imageUUID, uint64_t
   }
   
   crashData.headers = crashHeaders;
+  
+  NSMutableArray *addresses = [NSMutableArray new];
   
   /* If an exception stack trace is available, output an Apple-compatible backtrace. */
   if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil && [report.exceptionInfo.stackFrames count] > 0) {
@@ -507,6 +497,7 @@ static const char *findSEL (const char *imageName, NSString *imageUUID, uint64_t
           
           if(threadData.frames.count > 0){
             [[(MSAICrashDataThreadFrame *)threadData.frames[0] registers] setValue:formattedRegValue forKey:formattedRegName];
+            [addresses addObject:[NSNumber numberWithUnsignedLongLong:reg.registerValue]];
           }
           break;
         }
@@ -529,14 +520,19 @@ static const char *findSEL (const char *imageName, NSString *imageUUID, uint64_t
     uint64_t endAddress = imageInfo.imageBaseAddress + (MAX((uint64_t)1, imageInfo.imageSize) - 1);
     binary.endAddress = [NSString stringWithFormat:fmt, endAddress];
     
-    if([self isBinaryWithStart:startAddress end:endAddress inAddresses:addresses]){
+    BOOL binaryIsInAddresses = [self isBinaryWithStart:startAddress end:endAddress inAddresses:addresses];
+    MSAIBinaryImageType imageType = [self imageTypeForImagePath:imageInfo.imageName processPath:report.processInfo.processPath];
+    
+    if (binaryIsInAddresses || (imageType != MSAIBinaryImageTypeOther)) {
       
       /* Remove username from the image path */
       NSString *imageName = @"";
-      if (imageInfo.imageName && [imageInfo.imageName length] > 0)
+      if (imageInfo.imageName && [imageInfo.imageName length] > 0) {
         imageName = [imageInfo.imageName stringByAbbreviatingWithTildeInPath];
-      if ([imageName length] > 0 && [[imageName substringToIndex:1] isEqualToString:@"~"])
+      }
+      if ([imageName length] > 0 && [[imageName substringToIndex:1] isEqualToString:@"~"]) {
         imageName = [NSString stringWithFormat:@"/Users/USER%@", [imageName substringFromIndex:1]];
+      }
       
       binary.path = imageName;
       binary.name = [imageInfo.imageName lastPathComponent];
@@ -572,6 +568,32 @@ static const char *findSEL (const char *imageName, NSString *imageUUID, uint64_t
     }
   }
   return NO;
+}
+
+/* Determine if in binary image is the app executable or app specific framework */
++ (MSAIBinaryImageType)imageTypeForImagePath:(NSString *)imagePath processPath:(NSString *)processPath {
+  MSAIBinaryImageType imageType = MSAIBinaryImageTypeOther;
+  
+  imagePath = [[imagePath stringByStandardizingPath] lowercaseString];
+  processPath = [processPath lowercaseString];
+  
+  NSRange appRange = [imagePath rangeOfString: @".app/"];
+  
+  // Exclude swift dylibs. These are provided as part of the app binary by Xcode for now, but we never get a dSYM for those.
+  NSRange swiftLibRange = [imagePath rangeOfString:@"frameworks/libswift"];
+  BOOL dylibSuffix = [imagePath hasSuffix:@".dylib"];
+  
+  if (appRange.location != NSNotFound && !(swiftLibRange.location != NSNotFound && dylibSuffix)) {
+    NSString *appBundleContentsPath = [imagePath substringToIndex:appRange.location + 5];
+    
+    if ([imagePath isEqual: processPath]) {
+      imageType = MSAIBinaryImageTypeAppBinary;
+    } else if ([imagePath hasPrefix:appBundleContentsPath]) {
+      imageType = MSAIBinaryImageTypeAppFramework;
+    }
+  }
+  
+  return imageType;
 }
 
 /**

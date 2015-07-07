@@ -81,6 +81,8 @@
 		1E1B4C3D1AEE6D25006B7702 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1B4C3C1AEE6D25006B7702 /* OCMock.framework */; };
 		1E1B4C4D1AEE7570006B7702 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E1B4C4C1AEE7570006B7702 /* libz.dylib */; };
 		1EA6EE2F1AFA5BF9009EE1AC /* ApplicationInsightsOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EA6EE2E1AFA5BF9009EE1AC /* ApplicationInsightsOSX.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1EAE489F1B4C0FF000254643 /* MSAICrashManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 80E1A3EF1AE54B5300603B0A /* MSAICrashManagerTests.m */; };
+		1EAE48A01B4C0FF400254643 /* MSAICrashDataProviderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 80E1A3F01AE54B5300603B0A /* MSAICrashDataProviderTests.m */; };
 		1EB754F61AFA6DB200A7FED4 /* MSAIContextHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB754F31AFA6DB200A7FED4 /* MSAIContextHelper.h */; };
 		1EB754F71AFA6DB200A7FED4 /* MSAIContextHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EB754F41AFA6DB200A7FED4 /* MSAIContextHelper.m */; };
 		1EB754F81AFA6DB200A7FED4 /* MSAIContextHelperPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 1EB754F51AFA6DB200A7FED4 /* MSAIContextHelperPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1222,6 +1224,7 @@
 				1ED261D21AEE587600C89442 /* MSAITestHelper.m in Sources */,
 				1ED261BD1AEE587600C89442 /* MSAIExceptionDataTests.m in Sources */,
 				1ED261C01AEE587600C89442 /* MSAIInternalTests.m in Sources */,
+				1EAE48A01B4C0FF400254643 /* MSAICrashDataProviderTests.m in Sources */,
 				1ED261C11AEE587600C89442 /* MSAIKeychainUtilsTests.m in Sources */,
 				1ED261CF1AEE587600C89442 /* MSAIStackFrameTests.m in Sources */,
 				1ED261BE1AEE587600C89442 /* MSAIExceptionDetailsTests.m in Sources */,
@@ -1231,6 +1234,7 @@
 				1ED261BF1AEE587600C89442 /* MSAIHelperTests.m in Sources */,
 				1ED261B51AEE587600C89442 /* MSAIChannelTests.m in Sources */,
 				1ED261C61AEE587600C89442 /* MSAIPageViewDataTests.m in Sources */,
+				1EAE489F1B4C0FF000254643 /* MSAICrashManagerTests.m in Sources */,
 				1ED261B81AEE587600C89442 /* MSAIDeviceTests.m in Sources */,
 				1ED261C71AEE587600C89442 /* MSAIPageViewPerfDataTests.m in Sources */,
 				1ED261B31AEE587600C89442 /* MSAIApplicationTests.m in Sources */,
