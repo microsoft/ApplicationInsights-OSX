@@ -364,12 +364,10 @@ static const char *findSEL (const char *imageName, NSString *imageUUID, uint64_t
         processPath = report.processInfo.processPath;
         
         /* Remove username from the path */
-#if TARGET_IPHONE_SIMULATOR
         if ([processPath length] > 0)
           processPath = [processPath stringByAbbreviatingWithTildeInPath];
         if ([processPath length] > 0 && [[processPath substringToIndex:1] isEqualToString:@"~"])
           processPath = [NSString stringWithFormat:@"/Users/USER%@", [processPath substringFromIndex:1]];
-#endif
       }
       
       /* Parent Process Name */
@@ -426,7 +424,6 @@ static const char *findSEL (const char *imageName, NSString *imageUUID, uint64_t
     NSString *foundSelector = nil;
     
     // search the registers value for the current arch
-#if TARGET_IPHONE_SIMULATOR
     if (lp64) {
       foundSelector = [[self class] selectorForRegisterWithName:@"rsi" ofThread:crashed_thread report:report];
       if (foundSelector == NULL)
@@ -434,15 +431,6 @@ static const char *findSEL (const char *imageName, NSString *imageUUID, uint64_t
     } else {
       foundSelector = [[self class] selectorForRegisterWithName:@"ecx" ofThread:crashed_thread report:report];
     }
-#else
-    if (lp64) {
-      foundSelector = [[self class] selectorForRegisterWithName:@"x1" ofThread:crashed_thread report:report];
-    } else {
-      foundSelector = [[self class] selectorForRegisterWithName:@"r1" ofThread:crashed_thread report:report];
-      if (foundSelector == NULL)
-        foundSelector = [[self class] selectorForRegisterWithName:@"r2" ofThread:crashed_thread report:report];
-    }
-#endif
     
     if (foundSelector) {
       crashHeaders.exceptionReason = [NSString stringWithFormat:@"Selector name found in current argument registers: %@\n", foundSelector];
@@ -540,17 +528,11 @@ static const char *findSEL (const char *imageName, NSString *imageUUID, uint64_t
       /* Remove username from the image path */
       NSString *imageName = @"";
       if (imageInfo.imageName && [imageInfo.imageName length] > 0) {
-#if TARGET_IPHONE_SIMULATOR
         imageName = [imageInfo.imageName stringByAbbreviatingWithTildeInPath];
-#else
-        imageName = imageInfo.imageName;
-#endif
       }
-#if TARGET_IPHONE_SIMULATOR
       if ([imageName length] > 0 && [[imageName substringToIndex:1] isEqualToString:@"~"]) {
         imageName = [NSString stringWithFormat:@"/Users/USER%@", [imageName substringFromIndex:1]];
       }
-#endif
       
       binary.path = imageName;
       binary.name = [imageInfo.imageName lastPathComponent];
