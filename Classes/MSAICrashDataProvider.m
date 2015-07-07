@@ -574,26 +574,21 @@ static const char *findSEL (const char *imageName, NSString *imageUUID, uint64_t
 + (MSAIBinaryImageType)imageTypeForImagePath:(NSString *)imagePath processPath:(NSString *)processPath {
   MSAIBinaryImageType imageType = MSAIBinaryImageTypeOther;
   
-  NSString *standardizedImagePath = [[imagePath stringByStandardizingPath] lowercaseString];
-  imagePath = [imagePath lowercaseString];
+  imagePath = [[imagePath stringByStandardizingPath] lowercaseString];
   processPath = [processPath lowercaseString];
   
-  NSRange appRange = [standardizedImagePath rangeOfString: @".app/"];
+  NSRange appRange = [imagePath rangeOfString: @".app/"];
   
-  // Exclude iOS swift dylibs. These are provided as part of the app binary by Xcode for now, but we never get a dSYM for those.
-  NSRange swiftLibRange = [standardizedImagePath rangeOfString:@"frameworks/libswift"];
-  BOOL dylibSuffix = [standardizedImagePath hasSuffix:@".dylib"];
+  // Exclude swift dylibs. These are provided as part of the app binary by Xcode for now, but we never get a dSYM for those.
+  NSRange swiftLibRange = [imagePath rangeOfString:@"frameworks/libswift"];
+  BOOL dylibSuffix = [imagePath hasSuffix:@".dylib"];
   
   if (appRange.location != NSNotFound && !(swiftLibRange.location != NSNotFound && dylibSuffix)) {
-    NSString *appBundleContentsPath = [standardizedImagePath substringToIndex:appRange.location + 5];
+    NSString *appBundleContentsPath = [imagePath substringToIndex:appRange.location + 5];
     
-    if ([standardizedImagePath isEqual: processPath] ||
-        // Fix issue with iOS 8 `stringByStandardizingPath` removing leading `/private` path (when not running in the debugger or simulator only)
-        [imagePath hasPrefix:processPath]) {
+    if ([imagePath isEqual: processPath]) {
       imageType = MSAIBinaryImageTypeAppBinary;
-    } else if ([standardizedImagePath hasPrefix:appBundleContentsPath] ||
-               // Fix issue with iOS 8 `stringByStandardizingPath` removing leading `/private` path (when not running in the debugger or simulator only)
-               [imagePath hasPrefix:appBundleContentsPath]) {
+    } else if ([imagePath hasPrefix:appBundleContentsPath]) {
       imageType = MSAIBinaryImageTypeAppFramework;
     }
   }
