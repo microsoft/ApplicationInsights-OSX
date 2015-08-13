@@ -1,4 +1,4 @@
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for ApplicationInsights.
 FOUNDATION_EXPORT double ApplicationInsightsVersionNumber;
