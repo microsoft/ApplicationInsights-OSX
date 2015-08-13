@@ -41,6 +41,7 @@ The SDK runs on devices with OS X 10.8 or higher.
 ## 3. Setup
 
 We recommend integration of our binary into your Xcode project to setup Application Insights for your OS X app. For other ways to setup the SDK, see [Advanced Setup](#advancedsetup).
+Also make sure that you code-sign your app as the SDK is writing data into the keychain. Non-sandboxed or non-code-signed apps will result in keychain dialogs to appear on startup of your app!
 
 ### 3.1 Obtain an Instrumation Key
 
