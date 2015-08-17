@@ -48,7 +48,7 @@ Please see the "[Getting an Application Insights Instrumentation Key](https://gi
 <a id="downloadsdk"></a>
 ### 3.2 Download the SDK
 
-1. Download the latest [Application Insights for iOS](https://github.com/Microsoft/AppInsights-OSX/releases) framework which is provided as a zip-File.
+1. Download the latest [Application Insights for OSX](https://github.com/Microsoft/AppInsights-OSX/releases) framework which is provided as a zip-File.
 2. Unzip the file and you will see a folder called `ApplicationInsights` .
 
 ### 3.3 Copy the SDK  into your projects directory in Finder
