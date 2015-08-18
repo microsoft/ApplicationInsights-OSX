@@ -4,6 +4,8 @@
 
 This is the repository of the Mac SDK for Application Insights. [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/) is a service that allows developers to keep their applications available, performing, and succeeding. The SDK enables you to send telemetry of various kinds (events, traces, exceptions, etc.) to the Application Insights service where your data can be visualized in the Azure Portal.
 
+You can use the [Application Insights for Mac](http://go.microsoft.com/fwlink/?linkid=533209&clcid=0x409) tool to integrate the Application Insights OSX SDK into your exisiting apps. It also supports with **uploading app symbols**, which are required to symbolicate the crash reports to display them properly in the Azure Portal.
+
 The SDK runs on devices with OS X 10.8 or higher.
 
 ## Content
@@ -41,6 +43,8 @@ The SDK runs on devices with OS X 10.8 or higher.
 We recommend integration of our binary into your Xcode project to setup Application Insights for your OS X app. For other ways to setup the SDK, see [Advanced Setup](#advancedsetup).
 Also make sure that you code-sign your app as the SDK is writing data into the keychain. Non-sandboxed or non-code-signed apps will result in keychain dialogs to appear on startup of your app!
 
+You can use the [Application Insights for Mac](http://go.microsoft.com/fwlink/?linkid=533209&clcid=0x409) tool to integrate the SDK, which provides you with a step-by-step wizard for this process. If you want to integrate the SDK manually, you can do that by following this steps: 
+
 ### 3.1 Obtain an Instrumation Key
 
 Please see the "[Getting an Application Insights Instrumentation Key](https://github.com/Microsoft/ApplicationInsights-Home/wiki#getting-an-application-insights-instrumentation-key)" section of the wiki for more information on acquiring a key.
@@ -48,7 +52,7 @@ Please see the "[Getting an Application Insights Instrumentation Key](https://gi
 <a id="downloadsdk"></a>
 ### 3.2 Download the SDK
 
-1. Download the latest [Application Insights for iOS](https://github.com/Microsoft/AppInsights-OSX/releases) framework which is provided as a zip-File.
+1. Download the latest [Application Insights for OSX](https://github.com/Microsoft/AppInsights-OSX/releases) framework which is provided as a zip-File.
 2. Unzip the file and you will see a folder called `ApplicationInsights` .
 
 ### 3.3 Copy the SDK  into your projects directory in Finder
