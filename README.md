@@ -120,12 +120,12 @@ From our experience, 3rd-party libraries usually reside inside a subdirectory (l
 	MSAIApplicationInsights.sharedInstance().start()
 	```
 	
-You can also use the following shortcuts:
+    You can also use the following shortcuts:
 
-	```swift
-	MSAIApplicationInsights.setup()
-	MSAIApplicationInsights.start()
-	```
+    ```swift
+    MSAIApplicationInsights.setup()
+    MSAIApplicationInsights.start()
+    ```
     
 **Congratulation, now you're all set to use Application Insights! See [Basic Usage](#basicusage) on how to use Application Insights.**
 
@@ -345,41 +345,41 @@ This feature can be disabled as follows:
 
    Example:
    
-        ``` objectivec
-        - (void)applicationDidFinishLaunching:(NSNotification *)note {
-          ...
-          [NSException raise:@"ExceptionAtStartup" format:@"This will not be recognized!"];
-          ...
-        }
-       ```
+    ``` objectivec
+    - (void)applicationDidFinishLaunching:(NSNotification *)note {
+      ...
+      [NSException raise:@"ExceptionAtStartup" format:@"This will not be recognized!"];
+      ...
+    }
+   ```
 
 2. The default `NSUncaughtExceptionHandler` in `NSApplication` only logs exceptions to the console and ends their processing. Resulting in exceptions that occur in the `NSApplication` "scope" not occurring in a registered custom `NSUncaughtExceptionHandler`.
 
    Example:
    
-       ``` objectivec
-       - (void)applicationDidFinishLaunching:(NSNotification *)note {
-         ...
-         [self performSelector:@selector(delayedException) withObject:nil afterDelay:5];
-         ...
-       }
-      
-       - (void)delayedException {
-         NSArray *array = [NSArray array];
-         [array objectAtIndex:23];
-       }
-       ```
+    ``` objectivec
+    - (void)applicationDidFinishLaunching:(NSNotification *)note {
+     ...
+     [self performSelector:@selector(delayedException) withObject:nil afterDelay:5];
+     ...
+   }
+  
+   - (void)delayedException {
+     NSArray *array = [NSArray array];
+     [array objectAtIndex:23];
+   }
+   ```
 
 3. Any exceptions occurring in IBAction or other GUI does not even reach the NSApplication default UncaughtExceptionHandler.
 
    Example:
    
-       ``` objectivec
-       - (IBAction)doExceptionCrash:(id)sender {
-         NSArray *array = [NSArray array];
-         [array objectAtIndex:23];
-       }
-       ```
+   ``` objectivec
+   - (IBAction)doExceptionCrash:(id)sender {
+     NSArray *array = [NSArray array];
+     [array objectAtIndex:23];
+   }
+   ```
 
 In general there are two solutions. The first one is to use an `NSExceptionHandler` class instead of an `NSUncaughtExceptionHandler`. But this has a few drawbacks which are detailed in `MSAICrashExceptionApplication.h`.
 
