@@ -339,7 +339,7 @@ This feature can be disabled as follows:
 [MSAIApplicationInsights start]; //start using the SDK
 ```
 
-### 8.1. Catch additional exceptions
+### 9.1. Catch additional exceptions
 
 1. Custom `NSUncaughtExceptionHandler` don't start working until after `NSApplication` has finished calling all of its delegate methods!
 
