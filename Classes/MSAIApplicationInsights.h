@@ -83,26 +83,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy) NSString *serverURL;
 
-#if MSAI_FEATURE_CRASH_REPORTER
-
-/**
- * Flag which determines whether the Crash Manager should be disabled. If this flag is
- * enabled, then crash reporting is disabled and no crashes will be send. Please note 
- * that the Crash Manager instance will be initialized anyway, but crash report
- * handling (signal and uncaught exception handlers) will **not** be registered.
- *
- * @warning This property needs to be set before calling `start`
- */
-@property (nonatomic, getter = isCrashManagerDisabled) BOOL crashManagerDisabled;
-
-/**
- *  Enable (NO) or disable (YES) the crash manager. This should be called before `start`.
- *
- *  @param crashManagerDisabled Flag which determines whether the Crash Manager should be disabled
- */
-+ (void)setCrashManagerDisabled:(BOOL)crashManagerDisabled;
-#endif /* MSAI_FEATURE_CRASH_REPORTER */
-
 #if MSAI_FEATURE_TELEMETRY
 /**
  * Flag that determines whether the Telemetry Manager should be disabled.
@@ -163,7 +143,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setAutoSessionManagementDisabled:(BOOL)autoSessionManagementDisabled;
 
 /**
- *  Manually set the current user ID. This ID will automatically be persisted and attached to all appropriate telemetry and crash events.
+ *  Manually set the current user ID. This ID will automatically be persisted and attached to all appropriate telemetry.
  *  The user ID will stay the same until it is changed.
  *
  *  @param userId The string which will be used as the current user's ID.
@@ -171,7 +151,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setUserId:(NSString *)userId __deprecated_msg("Use setUserWithConfigurationBlock: instead!");
 
 /**
- *  Manually set the current user ID. This ID will automatically be persisted and attached to all appropriate telemetry and crash events.
+ *  Manually set the current user ID. This ID will automatically be persisted and attached to all appropriate telemetry.
  *  The user ID will stay the same until it is changed.
  *
  *  @param userId The string which will be used as the current user's ID.
@@ -223,7 +203,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  This starts a new session with the given session ID. 
  *
- *  @param sessionId The session ID which should be attached to all future telemetry and crash events.
+ *  @param sessionId The session ID which should be attached to all future telemetry.
  *
  *  @warning Using this method automatically disables automatic session management!
  *  @see autoSessionManagementDisabled
@@ -233,7 +213,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  This starts a new session with the given session ID.
  *
- *  @param sessionId The session ID which should be attached to all future telemetry and crash events.
+ *  @param sessionId The session ID which should be attached to all future telemetry.
  *
  *  @warning Using this method automatically disables automatic session management!
  *  @see autoSessionManagementDisabled

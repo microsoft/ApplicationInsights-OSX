@@ -7,7 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
 * MSAITelemetryManager is the component of the Application Insights SDK for iOS that is responsible for all things
 * that are related to metrics and tracking.
-* It provides methods to track custom events, traces, metrics, pageviews and exceptions. You can access them via
+* It provides methods to track custom events, traces, metrics, and page views. You can access them via
 * class methods as well as via the sharedManager instance.
 */
 @interface MSAITelemetryManager : NSObject
@@ -127,17 +127,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)trackPageView:(NSString *)pageName duration:(long)duration properties:(nullable NSDictionary *)properties;
 
-
-#if MSAI_FEATURE_CRASH_REPORTER
-/**
- *  Track handled exception.
- *
- *  @param exception the handled exception, which should be send to the server.
- */
-+ (void)trackException:(NSException *)exception;
-#endif
-
-
 /**
  *  Track the event by event name.
  *
@@ -217,15 +206,6 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param properties key-value pairs which can contain additional information about the page view
  */
 - (void)trackPageView:(NSString *)pageName duration:(long)duration properties:(nullable NSDictionary *)properties;
-
-#if MSAI_FEATURE_CRASH_REPORTER
-/**
- *  Track handled exception.
- *
- *  @param exception the handled exception, which should be send to the server.
- */
-- (void)trackException:(NSException *)exception;
-#endif
 
 @end
 NS_ASSUME_NONNULL_END

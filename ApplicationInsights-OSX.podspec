@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name             = "ApplicationInsights-OSX"
-  s.version          = "1.0-beta.1"
+  s.version          = "1.0-beta.6"
   s.summary          = "Microsoft Application Insights SDK for OSX"
   s.description      = <<-DESC
                        Application Insights is a service that allows developers to keep their applications available, performant, and successful. 
-                       This SDK will allow you to send telemetry of various kinds (event, trace, exception, etc.) and useful crash reports to the Application Insights service where they can be visualized in the Azure Portal.
+                       This SDK will allow you to send telemetry of various kinds (event, trace, page views, etc.) to the Application Insights service where they can be visualized in the Azure Portal.
                        DESC
   s.homepage         = "https://github.com/Microsoft/ApplicationInsights-OSX/"
   s.license          = { :type => 'MIT', :file => 'ApplicationInsightsOSX/LICENSE' }

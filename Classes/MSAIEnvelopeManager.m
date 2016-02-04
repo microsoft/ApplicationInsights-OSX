@@ -6,9 +6,6 @@
 #import "MSAITelemetryContext.h"
 #import "MSAITelemetryContextPrivate.h"
 #import "MSAIHelper.h"
-#if MSAI_FEATURE_CRASH_REPORTER
-#import "MSAICrashDataProvider.h"
-#endif
 #import "MSAIHelper.h"
 
 static NSInteger const schemaVersion = 2;
@@ -71,15 +68,5 @@ static NSInteger const schemaVersion = 2;
   
   return envelope;
 }
-
-#if MSAI_FEATURE_CRASH_REPORTER
-- (MSAIEnvelope *)envelopeForCrashReport:(MSAIPLCrashReport *)report {
-  return [self envelopeForCrashReport:report exception:nil];
-}
-
-- (MSAIEnvelope *)envelopeForCrashReport:(MSAIPLCrashReport *)report exception:(NSException *)exception {
-  return [MSAICrashDataProvider crashDataForCrashReport:report handledException:exception];
-}
-#endif
 
 @end

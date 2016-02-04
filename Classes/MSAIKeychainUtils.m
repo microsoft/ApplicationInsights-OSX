@@ -27,6 +27,7 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
+@import AppKit;
 #import "MSAIKeychainUtils.h"
 #import <Security/Security.h>
 
