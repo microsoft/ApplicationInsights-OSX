@@ -283,6 +283,9 @@ BOOL msai_isRunningInAppExtension(void) {
  * @return `YES` if the debugger is attached to the current process, `NO` otherwise
  */
 BOOL msai_isDebuggerAttached(void) {
+#if CI
+  return YES;
+#endif
   static BOOL debuggerIsAttached = NO;
   
   static dispatch_once_t debuggerPredicate;
