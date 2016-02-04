@@ -6,7 +6,6 @@
 
 NSString *const kHighPrioString = @"highPrio";
 NSString *const kRegularPrioString = @"regularPrio";
-NSString *const kSessionIdsString = @"metaData";
 NSString *const kFileBaseString = @"app-insights-bundle-";
 
 NSString *const MSAIPersistenceSuccessNotification = @"MSAIPersistenceSuccessNotification";
@@ -83,14 +82,6 @@ NSUInteger const defaultFileCount = 50;
     }
 }
 
-- (void)persistMetaData:(NSDictionary *)metaData {
-  NSString *fileURL = [self newFileURLForPersitenceType:MSAIPersistenceTypeMetaData];
-  
-  dispatch_async(self.persistenceQueue, ^{
-    [NSKeyedArchiver archiveRootObject:metaData toFile:fileURL];
-  });
-}
-
 - (BOOL)isFreeSpaceAvailable{
   return !_maxFileCountReached;
 }
@@ -123,15 +114,6 @@ NSUInteger const defaultFileCount = 50;
     bundle = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
   }
   return bundle;
-}
-
-- (NSDictionary *)metaData {
-  NSDictionary *metaData = nil;
-  NSString *path = [self newFileURLForPersitenceType:MSAIPersistenceTypeMetaData];
-  if(path) {
-    metaData = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-  }
-  return metaData;
 }
 
 - (NSData *)dataAtPath:(NSString *)path {
@@ -195,11 +177,6 @@ NSUInteger const defaultFileCount = 50;
     case MSAIPersistenceTypeHighPriority: {
       [self createFolderAtPathIfNeeded:[fileDir stringByAppendingPathComponent:kHighPrioString]];
       filePath = [[fileDir stringByAppendingPathComponent:kHighPrioString] stringByAppendingPathComponent:fileName];
-      break;
-    };
-    case MSAIPersistenceTypeMetaData: {
-      [self createFolderAtPathIfNeeded:[fileDir stringByAppendingPathComponent:kSessionIdsString]];
-      filePath = [[fileDir stringByAppendingPathComponent:kSessionIdsString] stringByAppendingPathComponent:kSessionIdsString];
       break;
     };
     default: {
@@ -295,10 +272,6 @@ NSUInteger const defaultFileCount = 50;
     };
     case MSAIPersistenceTypeRegular: {
       subfolderPath = kRegularPrioString;
-      break;
-    }
-    case MSAIPersistenceTypeMetaData: {
-      subfolderPath = kSessionIdsString;
       break;
     }
   }

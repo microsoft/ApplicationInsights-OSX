@@ -55,13 +55,6 @@ FOUNDATION_EXPORT NSString *const MSAIPersistenceSuccessNotification;
 - (void)persistBundle:(NSData *)bundle ofType:(MSAIPersistenceType)type enableNotifications:(BOOL)sendNotifications withCompletionBlock:(void (^)(BOOL success))completionBlock;
 
 /**
- *  Saves the given dictionary to the session Ids file.
- *
- *  @param metaData a dictionary consisting of unix timestamps and session ids
- */
-- (void)persistMetaData:(NSDictionary *)metaData;
-
-/**
  *  Deletes the file for the given path.
  *
  *  @param path the path of the file, which should be deleted
@@ -78,18 +71,6 @@ FOUNDATION_EXPORT NSString *const MSAIPersistenceSuccessNotification;
 ///-----------------------------------------------------------------------------
 /// @name Get a bundle of saved data
 ///-----------------------------------------------------------------------------
-
-/**
- * Get a bundle of previously saved data from disk and deletes it using dispatch_sync.
- *
- * @warning Make sure nextBundle is not called from the main thread.
- *
- * It will return bundles of MSAIPersistenceType first.
- * Between bundles of the same MSAIPersistenceType, the order is arbitrary.
- * Returns 'nil' if no bundle is available
- *
- * @return a bundle of data that's ready to be sent to the server
- */
 
 /**
  *  Returns the path for the next item to send. The requested path is reserved as long
@@ -125,13 +106,6 @@ FOUNDATION_EXPORT NSString *const MSAIPersistenceSuccessNotification;
  *  @return a data object which contains telemetry data in json representation
  */
 - (NSData *)dataAtPath:(NSString *)path;
-
-/**
- *  Returns the content of the session Ids file.
- *
- *  @return return a dictionary containing all session Ids
- */
-- (NSDictionary *)metaData;
 
 ///-----------------------------------------------------------------------------
 /// @name Getting a path
