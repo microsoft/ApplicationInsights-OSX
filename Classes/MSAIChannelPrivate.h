@@ -4,7 +4,6 @@
 @class MSAIEnvelope;
 @class MSAITelemetryContext;
 @class MSAIAppClient;
-@class MSAITelemetryContext;
 @class MSAITelemetryData;
 @class MSAISender;
 @class MSAIOrderedDictionary;

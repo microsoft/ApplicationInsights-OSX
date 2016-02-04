@@ -72,19 +72,13 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
 
 #pragma mark Manual User ID Management
 
-- (void)setCurrentUserId:(NSString *)userId {
-  [self setUserWithConfigurationBlock:^(MSAIUser *__nonnull user) {
-    user.userId = userId;
-  }];
-}
-
 - (void)setUserWithConfigurationBlock:(void (^)(MSAIUser *user))userConfigurationBlock {
-  MSAIUser *__block currentUser = [self loadUser];
-
+  MSAIUser *currentUser = [self loadUser];
+  
   if(!currentUser) {
     currentUser = [self newUser];
   }
-
+  
   userConfigurationBlock(currentUser);
 
   if(!currentUser) {
@@ -113,6 +107,7 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
   MSAIUser *user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
   return user;
 }
+
 
 #pragma mark - Sessions
 #pragma mark Session Creation
@@ -222,7 +217,6 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
 
 - (void)renewSessionWithId:(NSString *)sessionId {
   MSAISession *session = [self newSessionWithId:sessionId];
-
   NSDictionary *userInfo = @{kMSAISessionInfo : session};
   [self sendSessionStartedNotificationWithUserInfo:userInfo];
 }
@@ -263,8 +257,6 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
                                                       userInfo:nil];
   });
 }
-
-#pragma mark - Cleanup Meta Data
 
 #pragma mark - Helper
 
