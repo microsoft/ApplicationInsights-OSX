@@ -237,27 +237,28 @@ static char *const MSAICommonPropertiesQueue = "com.microsoft.ApplicationInsight
   [self trackPageView:pageName duration:0];
 }
 
-+ (void)trackPageView:(NSString *)pageName duration:(long)duration {
++ (void)trackPageView:(NSString *)pageName duration:(NSTimeInterval)duration {
   [self trackPageView:pageName duration:duration properties:nil];
 }
 
-- (void)trackPageView:(NSString *)pageName duration:(long)duration {
+- (void)trackPageView:(NSString *)pageName duration:(NSTimeInterval)duration {
   [self trackPageView:pageName duration:duration properties:nil];
 }
 
-+ (void)trackPageView:(NSString *)pageName duration:(long)duration properties:(NSDictionary *)properties {
++ (void)trackPageView:(NSString *)pageName duration:(NSTimeInterval)duration properties:(NSDictionary *)properties {
   [[self sharedManager] trackPageView:pageName duration:duration properties:properties];
 }
 
-- (void)trackPageView:(NSString *)pageName duration:(long)duration properties:(NSDictionary *)properties {
+- (void)trackPageView:(NSString *)pageName duration:(NSTimeInterval)duration properties:(NSDictionary *)properties {
   __weak typeof(self) weakSelf = self;
   dispatch_async(_telemetryEventQueue, ^{
     if(!_managerInitialised) return;
 
     typeof(self) strongSelf = weakSelf;
+    NSString *durationString = [strongSelf durationStringFromDuration:duration];
     MSAIPageViewData *pageViewData = [MSAIPageViewData new];
     pageViewData.name = pageName;
-    pageViewData.duration = [NSString stringWithFormat:@"%ld", duration];
+    pageViewData.duration = durationString;
     pageViewData.properties = properties;
     [strongSelf trackDataItem:pageViewData];
   });
@@ -307,6 +308,21 @@ static char *const MSAICommonPropertiesQueue = "com.microsoft.ApplicationInsight
   MSAISessionStateData *sessionState = [MSAISessionStateData new];
   sessionState.state = MSAISessionState_end;
   [self trackDataItem:sessionState];
+}
+
+#pragma mark PageView Helper
+
+- (NSString *)durationStringFromDuration:(NSTimeInterval)duration {
+  int milliseconds = (int)(fmod(duration, 1) * pow(10, 7));
+  
+  int durationInt = (int)duration;
+  int seconds = durationInt % 60;
+  int minutes = (durationInt / 60) % 60;
+  int hours = (durationInt / 3600) % 24;
+  int days = (durationInt / 3600) / 24;
+  
+  NSString *durationString = [NSString stringWithFormat:@"%01d:%02d:%02d:%02d.%07d", days, hours, minutes, seconds, milliseconds];
+  return durationString;
 }
 
 @end
