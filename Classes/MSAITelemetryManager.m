@@ -1,3 +1,4 @@
+@import AppKit;
 #import "ApplicationInsights.h"
 
 #if MSAI_FEATURE_TELEMETRY
@@ -18,12 +19,6 @@
 #import "MSAIPageViewData.h"
 #import "MSAIDataPoint.h"
 #import "MSAIEnums.h"
-#if MSAI_FEATURE_CRASH_REPORTER
-#import "MSAICrashDataProvider.h"
-#import "MSAICrashData.h"
-#import <pthread.h>
-#import "CrashReporter.h"
-#endif
 #import "MSAIEnvelope.h"
 #import "MSAIEnvelopeManager.h"
 #import "MSAIEnvelopeManagerPrivate.h"
@@ -233,29 +228,6 @@ static char *const MSAICommonPropertiesQueue = "com.microsoft.ApplicationInsight
     [strongSelf trackDataItem:metricData];
   });
 }
-
-#if MSAI_FEATURE_CRASH_REPORTER
-+ (void)trackException:(NSException *)exception {
-  [[self sharedManager] trackException:exception];
-}
-
-- (void)trackException:(NSException *)exception {
-  pthread_t thread = pthread_self();
-
-  dispatch_async(_telemetryEventQueue, ^{
-    PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
-    PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyAll;
-    MSAIPLCrashReporterConfig *config = [[MSAIPLCrashReporterConfig alloc] initWithSignalHandlerType:signalHandlerType
-                                                                               symbolicationStrategy:symbolicationStrategy];
-    MSAIPLCrashReporter *cm = [[MSAIPLCrashReporter alloc] initWithConfiguration:config];
-    NSData *data = [cm generateLiveReportWithThread:pthread_mach_thread_np(thread)];
-    MSAIPLCrashReport *report = [[MSAIPLCrashReport alloc] initWithData:data error:nil];
-    MSAIEnvelope *envelope = [[MSAIEnvelopeManager sharedManager] envelopeForCrashReport:report exception:exception];
-    MSAIOrderedDictionary *dict = [envelope serializeToDictionary];
-    [[MSAIChannel sharedChannel] processDictionary:dict withCompletionBlock:nil];
-  });
-}
-#endif
 
 + (void)trackPageView:(NSString *)pageName {
   [self trackPageView:pageName duration:0];

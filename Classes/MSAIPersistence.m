@@ -1,13 +1,11 @@
 #import "MSAIPersistence.h"
 #import "MSAIPersistencePrivate.h"
 #import "MSAIEnvelope.h"
-#import "MSAICrashData.h"
 #import "ApplicationInsightsPrivate.h"
 #import "MSAIHelper.h"
 
 NSString *const kHighPrioString = @"highPrio";
 NSString *const kRegularPrioString = @"regularPrio";
-NSString *const kCrashTemplateString = @"crashTemplate";
 NSString *const kSessionIdsString = @"metaData";
 NSString *const kFileBaseString = @"app-insights-bundle-";
 
@@ -52,9 +50,7 @@ NSUInteger const defaultFileCount = 50;
 }
 
 /**
- * Creates a serial background queue that saves the Bundle using NSKeyedArchiver and NSData's writeToFile:atomically
- * In case if type MSAIPersistenceTypeCrashTemplate, we don't send out a kMSAIPersistenceSuccessNotification.
- *
+ * Creates a serial background queue that saves the Bundle using NSKeyedArchiver and NSData's writeToFile:atomically.
  */
 - (void)persistBundle:(NSData *)bundle ofType:(MSAIPersistenceType)type enableNotifications:(BOOL)sendNotifications withCompletionBlock:(void (^)(BOOL success))completionBlock {
   
@@ -67,7 +63,7 @@ NSUInteger const defaultFileCount = 50;
         BOOL success = [bundle writeToFile:fileURL atomically:YES];
         if(success) {
           MSAILog(@"Wrote %@", fileURL);
-          if(sendNotifications && type != MSAIPersistenceTypeCrashTemplate) {
+          if(sendNotifications) {
             [strongSelf sendBundleSavedNotification];
           }
         }
@@ -115,29 +111,6 @@ NSUInteger const defaultFileCount = 50;
     }
   });
   return path;
-}
-
-/**
- * Method used to persist the "fake" crash reports. Crash templates are handled but are similar to the other bundle
- * types under the hood.
- */
-- (void)persistCrashTemplate:(MSAIEnvelope *)crashTemplate {
-  NSData *bundle = [NSKeyedArchiver archivedDataWithRootObject:@[crashTemplate]];
-  [self persistBundle:bundle ofType:MSAIPersistenceTypeCrashTemplate withCompletionBlock:nil];
-}
-
-/*
- * @Returns a bundle that includes a crash template.
- */
-- (NSArray *)crashTemplateBundle {
-  NSString *path = [self nextURLWithPriority:MSAIPersistenceTypeCrashTemplate];
-  if(path && path.length > 0) {
-    NSArray *bundle = [self bundleAtPath:path];
-    if(bundle) {
-      return bundle;
-    }
-  }
-  return nil;
 }
 
 /**
@@ -222,11 +195,6 @@ NSUInteger const defaultFileCount = 50;
     case MSAIPersistenceTypeHighPriority: {
       [self createFolderAtPathIfNeeded:[fileDir stringByAppendingPathComponent:kHighPrioString]];
       filePath = [[fileDir stringByAppendingPathComponent:kHighPrioString] stringByAppendingPathComponent:fileName];
-      break;
-    };
-    case MSAIPersistenceTypeCrashTemplate: {
-      [self createFolderAtPathIfNeeded:[fileDir stringByAppendingPathComponent:kCrashTemplateString]];
-      filePath = [[fileDir stringByAppendingPathComponent:kCrashTemplateString] stringByAppendingPathComponent:kCrashTemplateString];
       break;
     };
     case MSAIPersistenceTypeMetaData: {
@@ -325,10 +293,6 @@ NSUInteger const defaultFileCount = 50;
       subfolderPath = kHighPrioString;
       break;
     };
-    case MSAIPersistenceTypeCrashTemplate: {
-      subfolderPath = kCrashTemplateString;
-      break;
-    };
     case MSAIPersistenceTypeRegular: {
       subfolderPath = kRegularPrioString;
       break;
@@ -353,26 +317,6 @@ NSUInteger const defaultFileCount = 50;
                                                         object:nil
                                                       userInfo:nil];
   });
-}
-
-- (BOOL)crashReportLockFilePresent {
-  NSString *analyzerInProgressFile = [msai_settingsDir() stringByAppendingPathComponent:kMSAICrashAnalyzer];
-
-  return [[NSFileManager defaultManager] fileExistsAtPath:analyzerInProgressFile];
-}
-
-- (void)createCrashReporterLockFile {
-  NSString *analyzerInProgressFile = [msai_settingsDir() stringByAppendingPathComponent:kMSAICrashAnalyzer];
-
-  [[NSFileManager defaultManager] createFileAtPath:analyzerInProgressFile contents:nil attributes:nil];
-}
-
-- (void)deleteCrashReporterLockFile {
-  NSString *analyzerInProgressFile = [msai_settingsDir() stringByAppendingPathComponent:kMSAICrashAnalyzer];
-  NSError *error = NULL;
-  if([[NSFileManager defaultManager] fileExistsAtPath:analyzerInProgressFile]) {
-    [[NSFileManager defaultManager] removeItemAtPath:analyzerInProgressFile error:&error];
-  }
 }
 
 @end

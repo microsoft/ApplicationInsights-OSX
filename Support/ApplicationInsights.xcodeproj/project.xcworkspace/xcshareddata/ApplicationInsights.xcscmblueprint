@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "E905C92652839D1FD1E3B7D0AF920F8EA9314E1B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "E905C92652839D1FD1E3B7D0AF920F8EA9314E1B" : 0,
+    "5B023693EFFEF2F44FB6AB33FD2AAF34F28DA39D" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "30C66B34-1CE3-4549-90A5-68744255C4D7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "E905C92652839D1FD1E3B7D0AF920F8EA9314E1B" : "ApplicationInsights-OSX\/",
+    "5B023693EFFEF2F44FB6AB33FD2AAF34F28DA39D" : "AppInsights-iOS"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "ApplicationInsights",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Support\/ApplicationInsights.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Microsoft\/AppInsights-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5B023693EFFEF2F44FB6AB33FD2AAF34F28DA39D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Microsoft\/ApplicationInsights-OSX.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E905C92652839D1FD1E3B7D0AF920F8EA9314E1B"
+    }
+  ]
+}

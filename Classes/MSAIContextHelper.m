@@ -1,3 +1,4 @@
+@import AppKit;
 #import "ApplicationInsightsPrivate.h"
 #import "MSAIContextHelper.h"
 #import "MSAIContextHelperPrivate.h"
