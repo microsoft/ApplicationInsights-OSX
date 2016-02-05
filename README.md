@@ -2,7 +2,7 @@
 
 # Application Insights for Mac (1.0-beta.2)
 
-This is the repository of the Mac SDK for Application Insights. [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/) is a service that allows developers to keep their applications available, performing, and succeeding. The SDK enables you to send telemetry of various kinds (events, traces, exceptions, etc.) to the Application Insights service where your data can be visualized in the Azure Portal.
+This is the repository of the Mac SDK for Application Insights. [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/) is a service that allows developers to keep their applications available, performing, and succeeding. The SDK enables you to send telemetry of various kinds (events, traces, page views, etc.) to the Application Insights service where your data can be visualized in the Azure Portal.
 
 You can use the [Application Insights for Mac](http://go.microsoft.com/fwlink/?linkid=533209&clcid=0x409) tool to integrate the Application Insights Mac SDK into your existing apps.
 The SDK runs on devices with with OS X 10.8 or higher. You'll need a subscription to [Microsoft Azure](https://azure.com). (It's free until you want to send quite a lot of telemetry.)
@@ -235,7 +235,7 @@ This setting is ignored if the app is running in an app store environment, so th
 
 **[NOTE]** The SDK is optimized to defer everything possible to a later time while making sure e.g. crashes on startup can also be caught and each module executes other code with a delay of some seconds. This ensures that `applicationDidFinishLaunching:` will process as fast as possible and the SDK will not block the startup sequence resulting in a possible kill by the watchdog process.
 
-After you have set up the SDK as [described above](#setup), the ```MSAITelemetryManager```-instance is the central interface to track events, traces, metrics, page views or handled exceptions.
+After you have set up the SDK as [described above](#setup), the ```MSAITelemetryManager```-instance is the central interface to track events, traces, metrics, or page views.
 
 For an overview of how to use the API and view the results in the Application Insights resource, see [API Overview](https://azure.microsoft.com/documentation/articles/app-insights-api-custom-events-metrics/). The examples are in Java, but the principles are the same.
 
@@ -260,14 +260,6 @@ For an overview of how to use the API and view the results in the Application In
 
 // Send custom metrics
 [MSAITelemetryManager trackMetricWithName:@"Test metric" value:42.2];
-
-// Track handled exceptions
-NSArray *zeroItemArray = [NSArray new];
-@try {
-	NSString *fooString = zeroItemArray[3];
-} @catch(NSException *exception) {
-	[MSAITelemetryManager trackException:exception];
-}
 ```
 
 
@@ -300,7 +292,7 @@ MSAITelemetryManager.trackMetricWithName("Test metric", value:42.2)
 In the [Azure portal](https://portal.azure.com), open the application resource that you created to get your instrumentation key. You'll see charts showing counts of page views and sessions. To see more:
 
 * Click any chart to see more detail. You can [create your own metric pages, set alerts, and filter and segment your data](https://azure.microsoft.com/documentation/articles/app-insights-metrics-explorer/).
-* Click [Search](https://azure.microsoft.com/documentation/articles/app-insights-diagnostic-search/) to see individual trackEvent, trackTrace, trackException and trackPageView messages.
+* Click [Search](https://azure.microsoft.com/documentation/articles/app-insights-diagnostic-search/) to see individual trackEvent, trackTrace, and trackPageView messages.
 
 <a name="advancedusage"></a>
 ## 7. Advanced Usage
