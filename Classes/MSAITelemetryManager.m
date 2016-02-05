@@ -1,4 +1,5 @@
 #import "ApplicationInsights.h"
+#import <AppKit/AppKit.h>
 
 #if MSAI_FEATURE_TELEMETRY
 

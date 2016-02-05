@@ -54,6 +54,8 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
     _autoSessionManagementDisabled = NO;
     _appBackgroundTimeBeforeSessionExpires = defaultSessionExpirationTime;
 
+    [self newSessionWithId:msai_UUID()];
+    _firstSessionCreation = [[NSDate date] timeIntervalSince1970];
     [self registerObservers];
   }
   return self;
