@@ -1,5 +1,5 @@
-@import AppKit;
 #import "ApplicationInsights.h"
+#import <AppKit/AppKit.h>
 
 #if MSAI_FEATURE_TELEMETRY
 
@@ -250,18 +250,34 @@ static char *const MSAICommonPropertiesQueue = "com.microsoft.ApplicationInsight
 }
 
 - (void)trackPageView:(NSString *)pageName duration:(NSTimeInterval)duration properties:(NSDictionary *)properties {
+  NSString *durationString = [self durationStringFromDuration:duration];
+
   __weak typeof(self) weakSelf = self;
   dispatch_async(_telemetryEventQueue, ^{
     if(!_managerInitialised) return;
 
     typeof(self) strongSelf = weakSelf;
-    NSString *durationString = [strongSelf durationStringFromDuration:duration];
     MSAIPageViewData *pageViewData = [MSAIPageViewData new];
     pageViewData.name = pageName;
     pageViewData.duration = durationString;
     pageViewData.properties = properties;
     [strongSelf trackDataItem:pageViewData];
   });
+}
+
+#pragma mark PageView Helper
+
+- (NSString *)durationStringFromDuration:(NSTimeInterval)duration {
+  int milliseconds = (int)(fmod(duration, 1) * pow(10, 7));
+
+  int durationInt = (int)duration;
+  int seconds = durationInt % 60;
+  int minutes = (durationInt / 60) % 60;
+  int hours = (durationInt / 3600) % 24;
+  int days = (durationInt / 3600) / 24;
+
+  NSString *durationString = [NSString stringWithFormat:@"%01d:%02d:%02d:%02d.%07d", days, hours, minutes, seconds, milliseconds];
+  return durationString;
 }
 
 #pragma mark Track DataItem
@@ -308,21 +324,6 @@ static char *const MSAICommonPropertiesQueue = "com.microsoft.ApplicationInsight
   MSAISessionStateData *sessionState = [MSAISessionStateData new];
   sessionState.state = MSAISessionState_end;
   [self trackDataItem:sessionState];
-}
-
-#pragma mark PageView Helper
-
-- (NSString *)durationStringFromDuration:(NSTimeInterval)duration {
-  int milliseconds = (int)(fmod(duration, 1) * pow(10, 7));
-  
-  int durationInt = (int)duration;
-  int seconds = durationInt % 60;
-  int minutes = (durationInt / 60) % 60;
-  int hours = (durationInt / 3600) % 24;
-  int days = (durationInt / 3600) / 24;
-  
-  NSString *durationString = [NSString stringWithFormat:@"%01d:%02d:%02d:%02d.%07d", days, hours, minutes, seconds, milliseconds];
-  return durationString;
 }
 
 @end

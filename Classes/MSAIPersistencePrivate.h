@@ -35,7 +35,7 @@ FOUNDATION_EXPORT NSString *const MSAIPersistenceSuccessNotification;
 
 /**
  * Saves the bundle and sends out a MSAIPersistenceSuccessNotification in case of success
- * for all types.
+ * for all types
  * @param bundle a bundle of tracked events that will be serialized and saved.
  * @param type The type of the bundle we want to save.
  * @param completionBlock An optional block that will be executed after we have tried to save the bundle.

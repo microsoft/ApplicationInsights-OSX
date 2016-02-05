@@ -56,13 +56,6 @@ FOUNDATION_EXPORT NSString *const kMSAIApplicationWasLaunched;
 ///-----------------------------------------------------------------------------
 
 /**
- *  Set a new user ID. This method automatically adds this ID to the automatic store with the current time as a timestamp.
- *
- *  @param userId The string that represents the current user's ID
- */
-- (void)setCurrentUserId:(NSString *)userId;
-
-/**
  *  Use this method to configure the current user's context.
  *
  *  @param userConfigurationBlock This block gets the current user as an input.
@@ -113,6 +106,7 @@ FOUNDATION_EXPORT NSString *const kMSAIApplicationWasLaunched;
  */
 - (MSAISession *)newSessionWithId:(NSString *)sessionId;
 
+
 ///-----------------------------------------------------------------------------
 /// @name Automatic Session Management
 ///-----------------------------------------------------------------------------
@@ -137,6 +131,7 @@ FOUNDATION_EXPORT NSString *const kMSAIApplicationWasLaunched;
  */
 - (void)startNewSessionIfNeeded;
 
+
 ///-----------------------------------------------------------------------------
 /// @name Manual Session Management
 ///-----------------------------------------------------------------------------
@@ -156,6 +151,7 @@ FOUNDATION_EXPORT NSString *const kMSAIApplicationWasLaunched;
  *  End the current session. Currently only triggers the sending of the MSAISessionEndedNotification.
  */
 - (void)endSession;
+
 
 ///-----------------------------------------------------------------------------
 /// @name Sending Notifications

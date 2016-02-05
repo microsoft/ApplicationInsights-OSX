@@ -143,22 +143,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setAutoSessionManagementDisabled:(BOOL)autoSessionManagementDisabled;
 
 /**
- *  Manually set the current user ID. This ID will automatically be persisted and attached to all appropriate telemetry.
- *  The user ID will stay the same until it is changed.
- *
- *  @param userId The string which will be used as the current user's ID.
- */
-+ (void)setUserId:(NSString *)userId __deprecated_msg("Use setUserWithConfigurationBlock: instead!");
-
-/**
- *  Manually set the current user ID. This ID will automatically be persisted and attached to all appropriate telemetry.
- *  The user ID will stay the same until it is changed.
- *
- *  @param userId The string which will be used as the current user's ID.
- */
-- (void)setUserId:(NSString *)userId __deprecated_msg("Use setUserWithConfigurationBlock: instead!");
-
-/**
  *  Use this method to configure the current user's context.
  *
  *  @param userConfigurationBlock This block gets the current user as an input.
@@ -203,7 +187,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  This starts a new session with the given session ID. 
  *
- *  @param sessionId The session ID which should be attached to all future telemetry.
+ *  @param sessionId The session ID which should be attached to all future telemetry events.
  *
  *  @warning Using this method automatically disables automatic session management!
  *  @see autoSessionManagementDisabled
@@ -213,7 +197,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  This starts a new session with the given session ID.
  *
- *  @param sessionId The session ID which should be attached to all future telemetry.
+ *  @param sessionId The session ID which should be attached to all future telemetry events.
  *
  *  @warning Using this method automatically disables automatic session management!
  *  @see autoSessionManagementDisabled
@@ -230,7 +214,7 @@ NS_ASSUME_NONNULL_BEGIN
  * from the App Store or _NO_ if the app is installed via debug, ad-hoc or enterprise 
  * distribution
  */
-//@property (nonatomic, readonly, getter=isAppStoreEnvironment) BOOL appStoreEnvironment;
+@property (nonatomic, readonly, getter=isAppStoreEnvironment) BOOL appStoreEnvironment;
 
 ///-----------------------------------------------------------------------------
 /// @name Debug Logging

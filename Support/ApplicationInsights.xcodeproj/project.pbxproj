@@ -245,7 +245,6 @@
 		1E1B4C3A1AEE6B53006B7702 /* OCMockito.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMockito.framework; sourceTree = "<group>"; };
 		1E1B4C3C1AEE6D25006B7702 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMock.framework; sourceTree = "<group>"; };
 		1E1B4C4C1AEE7570006B7702 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
-		1E3A2B4C19645DC800D5BD66 /* ApplicationInsights-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ApplicationInsights-Prefix.pch"; sourceTree = "<group>"; };
 		1E49A4A5161222B900463151 /* MSAIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAIHelper.h; sourceTree = "<group>"; };
 		1E49A4A6161222B900463151 /* MSAIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSAIHelper.m; sourceTree = "<group>"; };
 		1E49A4D4161222D400463151 /* ApplicationInsightsPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationInsightsPrivate.h; sourceTree = "<group>"; };
@@ -641,7 +640,6 @@
 				1BA913001A9357A500251386 /* Persistence */,
 				1BBBCEC21A65927400253031 /* Channel */,
 				E48A3DE917B3ECF900924C3D /* Network */,
-				1E3A2B4C19645DC800D5BD66 /* ApplicationInsights-Prefix.pch */,
 				1E71509A15B5C76F004E88FF /* ApplicationInsights.h */,
 				1E84DB3317E0977C00AC83FD /* ApplicationInsightsFeatureConfig.h */,
 				1EA6EE2E1AFA5BF9009EE1AC /* ApplicationInsightsOSX.h */,

@@ -31,6 +31,7 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
   id _appWillEnterForegroundObserver;
   id _appDidEnterBackgroundObserver;
   id _appWillTerminateObserver;
+  NSTimeInterval _firstSessionCreation;
 }
 
 #pragma mark - Initialize
@@ -53,6 +54,8 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
     _autoSessionManagementDisabled = NO;
     _appBackgroundTimeBeforeSessionExpires = defaultSessionExpirationTime;
 
+    [self newSessionWithId:msai_UUID()];
+    _firstSessionCreation = [[NSDate date] timeIntervalSince1970];
     [self registerObservers];
   }
   return self;
@@ -71,19 +74,13 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
 
 #pragma mark Manual User ID Management
 
-- (void)setCurrentUserId:(NSString *)userId {
-  [self setUserWithConfigurationBlock:^(MSAIUser *__nonnull user) {
-    user.userId = userId;
-  }];
-}
-
 - (void)setUserWithConfigurationBlock:(void (^)(MSAIUser *user))userConfigurationBlock {
-  MSAIUser *__block currentUser = [self loadUser];
-
+  MSAIUser *currentUser = [self loadUser];
+  
   if(!currentUser) {
     currentUser = [self newUser];
   }
-
+  
   userConfigurationBlock(currentUser);
 
   if(!currentUser) {
@@ -112,6 +109,7 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
   MSAIUser *user = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
   return user;
 }
+
 
 #pragma mark - Sessions
 #pragma mark Session Creation
@@ -202,6 +200,13 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
     [self startNewSession];
     return;
   }
+  
+  // Check for duplicate start session: NSApplicationWillBecomeActiveNotification vs. startManager()
+  NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
+  NSTimeInterval timeSinceFirstSession = now - _firstSessionCreation;
+  if(timeSinceFirstSession < 0.5){
+    return;
+  }
 
   double appDidEnterBackgroundTime = [[NSUserDefaults standardUserDefaults] doubleForKey:kMSAIApplicationDidEnterBackgroundTime];
   double timeSinceLastBackground = [[NSDate date] timeIntervalSince1970] - appDidEnterBackgroundTime;
@@ -214,7 +219,6 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
 
 - (void)renewSessionWithId:(NSString *)sessionId {
   MSAISession *session = [self newSessionWithId:sessionId];
-
   NSDictionary *userInfo = @{kMSAISessionInfo : session};
   [self sendSessionStartedNotificationWithUserInfo:userInfo];
 }
@@ -255,8 +259,6 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
                                                       userInfo:nil];
   });
 }
-
-#pragma mark - Cleanup Meta Data
 
 #pragma mark - Helper
 
