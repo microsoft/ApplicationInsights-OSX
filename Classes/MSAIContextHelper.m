@@ -31,7 +31,7 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
   id _appWillEnterForegroundObserver;
   id _appDidEnterBackgroundObserver;
   id _appWillTerminateObserver;
-  NSTimeInterval _firstSessionCreation;
+  NSTimeInterval _lastSessionCreation;
 }
 
 #pragma mark - Initialize
@@ -53,9 +53,6 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
 
     _autoSessionManagementDisabled = NO;
     _appBackgroundTimeBeforeSessionExpires = defaultSessionExpirationTime;
-
-    [self newSessionWithId:msai_UUID()];
-    _firstSessionCreation = [[NSDate date] timeIntervalSince1970];
     [self registerObservers];
   }
   return self;
@@ -122,6 +119,7 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
 }
 
 - (MSAISession *)newSessionWithId:(NSString *)sessionId {
+  _lastSessionCreation = [[NSDate date] timeIntervalSince1970];
   MSAISession *session = [MSAISession new];
   session.sessionId = sessionId ?: msai_UUID();
   //normally, this should also be saved to UserDefaults like isFirst.
@@ -203,7 +201,8 @@ NSString *const kMSAISessionInfo = @"MSAISessionInfo";
   
   // Check for duplicate start session: NSApplicationWillBecomeActiveNotification vs. startManager()
   NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
-  NSTimeInterval timeSinceFirstSession = now - _firstSessionCreation;
+  NSTimeInterval timeSinceFirstSession = now - _lastSessionCreation;
+  
   if(timeSinceFirstSession < 0.5){
     return;
   }
