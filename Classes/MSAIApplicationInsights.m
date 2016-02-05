@@ -18,11 +18,6 @@
 #include <stdint.h>
 #import "MSAICategoryContainer.h"
 
-#if MSAI_FEATURE_CRASH_REPORTER
-#import "MSAICrashManager.h"
-#import "MSAICrashManagerPrivate.h"
-#endif /* MSAI_FEATURE_CRASH_REPORTER */
-
 #if MSAI_FEATURE_TELEMETRY
 #import "MSAITelemetryManager.h"
 #import "MSAITelemetryManagerPrivate.h"
@@ -57,9 +52,6 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
     _serverURL = nil;
     _managersInitialized = NO;
     _appClient = nil;
-#if MSAI_FEATURE_CRASH_REPORTER
-    _crashManagerDisabled = NO;
-#endif /* MSAI_FEATURE_CRASH_REPORTER */
 #if MSAI_FEATURE_TELEMETRY
     _telemetryManagerDisabled = NO;
 #endif /* MSAI_FEATURE_TELEMETRY */
@@ -111,14 +103,6 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
   _startManagerIsInvoked = YES;
   
   [[MSAISender sharedSender] sendSavedData];
-  
-#if MSAI_FEATURE_CRASH_REPORTER
-  if (![self isCrashManagerDisabled]) {
-    MSAILog(@"INFO: Starting MSAICrashManager");
-    [MSAICrashManager sharedManager].isCrashManagerDisabled = self.isCrashManagerDisabled;
-    [[MSAICrashManager sharedManager] startManager];
-  }
-#endif /* MSAI_FEATURE_CRASH_REPORTER */
   
 #if MSAI_FEATURE_TELEMETRY
   if (![self isTelemetryManagerDisabled]) {
@@ -230,17 +214,6 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
   [[self sharedInstance] setAutoSessionManagementDisabled:autoSessionManagementDisabled];
 }
 
-#if MSAI_FEATURE_CRASH_REPORTER
-- (void)setCrashManagerDisabled:(BOOL)crashManagerDisabled {
-  [MSAICrashManager sharedManager].isCrashManagerDisabled = crashManagerDisabled;
-  _crashManagerDisabled = crashManagerDisabled;
-}
-
-+ (void)setCrashManagerDisabled:(BOOL)crashManagerDisabled{
-  [[self sharedInstance] setCrashManagerDisabled:crashManagerDisabled];
-}
-#endif /* MSAI_FEATURE_CRASH_REPORTER */
-
 - (void)setServerURL:(NSString *)serverURL {
   
   // trailing slash is needed
@@ -280,14 +253,6 @@ NSString *const kMSAIInstrumentationKey = @"MSAIInstrumentationKey";
 }
 
 #pragma mark - Context meta data
-
-+ (void)setUserId:(NSString *)userId {
-  [[self sharedInstance] setUserId:userId];
-}
-
-- (void)setUserId:(NSString *)userId {
-  [[MSAIContextHelper sharedInstance] setCurrentUserId:userId];
-}
 
 + (void)setUserWithConfigurationBlock:(void (^)(MSAIUser *user))userConfigurationBlock {
   [[self sharedInstance] setUserWithConfigurationBlock:userConfigurationBlock];

@@ -1,10 +1,25 @@
-[![Build Status](https://travis-ci.org/Microsoft/ApplicationInsights-OSX.svg?branch=master)](https://travis-ci.org/Microsoft/ApplicationInsights-OSX)
+[![Build Status](https://travis-ci.org/Microsoft/ApplicationInsights-OSX.svg?branch=develop)](https://travis-ci.org/Microsoft/ApplicationInsights-OSX)
 
-# Application Insights for Mac (1.0-beta.1)
+# Application Insights for Mac (1.0-beta.2)
 
-This is the repository of the Mac SDK for Application Insights. [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/) is a service that allows developers to keep their applications available, performing, and succeeding. The SDK enables you to send telemetry of various kinds (events, traces, exceptions, etc.) to the Application Insights service where your data can be visualized in the Azure Portal.
+This is the repository of the Mac SDK for Application Insights. [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/) is a service that allows developers to keep their applications available, performing, and succeeding. The SDK enables you to send telemetry of various kinds (events, traces, page views, etc.) to the Application Insights service where your data can be visualized in the Azure Portal.
+
+You can use the [Application Insights for Mac](http://go.microsoft.com/fwlink/?linkid=533209&clcid=0x409) tool to integrate the Application Insights Mac SDK into your existing apps.
+The SDK runs on devices with with OS X 10.8 or higher. You'll need a subscription to [Microsoft Azure](https://azure.com). (It's free until you want to send quite a lot of telemetry.)
+
+[Application Insights overview](https://azure.microsoft.com/documentation/articles/app-insights-overview/)
 
 The SDK runs on devices with OS X 10.8 or higher.
+
+##Breaking Changes!
+
+Version 1.0-beta.2 of the Application Insights for Mac comes with two major changes:
+
+Crash Reporting and the API to send handled exceptions have been removed from the SDK. In addition, the Application Insights for Mac SDK is now deprecated.
+
+The reason for this is that [HockeyApp](http://hockeyapp.net/) is now our major offering for mobile and cross-plattform crash reporting, beta distribution and user feedback. We are focusing all our efforts on enhancing the HockeySDK and adding telemetry features to make HockeyApp the best platform to build awesome apps. We've launched [HockeyApp Preseason](http://hockeyapp.net/blog/2016/02/02/introducing-preseason.html) so you can try all the new bits yourself, including User Metrics.
+
+We apologize for any inconvenience and please feel free to [contact us](http://support.hockeyapp.net/) at any time.
 
 ## Content
 
@@ -16,19 +31,19 @@ The SDK runs on devices with OS X 10.8 or higher.
 6. [Basic Usage](#basicusage)
 7. [Advanced Usage](#advancedusage)
 8. [Automatic collection of lifecycle events](#autolifecycle)
-9. [Crash Reporting](#crashreporting)
-10. [Set Custom Server Endpoint](#additionalconfig)
-11. [Documentation](#documentation)
-12. [Contributing](#contributing)
-13. [Contact](#contact)
+9. [Set Custom Server Endpoint](#additionalconfig)
+10. [Documentation](#documentation)
+11. [Contributing](#contributing)
+12. [Contact](#contact)
 
 <a name="releasenotes"></a>
 ## 1. Release Notes
 
-* This is the third pre-release
-* It provides support for collecting telemetry and crash reports
-* Fixes crashes when running on OS X 10.8
-* Based on the [iOS SDK Version 1.0-Beta.4](https://github.com/Microsoft/ApplicationInsights-iOS/releases/tag/v1.0-beta.4)
+* Remove crash reporting. To add this feature to your app, we recommend to use [HockeyApp](http://hockeyapp.net/features/) which provides you with superior crash reporting, feedback, beta distribution and much more.
+* Fixes an issue where pageview durations where incorrectly sent as days instead of as a string in the 'd:hh:mm:ss.fffffff' format. The relevant methods now take an `NSTimeInterval` parameter with the duration in seconds.
+* Fix session management & minor bug fixes
+
+See [here](https://github.com/Microsoft/ApplicationInsights-OSX/releases) for the release notes of previous versions.
 
 <a id="requirements"></a>
 ## 2. Requirements
@@ -39,15 +54,23 @@ The SDK runs on devices with OS X 10.8 or higher.
 ## 3. Setup
 
 We recommend integration of our binary into your Xcode project to setup Application Insights for your OS X app. For other ways to setup the SDK, see [Advanced Setup](#advancedsetup).
+Also make sure that you code-sign your app as the SDK is writing data into the keychain. Non-sandboxed or non-code-signed apps will result in keychain dialogs to appear on startup of your app!
+
+You can use the [Application Insights for Mac](http://go.microsoft.com/fwlink/?linkid=533209&clcid=0x409) tool to integrate the SDK, which provides you with a step-by-step wizard for this process. If you want to integrate the SDK manually, you can do that by following this steps: 
 
 ### 3.1 Obtain an Instrumation Key
 
-Please see the "[Getting an Application Insights Instrumentation Key](https://github.com/Microsoft/ApplicationInsights-Home/wiki#getting-an-application-insights-instrumentation-key)" section of the wiki for more information on acquiring a key.
+To view your telemetry, you'll need an [Application Insights](https://azure.microsoft.com/documentation/articles/app-insights-overview/) resource in the [Microsoft Azure Portal](https://portal.azure.com). You can either:
+
+* [Create a new resource](https://azure.microsoft.com/documentation/articles/app-insights-create-new-resource/); or
+* If your app uses a web service, use the same resource you set up to monitor that. See setup [for ASP.NET](https://azure.microsoft.com/documentation/articles/app-insights-asp-net/) or [for J2EE](https://azure.microsoft.com/documentation/articles/app-insights-java-get-started/).
+
+Open your resource and open the Essentials drop-down. Shortly, you'll need to copy the Instrumentation Key.
 
 <a id="downloadsdk"></a>
 ### 3.2 Download the SDK
 
-1. Download the latest [Application Insights for iOS](https://github.com/Microsoft/AppInsights-OSX/releases) framework which is provided as a zip-File.
+1. Download the latest [Application Insights for OSX](https://github.com/Microsoft/AppInsights-OSX/releases) framework which is provided as a zip-File.
 2. Unzip the file and you will see a folder called `ApplicationInsights` .
 
 ### 3.3 Copy the SDK  into your projects directory in Finder
@@ -158,7 +181,7 @@ As soon as Application Insights 1.0 is available, the version doesn't have to be
 
 ```ruby
 platform :osx, '10.8'
-pod "ApplicationInsights-OSX", '1.0-beta.1'
+pod "ApplicationInsights-OSX", '1.0-beta.2'
 ```
 
 ### 4.3 Mac Extensions
@@ -190,14 +213,14 @@ The following points need to be considered to use the Application Insights SDK w
 
 ###5.1 Batching of data
 
-The **developer mode** is enabled automatically in case the debugger is attached. This will  decrease the number of telemetry items sent in a batch (5 items) as well as the interval items when telemetry will be sent (3 seconds).
+The **developer mode** is enabled automatically in case the debugger is attached or if the app is running in the simulator. This will  decrease the number of telemetry items sent in a batch (5 items) as well as the interval items when telemetry will be sent (3 seconds).
 
 ###5.2 Logging
 
 We're all big fans of a clean debugging output without 3rd-party-SDKs messages piling up in the debugging view, right?!
 That's why Application Insights keeps log messages to a minimum (like critical errors) unless the developer specifically enables debug logging before starting the SDK:
 
-```objectivec	
+```objectivec
 [MSAIApplicationInsights setup]; //setup the SDK
  
 [[MSAIApplicationInsights sharedInstance] setDebugLogEnabled:YES]; //enable debug logging 
@@ -205,12 +228,16 @@ That's why Application Insights keeps log messages to a minimum (like critical e
 [MSAIApplicationInsights start]; //start using the SDK
 ```
 
+This setting is ignored if the app is running in an app store environment, so the user's console won't be littered with our log messages.
+
 <a id="basicusage"></a>
 ## 6. Basic Usage
 
 **[NOTE]** The SDK is optimized to defer everything possible to a later time while making sure e.g. crashes on startup can also be caught and each module executes other code with a delay of some seconds. This ensures that `applicationDidFinishLaunching:` will process as fast as possible and the SDK will not block the startup sequence resulting in a possible kill by the watchdog process.
 
-After you have set up the SDK as [described above](#setup), the ```MSAITelemetryManager```-instance is the central interface to track events, traces, metrics, page views or handled exceptions.
+After you have set up the SDK as [described above](#setup), the ```MSAITelemetryManager```-instance is the central interface to track events, traces, metrics, or page views.
+
+For an overview of how to use the API and view the results in the Application Insights resource, see [API Overview](https://azure.microsoft.com/documentation/articles/app-insights-api-custom-events-metrics/). The examples are in Java, but the principles are the same.
 
 ### 6.1 Objective-C
 
@@ -226,21 +253,13 @@ After you have set up the SDK as [described above](#setup), the ```MSAITelemetry
 // Send a message
 [MSAITelemetryManager trackTraceWithMessage:@"Test message"];
 
-// Manually send pageviews (note: this will also be done automatically)
+// Manually send page views (duration 200 ms) 
 [MSAITelemetryManager trackPageView:@"MyViewController"
-                           duration:300
+                           duration:0.2
                          properties:@{@"Test measurement 1":@(4.8)}];
 
 // Send custom metrics
 [MSAITelemetryManager trackMetricWithName:@"Test metric" value:42.2];
-
-// Track handled exceptions
-NSArray *zeroItemArray = [NSArray new];
-@try {
-	NSString *fooString = zeroItemArray[3];
-} @catch(NSException *exception) {
-	[MSAITelemetryManager trackException:exception];
-}
 ```
 
 
@@ -259,14 +278,21 @@ MSAITelemetryManager.trackEventWithName("Hello World event!",
 // Send a message
 MSAITelemetryManager.trackTraceWithMessage("Test message")
 
-// Manually send pageviews
+// Manually send pageviews (duration 200 ms)
 MSAITelemetryManager.trackPageView("MyViewController",
-								   duration:300,
+								   duration:0.2,
 							     properties:["Test measurement 1":4.8])
 
 // Send a message
 MSAITelemetryManager.trackMetricWithName("Test metric", value:42.2)
 ```
+
+### View your data in the portal
+
+In the [Azure portal](https://portal.azure.com), open the application resource that you created to get your instrumentation key. You'll see charts showing counts of page views and sessions. To see more:
+
+* Click any chart to see more detail. You can [create your own metric pages, set alerts, and filter and segment your data](https://azure.microsoft.com/documentation/articles/app-insights-metrics-explorer/).
+* Click [Search](https://azure.microsoft.com/documentation/articles/app-insights-diagnostic-search/) to see individual trackEvent, trackTrace, and trackPageView messages.
 
 <a name="advancedusage"></a>
 ## 7. Advanced Usage
@@ -289,6 +315,10 @@ It is also possible to set so-called "common properties" that will then be autom
 MSAITelemetryManager.setCommonProperties(["custom info":"some value"])
 ```
 
+#### Filter your views by properties
+
+Use the properties to [segment and filter metric charts](https://azure.microsoft.com/documentation/articles/app-insights-metrics-explorer/#segment-your-data) and [filter searches](https://azure.microsoft.com/documentation/articles/app-insights-diagnostic-search/#filter-on-property-values).
+
 <a name="autolifecycle"></a>
 ## 8. Automatic collection of lifecycle events
 
@@ -296,14 +326,14 @@ Automatic collection of lifecycle events is **enabled by default**. This means t
 
 ### 8.1. Sessions
 
-By default, the Application Insights for OS X SDK starts a new session when the containing app is restarted (this means a 'cold start', i.e. when the app has not already been in memory prior to being launched) or when it has been in the background for more then 20 seconds.
+By default, the Application Insights for Mac starts a new session when the containing app is restarted (this means a 'cold start', i.e. when the app has not already been in memory prior to being launched) or when it has been in the background for more than 20 seconds. 
 
-You can either change this time frame:
+You can either change this timeframe:
 ``` objectivec
 [MSAIApplicationInsights setAppBackgroundTimeBeforeSessionExpires:60];
 ```
 
-turn of automatic session completely:
+Turn of automatic session management completely:
 ``` objectivec
 [MSAIApplicationInsights setAutoSessionManagementDisabled:YES];
 ```
@@ -315,87 +345,16 @@ This then requires you to manage sessions manually:
 
 ### 8.2. Users
 
-Normally, a random anonymous ID is automatically generated for every user of your app by the SDK. Alternatively you can set your own user ID or other user attributes, which will then be attached to all telemetry events and crashes:
+Normally, a random anonymous ID is automatically generated for every user of your app by the SDK. Alternatively you can set your own user ID or other user attributes, which will then be attached to all telemetry events:
 ```objectivec
-[[MSAIApplicationInsights sharedInstance] setUserWithConfigurationBlock:^(MSAIUser *user) {
-  user.userId = @"your_user_id";
-  user.accountId = @"user@example.com";
-}];
+  [[MSAIApplicationInsights sharedInstance] setUserWithConfigurationBlock:^(MSAIUser *user) {
+    user.userId = @"your_user_id";
+    user.accountId = @"user@example.com";
+  }];
 ```
-
-<a name="crashreporting"></a>
-## 9. Crash Reporting
-
-The Application Insights SDK enables crash reporting **per default**. Crashes will be immediately sent to the server the next time the app is launched.
-To provide you with the best crash reporting, we are using [PLCrashReporter]("https://github.com/plausiblelabs/plcrashreporter") in [Version 1.2 / Commit 273a7e7cd4b77485a584ac82e77b7c857558e2f9]("https://github.com/plausiblelabs/plcrashreporter/commit/273a7e7cd4b77485a584ac82e77b7c857558e2f9").
-
-This feature can be disabled as follows:
-
-```objectivec
-[MSAIApplicationInsights setup]; //setup the SDK
- 
-[[MSAIApplicationInsights sharedInstance] setCrashManagerDisabled:YES]; //disable crash reporting
-
-[MSAIApplicationInsights start]; //start using the SDK
-```
-
-### 9.1. Catch additional exceptions
-
-1. Custom `NSUncaughtExceptionHandler` don't start working until after `NSApplication` has finished calling all of its delegate methods!
-
-   Example:
-   
-    ``` objectivec
-    - (void)applicationDidFinishLaunching:(NSNotification *)note {
-      ...
-      [NSException raise:@"ExceptionAtStartup" format:@"This will not be recognized!"];
-      ...
-    }
-   ```
-
-2. The default `NSUncaughtExceptionHandler` in `NSApplication` only logs exceptions to the console and ends their processing. Resulting in exceptions that occur in the `NSApplication` "scope" not occurring in a registered custom `NSUncaughtExceptionHandler`.
-
-   Example:
-   
-    ``` objectivec
-    - (void)applicationDidFinishLaunching:(NSNotification *)note {
-     ...
-     [self performSelector:@selector(delayedException) withObject:nil afterDelay:5];
-     ...
-   }
-  
-   - (void)delayedException {
-     NSArray *array = [NSArray array];
-     [array objectAtIndex:23];
-   }
-   ```
-
-3. Any exceptions occurring in IBAction or other GUI does not even reach the NSApplication default UncaughtExceptionHandler.
-
-   Example:
-   
-   ``` objectivec
-   - (IBAction)doExceptionCrash:(id)sender {
-     NSArray *array = [NSArray array];
-     [array objectAtIndex:23];
-   }
-   ```
-
-In general there are two solutions. The first one is to use an `NSExceptionHandler` class instead of an `NSUncaughtExceptionHandler`. But this has a few drawbacks which are detailed in `MSAICrashExceptionApplication.h`.
-
-Instead we provide the optional `NSApplication` subclass `MSAICrashExceptionApplication` which handles cases 2 and 3.
-
-**Installation:**
-
-* Open the applications `Info.plist`
-* Search for the field `Principal class`
-* Replace `NSApplication` with `MSAICrashExceptionApplication`
-
-Alternatively, if you have your own NSApplication subclass, change it to be a subclass of `MSAICrashExceptionApplication` instead.
-
 
 <a name="additionalconfig"></a>
-## 10. Set Custom Server Endpoint
+## 9. Set Custom Server Endpoint
 
 You can also configure a different server endpoint for the SDK if needed using a full URL
 
@@ -407,14 +366,13 @@ You can also configure a different server endpoint for the SDK if needed using a
 [MSAIApplicationInsights start]; //start using the SDK
 ```
 
-
 <a id="documentation"></a>
-## 11. Documentation
+## 10. Documentation
 
-Our documentation can be found on [CocoaDocs](http://cocoadocs.org/docsets/ApplicationInsights-OSX/1.0-beta.1/).
+Our documentation can be found on [CocoaDocs](http://cocoadocs.org/docsets/ApplicationInsights-OSX/1.0-beta.2/).
 
 <a id="contributing"></a>
-## 12. Contributing
+## 11. Contributing
 
 We're looking forward to your contributions via pull requests.
 
@@ -426,6 +384,6 @@ We're looking forward to your contributions via pull requests.
 * [Cocoapods](https://cocoapods.org/)
 
 <a id="contact"></a>
-## 13. Contact
+## 12. Contact
 
-If you have further questions or are running into trouble that cannot be resolved by any of the steps here, feel free to contact us at [AppInsights-iOS@microsoft.com](mailto:AppInsights-ios@microsoft.com)
+If you have further questions or are running into trouble that cannot be resolved by any of the steps here, feel free to open a GitHub issue here or contact us at [support@hockeyapp.net](mailto:support@hockeyapp.net)

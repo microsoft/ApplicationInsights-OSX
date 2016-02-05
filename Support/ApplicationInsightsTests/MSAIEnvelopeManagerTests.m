@@ -17,10 +17,6 @@
 #import "MSAIData.h"
 
 #import "ApplicationInsightsFeatureConfig.h"
-#if MSAI_FEATURE_CRASH_REPORTER
-#import "CrashReporter.h"
-#import <pthread.h>
-#endif
 
 @interface MSAIEnvelopeManagerTests : XCTestCase
 
@@ -77,23 +73,6 @@
   assertThat([(MSAIEventData *)data.baseData name], equalTo(@"Test event"));
   assertThat(data.baseType, equalTo(@"EventData"));
 }
-
-#if MSAI_FEATURE_CRASH_REPORTER
-- (void)testThatItInstantiatesEnvelopeForCrash {
-  PLCrashReporterSignalHandlerType signalHandlerType = PLCrashReporterSignalHandlerTypeBSD;
-  PLCrashReporterSymbolicationStrategy symbolicationStrategy = PLCrashReporterSymbolicationStrategyAll;
-  MSAIPLCrashReporterConfig *config = [[MSAIPLCrashReporterConfig alloc] initWithSignalHandlerType: signalHandlerType
-                                                                             symbolicationStrategy: symbolicationStrategy];
-  MSAIPLCrashReporter *cm = [[MSAIPLCrashReporter alloc] initWithConfiguration:config];
-  NSData *data = [cm generateLiveReportWithThread:pthread_mach_thread_np(pthread_self())];
-  MSAIPLCrashReport *report = [[MSAIPLCrashReport alloc] initWithData:data error:nil];
-  MSAIEnvelope *envelope = [_sut envelopeForCrashReport:report];
-  
-  [self checkEnvelopeTemplate:envelope];
-  assertThat(envelope.data, notNilValue());
-  assertThat(envelope.name, equalTo(@"Microsoft.ApplicationInsights.Crash"));
-}
-#endif
 
 #pragma mark - Helper
 
