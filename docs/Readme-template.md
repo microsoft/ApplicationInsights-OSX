@@ -2,7 +2,7 @@
 
 # Application Insights for Mac (1.0-beta.2)
 
-This is the repository of the Mac SDK for Application Insights. [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/) is a service that allows developers to keep their applications available, performing, and succeeding. The SDK enables you to send telemetry of various kinds (events, traces, exceptions, etc.) to the Application Insights service where your data can be visualized in the Azure Portal.
+This is the repository of the Mac SDK for Application Insights. [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/) is a service that allows developers to keep their applications available, performing, and succeeding. The SDK enables you to send telemetry of various kinds (events, traces, page views, etc.) to the Application Insights service where your data can be visualized in the Azure Portal.
 
 You can use the [Application Insights for Mac](http://go.microsoft.com/fwlink/?linkid=533209&clcid=0x409) tool to integrate the Application Insights Mac SDK into your existing apps.
 The SDK runs on devices with with OS X 10.8 or higher. You'll need a subscription to [Microsoft Azure](https://azure.com). (It's free until you want to send quite a lot of telemetry.)
@@ -100,49 +100,49 @@ From our experience, 3rd-party libraries usually reside inside a subdirectory (l
 1. Open your `AppDelegate.m` file.
 2. Add the following line at the top of the file below your own `import` statements:
 
-  ```objectivec
-  #import <ApplicationInsightsOSX/ApplicationInsights.h>
-  ```
+	```objectivec
+	#import <ApplicationInsightsOSX/ApplicationInsights.h>
+	```
 3. Search for the method `application:didFinishLaunchingWithOptions:`
 4. Add the following lines to setup and start the Application Insights SDK:
 
-  ```objectivec
-  // Setup Application Insights SDK
-  [[MSAIApplicationInsights sharedInstance] setup];
-  // Do some additional configuration if needed here
-  ...
-  [[MSAIApplicationInsights sharedInstance] start];
-  ```
+	```objectivec
+	// Setup Application Insights SDK
+	[[MSAIApplicationInsights sharedInstance] setup];
+	// Do some additional configuration if needed here
+	...
+	[[MSAIApplicationInsights sharedInstance] start];
+	```
 
-  You can also use the following shortcuts:
+	You can also use the following shortcuts:
 
-  ```objectivec
-  [MSAIApplicationInsights setup];
-  [MSAIApplicationInsights start];
-  ```
+	```objectivec
+	[MSAIApplicationInsights setup];
+	[MSAIApplicationInsights start];
+	```
 
 **Swift**
 
 1. Open your `AppDelegate.swift` file.
 2. Add the following line at the top of the file below your own import statements:
-  
-  ```swift
-  import ApplicationInsightsOSX
-  ```
+	
+	```swift
+	import ApplicationInsightsOSX
+	```
 
 3. Search for the method 
-  
-  ```swift
-  func applicationDidFinishLaunching(_ aNotification: NSNotification)
-  ```
+	
+	```swift
+	func applicationDidFinishLaunching(_ aNotification: NSNotification)
+	```
 
 4. Add the following lines to setup and start the Application Insights SDK:
-  
-  ```swift
-  MSAIApplicationInsights.sharedInstance().setup()
-  MSAIApplicationInsights.sharedInstance().start()
-  ```
-  
+	
+	```swift
+	MSAIApplicationInsights.sharedInstance().setup()
+	MSAIApplicationInsights.sharedInstance().start()
+	```
+	
     You can also use the following shortcuts:
 
     ```swift
@@ -235,13 +235,13 @@ This setting is ignored if the app is running in an app store environment, so th
 
 **[NOTE]** The SDK is optimized to defer everything possible to a later time while making sure e.g. crashes on startup can also be caught and each module executes other code with a delay of some seconds. This ensures that `applicationDidFinishLaunching:` will process as fast as possible and the SDK will not block the startup sequence resulting in a possible kill by the watchdog process.
 
-After you have set up the SDK as [described above](#setup), the ```MSAITelemetryManager```-instance is the central interface to track events, traces, metrics, page views or handled exceptions.
+After you have set up the SDK as [described above](#setup), the ```MSAITelemetryManager```-instance is the central interface to track events, traces, metrics, or page views.
 
 For an overview of how to use the API and view the results in the Application Insights resource, see [API Overview](https://azure.microsoft.com/documentation/articles/app-insights-api-custom-events-metrics/). The examples are in Java, but the principles are the same.
 
 ### 6.1 Objective-C
 
-```objectivec 
+```objectivec	
 // Send an event with custom properties and measurements data
 [MSAITelemetryManager trackEventWithName:@"Hello World event!"
                               properties:@{@"Test property 1":@"Some value",
@@ -260,36 +260,28 @@ For an overview of how to use the API and view the results in the Application In
 
 // Send custom metrics
 [MSAITelemetryManager trackMetricWithName:@"Test metric" value:42.2];
-
-// Track handled exceptions
-NSArray *zeroItemArray = [NSArray new];
-@try {
-  NSString *fooString = zeroItemArray[3];
-} @catch(NSException *exception) {
-  [MSAITelemetryManager trackException:exception];
-}
 ```
 
 
 ### 6.2 Swift
-  
-  
+	
+	
 ```swift
 // Send an event with custom properties and measuremnts data
 MSAITelemetryManager.trackEventWithName("Hello World event!", 
-                  properties:["Test property 1":"Some value",
-                        "Test property 2":"Some other value"],
-                  measurements:["Test measurement 1":4.8,
-                        "Test measurement 2":15.16,
-                          "Test measurement 3":23.42])
+								  properties:["Test property 1":"Some value",
+											  "Test property 2":"Some other value"],
+							    measurements:["Test measurement 1":4.8,
+											  "Test measurement 2":15.16,
+										      "Test measurement 3":23.42])
 
 // Send a message
 MSAITelemetryManager.trackTraceWithMessage("Test message")
 
 // Manually send pageviews (duration 200 ms)
 MSAITelemetryManager.trackPageView("MyViewController",
-                   duration:0.2,
-                   properties:["Test measurement 1":4.8])
+								   duration:0.2,
+							     properties:["Test measurement 1":4.8])
 
 // Send a message
 MSAITelemetryManager.trackMetricWithName("Test metric", value:42.2)
@@ -300,14 +292,14 @@ MSAITelemetryManager.trackMetricWithName("Test metric", value:42.2)
 In the [Azure portal](https://portal.azure.com), open the application resource that you created to get your instrumentation key. You'll see charts showing counts of page views and sessions. To see more:
 
 * Click any chart to see more detail. You can [create your own metric pages, set alerts, and filter and segment your data](https://azure.microsoft.com/documentation/articles/app-insights-metrics-explorer/).
-* Click [Search](https://azure.microsoft.com/documentation/articles/app-insights-diagnostic-search/) to see individual trackEvent, trackTrace, trackException and trackPageView messages.
+* Click [Search](https://azure.microsoft.com/documentation/articles/app-insights-diagnostic-search/) to see individual trackEvent, trackTrace, and trackPageView messages.
 
 <a name="advancedusage"></a>
 ## 7. Advanced Usage
 
 The SDK also allows for some more advanced usages.
 
-### 7.1 Common Properties 
+### 7.1 Common Properties	
 
 It is also possible to set so-called "common properties" that will then be automatically attached to all telemetry data items.
 
