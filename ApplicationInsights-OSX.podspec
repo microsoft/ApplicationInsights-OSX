@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "ApplicationInsights-OSX"
-  s.version          = "1.0-beta.6"
+  s.version          = "1.0-beta.2"
   s.summary          = "Microsoft Application Insights SDK for OSX"
   s.description      = <<-DESC
                        Application Insights is a service that allows developers to keep their applications available, performant, and successful. 
