@@ -1,6 +1,15 @@
 [![Build Status](https://travis-ci.org/Microsoft/ApplicationInsights-OSX.svg?branch=develop)](https://travis-ci.org/Microsoft/ApplicationInsights-OSX)
 
-# Application Insights for Mac (1.0-beta.2)
+# Application Insights for Mac (1.0-beta.2) DEPRECATED
+
+This SDK is officially deprecated. Please switch to [HockeyApp](https://hockeyapp.net) or consider [MobileCenter](https://www.visualstudio.com/vs/mobile-center/).
+
+You can find more about the transition from Application Insights to HockeyApp [here](https://www.hockeyapp.net/blog/2016/03/11/welcome-application-insights-users.html) and about how Mobile Center will be the future of HockeyApp [here](https://www.hockeyapp.net/blog/2016/11/16/mobile-center-next-generation-hockeyapp.html).
+
+Please don't hesitate to get in touch via [support@hockeyapp.net](mailto:support@hockeyapp.net).
+ if you have questions.
+
+### About
 
 This is the repository of the Mac SDK for Application Insights. [Application Insights](http://azure.microsoft.com/en-us/services/application-insights/) is a service that allows developers to keep their applications available, performing, and succeeding. The SDK enables you to send telemetry of various kinds (events, traces, page views, etc.) to the Application Insights service where your data can be visualized in the Azure Portal.
 
